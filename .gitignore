@@ -1,0 +1,14 @@
+.env
+.env.*
+uploads/
+!uploads/.gitkeep
+/vendor/
+*.log
+logs/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+tmp/
+cache/
+.phpunit.result.cache
