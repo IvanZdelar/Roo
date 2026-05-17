@@ -1,0 +1,129 @@
+.roo-menu {
+    position: fixed;
+    top: 20px;
+    right: 5%;
+    z-index: 999;
+}
+
+.roo-hamburger {
+    width: 60px;
+    height: 60px;
+    background: var(--plava);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px hsla(210, 36%, 37%, 0.6);
+    transition: all 0.3s ease;
+}
+
+.roo-hamburger:hover {
+    transform: scale(1.08);
+    background: var(--smeda);
+}
+
+.roo-hamburger span {
+    width: 30px;
+    height: 3px;
+    background: white;
+    margin: 3.5px 0;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.roo-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 6px);
+}
+
+.roo-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.roo-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -6px);
+}
+
+.roo-menu-panel {
+    position: absolute;
+    top:-5px;
+    right: 100px;
+    background: var(--bez);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.6rem;
+    min-width: 180px;
+    box-shadow: 0 20px 40px hsla(0, 0%, 0%, 0.25);
+
+    opacity: 0;
+    transform: translateX(25px) scale(0.95);
+    pointer-events: none;
+
+    transition: all 0.3s ease;
+}
+
+.roo-menu-panel.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+}
+
+.roo-menu-link {
+    text-decoration: none;
+    color: var(--crna);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.roo-menu-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: var(--naran);
+    transition: width 0.25s ease;
+    border-radius: 2px;
+}
+
+.roo-menu-link:hover {
+    color: var(--plava);
+}
+
+.roo-menu-link:hover::after {
+    width: 100%;
+}
+
+@media screen and (max-width: 600px){
+    .roo-menu-panel {
+    position: absolute;
+    top: 0px;
+    right: 80px;
+    background: var(--bez);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 180px;
+    box-shadow: 0 20px 40px hsla(0, 0%, 0%, 0.25);
+
+    opacity: 0;
+    transform: translate(25px) scale(0.95);
+    pointer-events: none;
+
+    transition: all 0.3s ease;
+}
+
+.roo-menu-panel.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+}
+}
