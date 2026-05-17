@@ -234,59 +234,77 @@ function clear_remember_me(PDO $pdo): void {
     );
 }
 
-function try_remember_login(PDO $pdo): bool {
-    if (isset($_SESSION['user_id'])) {
-        return true;
-    }
-
-    if (empty($_COOKIE['roo_remember'])) {
+function try_remember_login(PDO $pdo): bool
+{
+    if (empty($_COOKIE['remember_me'])) {
         return false;
     }
 
-    $parts = explode(':', $_COOKIE['roo_remember'], 2);
+    $parts = explode(':', $_COOKIE['remember_me']);
+
     if (count($parts) !== 2) {
         return false;
     }
 
-    [$selector, $rawToken] = $parts;
+    [$selector, $validator] = $parts;
 
     $stmt = $pdo->prepare("
-        SELECT rt.*, u.*
-        FROM remember_tokens rt
-        INNER JOIN users u ON u.id = rt.user_id
-        WHERE rt.selector = ?
+        SELECT *
+        FROM remember_tokens
+        WHERE selector = ?
         LIMIT 1
     ");
+
     $stmt->execute([$selector]);
-    $row = $stmt->fetch();
 
-    if (!$row) {
-        clear_remember_me($pdo);
+    $token = $stmt->fetch();
+
+    if (!$token) {
         return false;
     }
 
-    if (strtotime($row['expires_at']) < time()) {
-        $stmt = $pdo->prepare("DELETE FROM remember_tokens WHERE selector = ?");
-        $stmt->execute([$selector]);
-        clear_remember_me($pdo);
+    if (strtotime($token['expires_at']) < time()) {
+        clear_remember_cookie();
         return false;
     }
 
-    if (!hash_equals($row['token_hash'], hash_token($rawToken))) {
-        $stmt = $pdo->prepare("DELETE FROM remember_tokens WHERE user_id = ?");
-        $stmt->execute([$row['user_id']]);
-        clear_remember_me($pdo);
+    $hashedValidator = hash('sha256', $validator);
+
+    if (!hash_equals($token['hashed_validator'], $hashedValidator)) {
+        clear_remember_cookie();
         return false;
     }
 
-    login_user($row);
+    $userStmt = $pdo->prepare("
+        SELECT *
+        FROM users
+        WHERE id = ?
+        LIMIT 1
+    ");
 
-    $stmt = $pdo->prepare("UPDATE users SET last_login_at = NOW() WHERE id = ?");
-    $stmt->execute([$row['user_id']]);
+    $userStmt->execute([$token['user_id']]);
 
-    $stmt = $pdo->prepare("DELETE FROM remember_tokens WHERE selector = ?");
-    $stmt->execute([$selector]);
-    create_remember_me($pdo, (int)$row['user_id']);
+    $user = $userStmt->fetch();
+
+    // USER DELETED
+    if (!$user) {
+
+        $deleteStmt = $pdo->prepare("
+            DELETE FROM remember_tokens
+            WHERE id = ?
+        ");
+
+        $deleteStmt->execute([$token['id']]);
+
+        clear_remember_cookie();
+
+        session_unset();
+        session_destroy();
+
+        return false;
+    }
+
+    $_SESSION['user_id'] = $user['id'];
 
     return true;
 }
