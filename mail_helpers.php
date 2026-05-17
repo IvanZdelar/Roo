@@ -12,7 +12,7 @@ function send_smtp_mail(
     string $subject,
     string $htmlBody,
     string $plainBody = ''
-): bool {
+): bool {   
 
     $mail = new PHPMailer(true);
 
