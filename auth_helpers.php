@@ -308,3 +308,16 @@ function try_remember_login(PDO $pdo): bool
 
     return true;
 }
+
+function clear_remember_cookie(): void
+{
+    setcookie(
+        'remember_me',
+        '',
+        time() - 3600,
+        '/',
+        '',
+        false,
+        true
+    );
+}
