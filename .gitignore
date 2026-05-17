@@ -1,6 +1,6 @@
 .env
 .env.*
-uploads/
+/uploads/
 !uploads/.gitkeep
 /vendor/
 *.log
@@ -12,3 +12,4 @@ Thumbs.db
 tmp/
 cache/
 .phpunit.result.cache
+node_modules
