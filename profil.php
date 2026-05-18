@@ -13,13 +13,50 @@ if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
 $user_id = $_SESSION['user_id'];
 
 $stmt = $pdo->prepare("
-    SELECT id, naziv, destination, daily_plan, budget_per_day, trip_type, created_at
+    SELECT *
     FROM adventures
     WHERE user_id = ?
+    AND status = 'active'
     ORDER BY created_at DESC
 ");
+
 $stmt->execute([$user_id]);
-$adventures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$activeAdventures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->prepare("
+    SELECT *
+    FROM adventures
+    WHERE user_id = ?
+    AND status = 'completed'
+    ORDER BY created_at DESC
+");
+
+$stmt->execute([$user_id]);
+
+$completedAdventures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM adventures
+    WHERE user_id = ?
+    AND status = 'completed'
+");
+
+$stmt->execute([$user_id]);
+
+$totalCompletedTrips = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("
+    SELECT COALESCE(SUM(distance_km), 0)
+    FROM adventures
+    WHERE user_id = ?
+    AND status = 'completed'
+");
+
+$stmt->execute([$user_id]);
+
+$totalKilometers = $stmt->fetchColumn();
 
 $stmt = $pdo->prepare("
     SELECT id, ime, prezime, korisnicko_ime, bio, profilna_slika, title
@@ -33,6 +70,7 @@ $stmt = $pdo->prepare("
     SELECT COUNT(*) 
     FROM adventures
     WHERE user_id = ?
+    AND status = 'completed'
 ");
 
 $stmt->execute([$user_id]);
@@ -56,17 +94,16 @@ $stmt = $pdo->prepare("
     WHERE user_id = ?
 ");
 
+$stmt = $pdo->prepare("
+    SELECT COALESCE(SUM(distance_km), 0)
+    FROM adventures
+    WHERE user_id = ?
+    AND status = 'completed'
+");
+
 $stmt->execute([$user_id]);
 
-$totalJoined = $stmt->fetchColumn();
-
-$stmt = $pdo->prepare("
-    SELECT COUNT(*)
-    FROM adventure_participants ap
-    INNER JOIN adventures a
-        ON ap.adventure_id = a.id
-    WHERE a.user_id = ?
-");
+$totalKm = $stmt->fetchColumn();
 
 $stmt->execute([$user_id]);
 
@@ -142,16 +179,17 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
     ?>
 
         <main class="profile-page-wrap">
-
+            <h1>
+                MOJI PODACI
+            </h1>
             <section class="profile-top-grid reveal-up">
-
                 <div class="profile-left-column">
                     <div class="profile-stats-box">
                         <div class="profile-stat-card">
                             <img class="profile-stat-icon" src="media/slike/putovanja.png">
                             <div class="profile-stat-text">
                                 <span>PUTOVANJA</span>
-                                <strong class="count-up" data-target="<?= $totalAdventures ?>">0</strong>
+                                <strong class="count-up" data-target="<?= $totalCompletedTrips ?>">0</strong>
                             </div>
                         </div>
 
@@ -159,7 +197,7 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                             <img class="profile-stat-icon" src="media/slike/km.png">
                             <div class="profile-stat-text">
                                 <span>KILOMETRI</span>
-                                <strong class="count-up" data-target="<?= $totalAdventures * 250 ?>">0</strong>
+                                <strong class="count-up" data-target="<?= $totalKilometers ?>">0</strong>
                             </div>
                         </div>
 
@@ -255,10 +293,12 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                     </div>
                 </div>
             </section>
-
-            <section class="profile-trips-box reveal-up">
-                <?php if (!empty($adventures)): ?>
-                    <?php foreach ($adventures as $adventure): ?>
+            <section class="profile-trips-box profile-active-trips reveal-up">
+                <h2 class="profile-section-title">
+                    Aktivne avanture
+                </h2>
+                <?php if (!empty($activeAdventures)): ?>
+                    <?php foreach ($activeAdventures as $adventure): ?>
                         <?php
                             $days = 0;
 
@@ -307,24 +347,92 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="profile-empty-trips">
-                        <h3>Još nemaš spremljenih avantura.</h3>
-                        <p>Kreni planirati svoje prvo putovanje s Roo.</p>
+                        <h3>Trenutno nemaš aktivnih avantura.</h3>
+                        <p>Kreni planirati svoje novo putovanje s Roo.</p>
                         <a href="create-adventure.php" class="hero-btn-home small-btn transition-link">OSMISLI PUTOVANJE</a>
                     </div>
                 <?php endif; ?>
             </section>
 
             <section class="profile-bottom-grid reveal-up">
-                <div class="profile-gallery-box">
-                    <div class="profile-gallery-grid">
-                        <img class="gallery-placeholder" src="media/slike/slika1.png">
-                        <img class="gallery-placeholder" src="media/slike/slika2.png">
-                        <img class="gallery-placeholder" src="media/slike/slika3.png">
-                        <img class="gallery-placeholder" src="media/slike/slika4.png">
-                        <img class="gallery-placeholder" src="media/slike/slika5.png">
-                        <img class="gallery-placeholder" src="media/slike/slika6.png">
-                    </div>
-                </div>
+                <section class="profile-trips-box profile-finished-trips reveal-up">
+                    <h2 class="profile-section-title">
+                        Završene avanture
+                    </h2>
+                    <?php if (!empty($completedAdventures)): ?>
+                        <?php foreach ($completedAdventures as $adventure): ?>
+                            <?php
+                                $days = 0;
+                                if (!empty($adventure['daily_plan'])) {
+                                    preg_match_all(
+                                        '/:\s*(\d+)\s*dana/u',
+                                        $adventure['daily_plan'],
+                                        $matches
+                                    );
+                                    if (!empty($matches[1])) {
+
+                                        foreach ($matches[1] as $match) {
+                                            $days += (int)$match;
+                                        }
+                                    }
+                                }
+                                $durationText =
+                                    $days > 0
+                                    ? $days . ' dana'
+                                    : 'Nije uneseno';
+                                $tags = [];
+                                if (!empty($adventure['trip_type'])) {
+                                    $tags[] = $adventure['trip_type'];
+                                }
+                                if (!empty($adventure['distance_km'])) {
+                                    $tags[] =
+                                        $adventure['distance_km'] . ' km';
+                                }
+                                $tagText = !empty($tags)
+                                    ? implode(' · ', $tags)
+                                    : 'Završena avantura';
+                            ?>
+                            <div class="profile-trip-card completed-trip">
+                                <img
+                                    class="profile-trip-map"
+                                    src="media/slike/map1.jpg"
+                                    alt="Mapa putovanja"
+                                >
+                                <div class="profile-trip-content">
+                                    <h3>
+                                        <?= htmlspecialchars(
+                                            $adventure['destination']
+                                            ?: $adventure['naziv']
+                                        ) ?>
+                                    </h3>
+                                    <p>Završeno putovanje</p>
+                                    <strong>
+                                        <?= htmlspecialchars($durationText) ?>
+                                    </strong>
+                                    <div class="profile-trip-tags">
+                                        <?= htmlspecialchars($tagText) ?>
+                                    </div>
+                                    <button
+                                        class="hero-btn-home small-btn completed-btn"
+                                        disabled
+                                    >
+                                        ZAVRŠENO
+                                    </button>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="profile-empty-trips">
+                            <h3>
+                                Još nemaš završenih avantura.
+                            </h3>
+                            <p>
+                                Kada završiš putovanje,
+                                pojavit će se ovdje.
+                            </p>
+                        </div>
+                    <?php endif; ?>
+                </section>
 
                 <div class="profile-friends-box">
                     <h2>PRIJATELJI</h2>
