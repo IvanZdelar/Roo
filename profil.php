@@ -169,10 +169,6 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                                 <img src="media/svg/roo-happy.svg" alt="Default">
                             <?php endif; ?>
                         </div>
-                        <div class="profile-badges-box">
-                            <h3>ZNAČKE</h3>
-                            <div class="profile-badges-placeholder"></div>
-                        </div>
                     </div>
 
                     <h1 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h1>
