@@ -212,7 +212,7 @@ $status_nadimak = $user['title'] ?? 'Dnevni sanjar';
                 <div class="status-main">
                         <?= htmlspecialchars($status_nadimak) ?>
                     </div>
-                <div class="status-distance">PRIJEĐENO <strong class="count-up" data-target="45">0</strong>km</div>
+                <div class="status-distance">PRIJEĐENO <strong class="count-up" data-target="<?= $totalKilometers ?>">0</strong>km</div>
             </div>
         </aside>
     </section>
