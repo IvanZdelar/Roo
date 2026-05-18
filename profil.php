@@ -2,6 +2,8 @@
 session_start();
 require_once 'db.php';
 require_once 'auth_helpers.php';
+require_once 'bootstrap.php';
+
 
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
     header('Location: index.php');
@@ -26,6 +28,49 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) 
+    FROM adventures
+    WHERE user_id = ?
+");
+
+$stmt->execute([$user_id]);
+
+$totalAdventures = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM friendships
+    WHERE user_one = ?
+    OR user_two = ?
+");
+
+$stmt->execute([$user_id, $user_id]);
+
+$totalFriends = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM adventure_participants
+    WHERE user_id = ?
+");
+
+$stmt->execute([$user_id]);
+
+$totalJoined = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM adventure_participants ap
+    INNER JOIN adventures a
+        ON ap.adventure_id = a.id
+    WHERE a.user_id = ?
+");
+
+$stmt->execute([$user_id]);
+
+$totalParticipants = $stmt->fetchColumn();
 
 if (!$user) {
     header('Location: index.php');
@@ -106,7 +151,7 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                             <img class="profile-stat-icon" src="media/slike/putovanja.png">
                             <div class="profile-stat-text">
                                 <span>PUTOVANJA</span>
-                                <strong>5</strong>
+                                <strong class="count-up" data-target="<?= $totalAdventures ?>">0</strong>
                             </div>
                         </div>
 
@@ -114,7 +159,7 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                             <img class="profile-stat-icon" src="media/slike/km.png">
                             <div class="profile-stat-text">
                                 <span>KILOMETRI</span>
-                                <strong class="count-up" data-target="45">0</strong>
+                                <strong class="count-up" data-target="<?= $totalAdventures * 250 ?>">0</strong>
                             </div>
                         </div>
 
@@ -122,7 +167,7 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                             <img class="profile-stat-icon" src="media/slike/prijatelji.png">
                             <div class="profile-stat-text">
                                 <span>PRIJATELJI</span>
-                                <strong class="count-up" data-target="11">0</strong>
+                                <strong class="count-up" data-target="<?= $totalFriends ?>">0</strong>
                             </div>
                         </div>
 
@@ -130,7 +175,7 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                             <img class="profile-stat-icon" src="media/slike/pridruzivanja.png">
                             <div class="profile-stat-text">
                                 <span>PRIDRUŽIVANJA</span>
-                                <strong class="count-up" data-target="1">0</strong>
+                                <strong class="count-up" data-target="<?= $totalJoined ?>">0</strong>
                             </div>
                         </div>
                     </div>

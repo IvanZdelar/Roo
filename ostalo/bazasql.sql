@@ -90,3 +90,46 @@ CREATE TABLE adventure_join_requests (
     FOREIGN KEY (adventure_id) REFERENCES adventures(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- FRIEND REQUESTS
+CREATE TABLE friend_requests (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    sender_id INT UNSIGNED NOT NULL,
+    receiver_id INT UNSIGNED NOT NULL,
+
+    status ENUM('pending', 'accepted', 'rejected')
+    DEFAULT 'pending',
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_friend_sender
+        FOREIGN KEY (sender_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_friend_receiver
+        FOREIGN KEY (receiver_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);
+
+-- FRIENDSHIPS
+CREATE TABLE friendships (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    user_one INT UNSIGNED NOT NULL,
+    user_two INT UNSIGNED NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_friendship_one
+        FOREIGN KEY (user_one)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_friendship_two
+        FOREIGN KEY (user_two)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);
