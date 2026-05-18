@@ -1,2 +1,1 @@
-# Roo
-Projekt za TVZ mc2 - tim koncept
+Projekt za TVZ mc<sup>2</sup> - tim koncept
