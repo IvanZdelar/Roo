@@ -248,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="page-transition" id="pageTransition">
         <img src="media/svg/roo-happy.svg" alt="Roo loading">
         <div class="page-transition-text">
-            Roo slaže avanturu<span class="page-transition-dots" id="transitionDots">...</span>
+            Roo te vodi dalje<span class="page-transition-dots" id="transitionDots">...</span>
         </div>
     </div>
 
@@ -393,7 +393,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="field-group wizard-field-group full-width">
-                            <input type="file" id="adventure_image" name="adventure_image" class="wizard-input-text" accept="image/*">
+                            <input type="file" id="adventure_image" name="adventure_image" class="wizard-input-text adventure-image-input" accept="image/*">
                             <label for="adventure_image">Slika avanture</label>
                         </div>
 

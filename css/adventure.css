@@ -181,6 +181,27 @@
     align-items: center;
 }
 
+.adventure-image-preview {
+    width: 50%;
+    margin: auto;
+    background: rgba(255,255,255,0.72);
+    border: 3px dashed rgba(59, 100, 128, 0.25);
+    border-radius: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--siva);
+    font-size: 1rem;
+}
+
+.adventure-image-preview img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 28px;
+}
+
+
+
 .wizard-input,
 .wizard-input-text,
 .wizard-input-date,
