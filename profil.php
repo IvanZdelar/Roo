@@ -152,6 +152,35 @@ if (!empty($profilna_slika)) {
 $status_nadimak = $user['title'] ?? 'Dnevni sanjar';
 
 $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema odabranih interesa.';
+
+$stmt = $pdo->prepare("
+    SELECT
+        ap.id,
+        ap.title,
+        ap.description,
+        ap.created_at,
+        a.destination,
+
+        (
+            SELECT image_path
+            FROM adventure_post_images
+            WHERE post_id = ap.id
+            LIMIT 1
+        ) AS cover_image
+
+    FROM adventure_posts ap
+
+    INNER JOIN adventures a
+        ON ap.adventure_id = a.id
+
+    WHERE ap.user_id = ?
+
+    ORDER BY ap.created_at DESC
+");
+
+$stmt->execute([$user_id]);
+
+$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -293,10 +322,10 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                     </div>
                 </div>
             </section>
+            <h1 class="profile-section-title">
+                AKTIVNE AVANTURE
+            </h1>
             <section class="profile-trips-box profile-active-trips reveal-up">
-                <h2 class="profile-section-title">
-                    Aktivne avanture
-                </h2>
                 <?php if (!empty($activeAdventures)): ?>
                     <?php foreach ($activeAdventures as $adventure): ?>
                         <?php
@@ -353,12 +382,10 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                     </div>
                 <?php endif; ?>
             </section>
-
-            <section class="profile-bottom-grid reveal-up">
-                <section class="profile-trips-box profile-finished-trips reveal-up">
-                    <h2 class="profile-section-title">
-                        Završene avanture
-                    </h2>
+            <h1 class="profile-section-title">
+                ZAVRŠENE AVANTURE
+            </h1>
+            <section class="profile-trips-box profile-finished-trips reveal-up">
                     <?php if (!empty($completedAdventures)): ?>
                         <?php foreach ($completedAdventures as $adventure): ?>
                             <?php
@@ -433,10 +460,71 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
                         </div>
                     <?php endif; ?>
                 </section>
-
+            <section class="profile-bottom-grid reveal-up">
+                <div class="profile-gallery-box">
+                    <div class="gallery-top-row">
+                        <h1>MOJA GALERIJA</h1>
+                        <a href="create-post.php" class="hero-btn-home small-btn transition-link">
+                            + NOVA OBJAVA
+                        </a>
+                    </div>
+                    <?php if (!empty($posts)): ?>
+                        <div class="profile-gallery-grid">
+                            <?php foreach ($posts as $post): ?>
+                                <div class="gallery-post-card">
+                                    <?php if (!empty($post['cover_image'])): ?>
+                                        <img
+                                            src="<?= htmlspecialchars($post['cover_image']) ?>"
+                                            class="gallery-post-image"
+                                            alt="Post image"
+                                        >
+                                    <?php else: ?>
+                                        <img
+                                            src="media/slike/map1.jpg"
+                                            class="gallery-post-image"
+                                            alt="Default"
+                                        >
+                                    <?php endif; ?>
+                                    <div class="gallery-post-content">
+                                        <h3>
+                                            <?= htmlspecialchars($post['title']) ?>
+                                        </h3>
+                                        <p>
+                                            <?= htmlspecialchars(
+                                                mb_strimwidth(
+                                                    $post['description'],
+                                                    0,
+                                                    120,
+                                                    '...'
+                                                )
+                                            ) ?>
+                                        </p>
+                                        <span class="gallery-location">
+                                            📍 <?= htmlspecialchars($post['destination']) ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <div class="profile-empty-trips">
+                            <h3>
+                                Još nema objava.
+                            </h3>
+                            <p>
+                                Podijeli uspomene sa svojih avantura.
+                            </p>
+                            <a
+                                href="create-post.php"
+                                class="hero-btn-home small-btn transition-link"
+                            >
+                                STVORI OBJAVU
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
                 <div class="profile-friends-box">
                     <h2>PRIJATELJI</h2>
-
                     <div class="traveler-row">
                         <div class="traveler-avatar">IMG</div>
                         <div class="traveler-info">

@@ -2072,14 +2072,6 @@ body.homepage-body {
     gap: 1rem;
 }
 
-.profile-active-trips {
-    margin-top: 2.2rem !important;
-}
-
-.profile-finished-trips {
-    margin-top: 0 !important;
-}
-
 .profile-trip-card {
     background: white;
     border: 3px solid var(--naran);
@@ -2154,13 +2146,61 @@ body.homepage-body {
     gap: 0.9rem;
 }
 
-.gallery-placeholder {
+.gallery-item {
     aspect-ratio: 1.1 / 1;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+}
+
+.gallery-top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.gallery-post-card{
+    background:rgba(255,255,255,0.08);
+    border-radius:24px;
+    overflow:hidden;
+    backdrop-filter:blur(12px);
+    transition:0.3s;
+}
+
+.gallery-post-card:hover{
+    transform:translateY(-5px);
+}
+
+.gallery-post-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.gallery-post-content{
+    padding:18px;
+}
+
+.gallery-post-content h3{
+    color:white;
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.gallery-post-content p{
+    color:rgba(255,255,255,0.75);
+    font-size:14px;
+    line-height:1.5;
+}
+
+.gallery-location{
+    display:block;
+    margin-top:14px;
+    color:#ffd369;
+    font-weight:600;
 }
 
 .profile-friends-box {
@@ -2603,8 +2643,12 @@ body.homepage-body {
 .profile-section-title{
     color:var(--crna);
     margin-bottom:1rem;
-    font-size:2rem;
+    margin-top: 2.2rem;
     font-weight:700;
+}
+
+.profile-page-wrap h1{
+    color: var(--tplava);
 }
 
 .completed-trip{
