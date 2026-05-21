@@ -291,21 +291,14 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="profile-info-list">
                         <div class="profile-info-row">
-                            <span class="profile-info-label">USERNAME:</span>
-                            <span class="profile-info-value">
-                                <?= htmlspecialchars($korisnicko_ime !== '' ? $korisnicko_ime : $display_name) ?>
-                            </span>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <span class="profile-info-label">O MENI:</span>
+                            <span class="profile-info-label"><h4>O MENI:</h4></span>
                             <span class="profile-info-value">
                                 <?= htmlspecialchars($bio !== '' ? $bio : 'Korisnik još nije dodao opis.') ?>
                             </span>
                         </div>
 
                         <div class="profile-info-row">
-                            <span class="profile-info-label">INTERESI:</span>
+                            <span class="profile-info-label"><h4>INTERESI:</h4></span>
                             <span class="profile-info-value">
                                 <?= htmlspecialchars($interest_text) ?>
                             </span>
@@ -356,20 +349,32 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ?>
 
                         <div class="profile-trip-card">
-                            <img class="profile-trip-map" src="media/slike/map1.jpg" alt="Mapa putovanja">
-
+                            <?php
+                                $adventureImage = 'media/slike/map1.jpg';
+                                if (!empty($adventure['adventure_image'])) {
+                                    $possiblePath = __DIR__ . '/' . $adventure['adventure_image'];
+                                    if (file_exists($possiblePath)) {
+                                        $adventureImage =
+                                            htmlspecialchars($adventure['adventure_image']);
+                                    }
+                                }
+                                ?>
+                                <img
+                                    class="profile-trip-img"
+                                    src="<?= $adventureImage ?>"
+                                    alt="Mapa putovanja"
+                                >
                             <div class="profile-trip-content">
-                                <h3><?= htmlspecialchars($adventure['destination'] ?: $adventure['naziv']) ?></h3>
+                                <h3><?= htmlspecialchars($adventure['naziv']) ?></h3>
 
-                                <p>Trajanje putovanja</p>
-                                <strong><?= htmlspecialchars($durationText) ?></strong>
+                                <p>Trajanje putovanja: <?= htmlspecialchars($durationText) ?></p>
 
                                 <div class="profile-trip-tags">
                                     <?= htmlspecialchars($tagText) ?>
                                 </div>
 
-                                <a href="edit-adventure.php?id=<?= (int)$adventure['id'] ?>" class="hero-btn-home small-btn transition-link">
-                                    UREDI
+                                <a href="adventure-details.php?id=<?= (int)$adventure['id'] ?>" class="hero-btn-home small-btn transition-link">
+                                    Pogledaj detalje
                                 </a>
                             </div>
                         </div>

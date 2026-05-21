@@ -28,7 +28,7 @@ html, body {
     overflow-x: hidden;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
     font-family: var(--naslov);
     color: var(--crna);
 }
@@ -1048,9 +1048,9 @@ form {
 }
 
 .hero-btn-home {
-    border: 4px solid white;
-    background: rgba(255,255,255,0.35);
-    color: var(--plava);
+    border: 2px solid var(--tplava);
+    background: var(--tplava);
+    color: var(--bijela);
     font-family: var(--naslov);
     font-size: 1.5rem;
     padding: 0.7rem 3.5rem;
@@ -1062,7 +1062,8 @@ form {
 
 .hero-btn-home:hover {
     transform: translateY(0x);
-    background: rgba(255,255,255,0.5);
+    background: var(--bijela);
+    color: var(--tplava);
 }
 
 .hero-mascot-placeholder {
@@ -1949,7 +1950,7 @@ body.homepage-body {
 .profile-main-name {
     margin-top: 1rem;
     font-family: var(--naslov);
-    color: var(--bijela);
+    color: var(--bijela) !important;
     font-size: clamp(2.2rem, 4vw, 4rem);
     line-height: 1;
 }
@@ -2078,27 +2079,22 @@ body.homepage-body {
     border-radius: 28px;
     padding: 1rem;
     display: grid;
-    grid-template-columns: 0.75fr 1fr;
+    grid-template-columns: 0.5fr 1fr;
     gap: 0.5rem;
     align-items: center;
 }
 
-.profile-trip-map {
+.profile-trip-img {
     width: 100%;
-    height: 100%;
     border-radius: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
 }
 
 .profile-trip-content h3 {
     font-family: var(--naslov);
     color: var(--naran);
     font-size: 2.2rem;
-    margin-bottom: 0.5rem;
-    line-height: 0.95;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
 }
 
 .profile-trip-content p {
@@ -2107,17 +2103,10 @@ body.homepage-body {
     font-size: 1.1rem;
 }
 
-.profile-trip-content strong {
-    display: block;
-    font-family: var(--naslov);
-    color: var(--naran);
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
 .profile-trip-tags {
+    font-size: 1.2rem;
     color: #d0b06a;
-    margin-bottom: 0.8rem;
+    margin-bottom: 2rem;
 }
 
 .small-btn {
