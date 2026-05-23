@@ -520,8 +520,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <div class="wizard-nav">
-            <button type="button" id="wizardPrev" class="wizard-arrow wizard-prev">←</button>
-            <button type="button" id="wizardNext" class="wizard-arrow wizard-next">→</button>
+            <button type="button" id="wizardPrev" class="wizard-arrow wizard-prev"><img src="media/svg/prevBtn.svg" alt="Previous"></button>
+            <button type="button" id="wizardNext" class="wizard-arrow wizard-next"><img src="media/svg/nextBtn.svg" alt="Next"></button>
         </div>
     </section>
 </form>

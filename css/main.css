@@ -332,6 +332,31 @@ form {
     80% { transform: translateX(4px); }
 }
 
+.wizard-arrow {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: none;
+    background: var(--tplava);
+    color: var(--bijela);
+    font-size: 2.2rem;
+    box-shadow: 0 10px 22px hsla(0, 0%, 0%, 0.16);
+    cursor: pointer;
+    transition: transform 0.22s ease, background 0.22s ease;
+}
+
+.wizard-arrow img{
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.wizard-arrow:hover {
+    transform: scale(1.06);
+    background: var(--plava);
+}
+
+
 .field-error-msg {
     font-size: 0.73em;
     color: #c0392b;
@@ -2634,10 +2659,63 @@ body.homepage-body {
     margin-bottom:1rem;
     margin-top: 2.2rem;
     font-weight:700;
+    font-size: 4rem;
 }
 
 .profile-page-wrap h1{
     color: var(--tplava);
+}
+
+.profile-minigames{
+    display: grid;
+    grid-template-columns: 0.75fr 1fr 0.75fr;
+    gap: 1rem;
+    height: fit-content;
+}
+
+.profile-fridge-box img{
+    width: 100%;
+}
+
+.profile-minigame-intro{
+    border: 4px solid var(--naran);
+    border-radius: 28px;
+    background-color: var(--bijela);
+    padding: 2rem;
+}
+
+.profile-minimage-intro-box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.profile-minigames h2{
+    color: var(--naran);
+    font-size: 2.7rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.3;
+}
+
+.profile-minigame-intro p{
+    margin-top: 1.5rem;
+}
+
+.profile-minigame-intro p, .profile-minigame-intro strong{
+    color: var(--siva);
+    font-size: 1.1rem;
+}
+
+.profile-minimage-intro-box .wizard-arrow{
+    align-self: flex-end;
+    position: absolute;
+    bottom: 0;
+}
+
+.profile-stat-card{
+    border: 4px solid var(--naran);
+    background-color: var(--bijela);
 }
 
 .completed-trip{

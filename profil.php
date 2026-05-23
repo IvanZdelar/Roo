@@ -208,7 +208,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
         <main class="profile-page-wrap">
-            <h1>
+            <h1 class="profile-section-title">
                 MOJI PODACI
             </h1>
             <section class="profile-top-grid reveal-up">
@@ -558,6 +558,36 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <a href="#" class="discover-more-link">VIŠE>>></a>
+                </div>
+            </section>
+            <h1 class="profile-section-title">ZABILJEŽI SVOJ KILOMETAR</h1>
+            <section class="profile-minigames reveal-up">
+                <div class="profile-fridge-box">
+                    <img src="media/svg/frizider.svg" alt="Fridge">
+                </div>
+                <div class="profile-minigame-intro">
+                    <div class="profile-minimage-intro-box">
+                        <h2>Pretvori putovanje u igru</h2>
+                        <strong>Skupljaj kilometre i osvajaj bedževe!</strong>
+                        <p>Roo pretvara tvoje korake u kilometre, a tvoja putovanja u postignuća. Poveži se s ekipom, sudjeluj u tjednim izazovima i prati svoj napredak na globalnoj mapi.</p>
+                        <button type="button" class="wizard-arrow wizard-next"><img src="media/svg/nextBtn.svg" alt="dalje"></button>
+                    </div>
+                </div>
+                <div class="profile-my-status">
+                    <h2>TVOJ STATUS</h2>
+                    <div class="profile-main-avatar">
+                        <?php if ($profileImageSrc): ?>
+                            <img src="<?= htmlspecialchars($profileImageSrc) ?>" alt="Profilna slika">
+                        <?php else: ?>
+                            <img src="media/svg/roo-happy.svg" alt="Default">
+                        <?php endif; ?>
+                    </div>
+                        <h2 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h2>
+
+                        <p class="profile-main-status">
+                            🏅 <?= htmlspecialchars($status_nadimak) ?>
+                        </p>
+                    </div>
                 </div>
             </section>
         </main>
