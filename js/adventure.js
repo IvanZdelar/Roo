@@ -186,58 +186,57 @@ document.addEventListener('DOMContentLoaded', function () {
         ]
     };
 
+    const stayData = {
+        Hotel: [
+            { name: 'Hotel Marko', meta: 'Zadar, ulica ta ta', price: '55€', image: 'media/slike/obala.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hotel More', meta: 'Split, blizu plaže', price: '90€', image: 'media/slike/more.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hotel Centar', meta: 'Zagreb, centar', price: '140€', image: 'media/slike/jezero.jpg', tags: ['100€ - 250€'] },
+            { name: 'Hotel Roo Lux', meta: 'Dubrovnik, pogled more', price: '270€', image: 'media/slike/rijeka.jpg', tags: ['250€ +'] }
+        ],
+        Motel: [
+            { name: 'Hostel Plavi', meta: 'Zadar, blizu centra', price: '45€', image: 'media/slike/obala.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hostel Sunce', meta: 'Karlovac, parking uključen', price: '60€', image: 'media/slike/rijeka.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hostel Putnik', meta: 'Rijeka, pet-friendly', price: '80€', image: 'media/slike/more.jpg', tags: ['40€ - 100€'] }
+        ],
+        'Kod lokalca': [
+            { name: 'Ana Anić', meta: '39 godina, mjesto', price: 'Druženje', image: 'media/slike/jezero.jpg', tags: ['Društvene igre', 'Šetnje'] },
+            { name: 'Marko Car', meta: '29 godina, mjesto', price: 'Avanture', image: 'media/slike/more.jpg', tags: ['Avanture', 'Izlasci'] },
+            { name: 'Tanja Horvat', meta: '35 godina, mjesto', price: 'Privatnost', image: 'media/slike/obala.jpg', tags: ['Privatnost', 'Filmovi i serije'] }
+        ]
+    };
+
     function showStep(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+            slide.classList.toggle('slide-left', i < index);
+            slide.classList.toggle('slide-right', i > index);
+        });
 
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-        slide.classList.toggle('slide-left', i < index);
-        slide.classList.toggle('slide-right', i > index);
-    });
+        if (prevBtn) prevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+        if (nextBtn) nextBtn.style.visibility = index === slides.length - 1 ? 'hidden' : 'visible';
 
-    if (prevBtn)
-        prevBtn.style.visibility =
-            index === 0 ? 'hidden' : 'visible';
+        const progressPercent = ((index + 1) / slides.length) * 100;
 
-    if (nextBtn)
-        nextBtn.style.visibility =
-            index === slides.length - 1
-                ? 'hidden'
-                : 'visible';
-
-    const progressPercent =
-            ((index + 1) / slides.length) * 100;
-
-        if (progressFill)
-            progressFill.style.width =
-                progressPercent + '%';
-
-        if (progressText)
-            progressText.textContent =
-                `Korak ${index + 1} / ${slides.length}`;
-
-        if (progressLabel)
-            progressLabel.textContent =
-                stepLabels[index] || '';
+        if (progressFill) progressFill.style.width = progressPercent + '%';
+        if (progressText) progressText.textContent = `Korak ${index + 1} / ${slides.length}`;
+        if (progressLabel) progressLabel.textContent = stepLabels[index] || '';
 
         if (rooWizardBubble) {
-
-            const texts =
-                rooBubbleTexts[index] || [];
-
-            rooWizardBubble.textContent =
-                texts[Math.floor(Math.random() * texts.length)];
-
+            const texts = rooBubbleTexts[index] || [];
+            rooWizardBubble.textContent = texts[Math.floor(Math.random() * texts.length)];
             rooWizardBubble.style.animation = 'none';
-
             rooWizardBubble.offsetHeight;
-
-            rooWizardBubble.style.animation =
-                'bubblePop 0.35s ease both';
+            rooWizardBubble.style.animation = 'bubblePop 0.35s ease both';
         }
 
-        if (index === 6) {
-            loadLocationActivities();
-        }
+        updateRooMood(index);
+
+        const activeScroll = slides[index]?.querySelector('.wizard-slide-scroll');
+        if (activeScroll) activeScroll.scrollTop = 0;
+
+        if (index === 1) updateBudgetVisuals();
+        if (stepLabels[index] === 'Aktivnosti po lokaciji') buildLocationActivityStep();
+        if (index === slides.length - 1) updateSummary();
     }
 
     function updateRooMood(index) {
@@ -1038,174 +1037,5 @@ if (adventureImageInput && adventureImagePreview) {
         };
 
         reader.readAsDataURL(file);
-    });
-}
-
-async function loadLocationActivities() {
-
-    const container =
-        document.getElementById('locationActivityList');
-
-    if (!container) return;
-
-    container.innerHTML = '';
-
-    const locations = [];
-
-    document.querySelectorAll('.location-input')
-        .forEach(input => {
-
-            const city = input.value.trim();
-
-            if (city !== '') {
-                locations.push(city);
-            }
-        });
-
-    const selectedTripTypes = [];
-
-    document.querySelectorAll(
-        '.multi-choice .adventure-chip.active'
-    ).forEach(chip => {
-
-        selectedTripTypes.push(
-            chip.dataset.value
-        );
-    });
-
-    const budgetValue =
-        parseInt(
-            document.getElementById('budget_range').value
-        );
-
-    let budgetLevel = 'mid';
-
-    if (budgetValue < 100) {
-        budgetLevel = 'low';
-    } else if (budgetValue >= 200) {
-        budgetLevel = 'high';
-    }
-
-    for (const city of locations) {
-
-        try {
-
-            const response = await fetch(
-                'get-city-activities.php',
-                {
-                    method: 'POST',
-
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-
-                    body: JSON.stringify({
-                        city: city,
-                        budget_level: budgetLevel,
-                        activity_types: selectedTripTypes
-                    })
-                }
-            );
-
-            const data = await response.json();
-
-            const activities = data.activities || [];
-
-            const cityBox = document.createElement('div');
-
-            cityBox.className =
-                'location-activity-box';
-
-            let html = `
-                <h3>${city}</h3>
-                <div class="activity-grid">
-            `;
-
-            if (!activities.length) {
-
-                html += `
-                    <p>Nema aktivnosti za ovu lokaciju.</p>
-                `;
-
-            } else {
-
-                activities.forEach(activity => {
-
-                    html += `
-                        <label class="activity-card">
-
-                            <input
-                                type="checkbox"
-                                class="location-activity-checkbox"
-                                data-city="${city}"
-                                value="${activity.name}"
-                            >
-
-                            <div class="activity-card-content">
-                                <strong>
-                                    ${activity.name}
-                                </strong>
-
-                                <small>
-                                    ${activity.activity_type}
-                                    •
-                                    ${activity.budget_level}
-                                </small>
-
-                                <p>
-                                    ${activity.description ?? ''}
-                                </p>
-                            </div>
-
-                        </label>
-                    `;
-                });
-            }
-
-            html += `</div>`;
-
-            cityBox.innerHTML = html;
-
-            container.appendChild(cityBox);
-
-        } catch (error) {
-
-            console.error(error);
-        }
-    }
-
-    bindLocationActivitySelection();
-}
-
-function bindLocationActivitySelection() {
-
-    const checkboxes =
-        document.querySelectorAll(
-            '.location-activity-checkbox'
-        );
-
-    checkboxes.forEach(checkbox => {
-
-        checkbox.addEventListener('change', () => {
-
-            const selected = {};
-
-            document.querySelectorAll(
-                '.location-activity-checkbox:checked'
-            ).forEach(cb => {
-
-                const city = cb.dataset.city;
-
-                if (!selected[city]) {
-                    selected[city] = [];
-                }
-
-                selected[city].push(cb.value);
-            });
-
-            document.getElementById(
-                'location_activity_choices_input'
-            ).value = JSON.stringify(selected);
-        });
     });
 }
