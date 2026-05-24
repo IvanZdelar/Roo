@@ -306,18 +306,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="roo-outfit-stage">
                 <img src="media/svg/maskot.svg" alt="Roo" class="roo-base-img" id="rooMoodImg">
-
-                <div class="roo-budget-item roo-budget-low" id="rooBudgetLow">
-                    ŠEŠIR + KARTA
-                </div>
-
-                <div class="roo-budget-item roo-budget-mid" id="rooBudgetMid">
-                    NAOČALE + FOTOAPARAT
-                </div>
-
-                <div class="roo-budget-item roo-budget-high" id="rooBudgetHigh">
-                    MAŠNA + ŠAMPANJAC
-                </div>
             </div>
         </div>
 
