@@ -2693,7 +2693,7 @@ body.homepage-body {
 
 .profile-minigames h2{
     color: var(--naran);
-    font-size: 2.7rem;
+    font-size: 2.5rem;
     margin-bottom: 2.5rem;
     line-height: 1.3;
 }
@@ -2713,9 +2713,55 @@ body.homepage-body {
     bottom: 0;
 }
 
-.profile-stat-card{
+.profile-my-status{
     border: 4px solid var(--naran);
     background-color: var(--bijela);
+    border-radius: 28px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.profile-my-status .profile-main-avatar{
+    width: 225px;
+    height: 225px;
+    border: 3px solid var(--naran);
+    margin: 0.75rem 0;
+}
+
+.profile-status-title{
+    margin-bottom: 0.5rem !important;
+}
+
+.profile-my-status .profile-main-name{
+    color: var(--tplava) !important;
+    margin: 0;
+    margin-bottom: -0.5rem;
+}
+
+.quick-stats-box{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 2rem;
+}
+
+.quick-stat p{
+    color: var(--naran);
+    text-align: center;
+    margin-bottom: 0rem;
+}
+
+.quick-stat h3{
+    font-size: 2.5rem;
+}
+
+.quick-stat b{
+    text-align: center;
+    font-family: var(--naslov)
 }
 
 .completed-trip{

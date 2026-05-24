@@ -567,14 +567,14 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="profile-minigame-intro">
                     <div class="profile-minimage-intro-box">
-                        <h2>Pretvori putovanje u igru</h2>
+                        <h2>PRETVORI PUTOVANJE U IGRU</h2>
                         <strong>Skupljaj kilometre i osvajaj bedževe!</strong>
                         <p>Roo pretvara tvoje korake u kilometre, a tvoja putovanja u postignuća. Poveži se s ekipom, sudjeluj u tjednim izazovima i prati svoj napredak na globalnoj mapi.</p>
                         <button type="button" class="wizard-arrow wizard-next"><img src="media/svg/nextBtn.svg" alt="dalje"></button>
                     </div>
                 </div>
                 <div class="profile-my-status">
-                    <h2>TVOJ STATUS</h2>
+                    <h2 class="profile-status-title">TVOJ STATUS</h2>
                     <div class="profile-main-avatar">
                         <?php if ($profileImageSrc): ?>
                             <img src="<?= htmlspecialchars($profileImageSrc) ?>" alt="Profilna slika">
@@ -583,10 +583,17 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endif; ?>
                     </div>
                         <h2 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h2>
-
-                        <p class="profile-main-status">
-                            🏅 <?= htmlspecialchars($status_nadimak) ?>
-                        </p>
+                        <?= htmlspecialchars($status_nadimak) ?>
+                        <div class="quick-stats-box">
+                            <div class="quick-stat">
+                                <p>PRIJEĐENO</p>
+                                <h3><b class="count-up" data-target="<?= $totalKilometers ?>">0</b>km</h3>
+                            </div>
+                            <div class="quick-stat">
+                                <p>BODOVI</p>
+                                <h3><b class="count-up" data-target="<?= $totalKilometers * 6.7 ?>">0</b></h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
