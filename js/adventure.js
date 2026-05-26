@@ -186,6 +186,25 @@ document.addEventListener('DOMContentLoaded', function () {
         ]
     };
 
+    const stayData = {
+        Hotel: [
+            { name: 'Hotel Marko', meta: 'Zadar, ulica ta ta', price: '55€', image: 'media/slike/obala.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hotel More', meta: 'Split, blizu plaže', price: '90€', image: 'media/slike/more.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hotel Centar', meta: 'Zagreb, centar', price: '140€', image: 'media/slike/jezero.jpg', tags: ['100€ - 250€'] },
+            { name: 'Hotel Roo Lux', meta: 'Dubrovnik, pogled more', price: '270€', image: 'media/slike/rijeka.jpg', tags: ['250€ +'] }
+        ],
+        Motel: [
+            { name: 'Hostel Plavi', meta: 'Zadar, blizu centra', price: '45€', image: 'media/slike/obala.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hostel Sunce', meta: 'Karlovac, parking uključen', price: '60€', image: 'media/slike/rijeka.jpg', tags: ['40€ - 100€'] },
+            { name: 'Hostel Putnik', meta: 'Rijeka, pet-friendly', price: '80€', image: 'media/slike/more.jpg', tags: ['40€ - 100€'] }
+        ],
+        'Kod lokalca': [
+            { name: 'Ana Anić', meta: '39 godina, mjesto', price: 'Druženje', image: 'media/slike/jezero.jpg', tags: ['Društvene igre', 'Šetnje'] },
+            { name: 'Marko Car', meta: '29 godina, mjesto', price: 'Avanture', image: 'media/slike/more.jpg', tags: ['Avanture', 'Izlasci'] },
+            { name: 'Tanja Horvat', meta: '35 godina, mjesto', price: 'Privatnost', image: 'media/slike/obala.jpg', tags: ['Privatnost', 'Filmovi i serije'] }
+        ]
+    };
+
     function showStep(index) {
         slides.forEach((slide, i) => {
             slide.classList.toggle('active', i === index);
