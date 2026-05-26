@@ -123,7 +123,9 @@ roo_app/
 ├── js/
 ├── logs/
 ├── media/
-├── ostalo/
+├── database/
+│   ├── schema.sql
+│   └── seed.sql
 ├── uploads/
 ├── vendor/
 │
@@ -207,11 +209,14 @@ APP_URL=http://localhost/roo_app
 
 ## 5. Pokretanje baze podataka
 
-Importati SQL datoteku:
+Importati SQL datoteke:
 
 ```
-ostalo/database.sql
+database/schema.sql
+database/seed.sql
 ```
+
+
 
 u phpMyAdmin ili MySQL.
 
