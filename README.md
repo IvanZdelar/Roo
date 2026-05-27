@@ -1,107 +1,162 @@
-<h1>Projekt za TVZ mc<sup>2</sup> - tim Koncept</h1>
-
 # Roo aplikacija
 
+<h3>Projekt za TVZ mc² — tim Koncept</h3>
+
 Roo je web aplikacija za planiranje putovanja i avantura razvijena pomoću PHP-a bez frameworka.
-Korisnicima omogućuje kreiranje personaliziranih avantura, odabira aktivnosti, smještaja, te i mogućnost povezivanja s drugim ljubiteljima putovanja.
+Aplikacija korisnicima omogućuje kreiranje personaliziranih avantura, organizaciju putovanja, povezivanje s drugim korisnicima i dijeljenje iskustava nakon završenih putovanja.
+
+---
 
 # Funkcionalnosti
 
 ## Sustav autentifikacije korisnika
 
-Roo App implementira siguran i moderan sustav autentifikacije korisnika koji uključuje:
+Roo implementira siguran sustav autentifikacije koji uključuje:
 
 - Registraciju korisnika
 - Prijavu korisnika
 - Verifikaciju email adrese
 - Reset lozinke putem emaila
 - Remember Me funkcionalnost
-- Rate limiting zaštitu prijave
+- Rate limiting zaštitu prijava
 - Hashiranje lozinki pomoću `password_hash()`
 - Sigurno hashiranje tokena
 - Pregled jačine lozinke tijekom registracije
+- Sigurno spremanje SMTP i DB podataka putem `.env` datoteka
+
+---
 
 ## Personalizacija korisničkog profila
 
-Korisnici mogu potpuno prilagoditi svoj profil:
+Korisnici mogu prilagoditi svoj profil:
 
 - Upload profilne slike
 - Dodavanje biografije
 - Promjena korisničkog imena
 - Odabir preferencija putovanja
-- Odabir načina na koji vole putovati
-- Pregled vlastitog Roo avatara
-- Pregled osobnih znački i postignuća
+- Odabir načina putovanja
+- Roo avatar sustav
+- Osobne značke i postignuća
+- Statistike korisnika
+
+Dinamičke statistike uključuju:
+
+- Broj završenih putovanja
+- Broj pridruživanja avanturama
+- Broj prijatelja
+- Ukupno prijeđenih kilometara
+
+---
 
 ## Kreiranje avantura
 
-Aplikacija omogućuje napredno planiranje putovanja kroz interaktivni multi-step wizard sustav:
+Aplikacija omogućuje napredno planiranje putovanja kroz interaktivni multi-step wizard:
 
 - Dodavanje više lokacija
-- Potpuna sloboda organizacije putovanja
-- Odabir:
-  - budžeta
-  - smještaja
-  - prijevoza
-  - aktivnosti
-  - tipa putovanja
-- Dinamički pregled sažetka avanture
-- Upload naslovne slike avanture
-- Spremanje avantura u bazu podataka
+- Odabir datuma putovanja
+- Odabir budžeta
+- Odabir smještaja
+- Odabir prijevoza
+- Odabir aktivnosti
 - Dinamički prijedlozi aktivnosti i smještaja
+- Upload naslovne slike avanture
+- Dinamički pregled sažetka avanture
+- Spremanje avanture u bazu podataka
 
-## Profil korisnika
+---
 
-Svaki korisnik ima vlastiti profil s detaljnom statistikom:
+## Aktivnosti po gradovima
 
-- Broj kreiranih putovanja
-- Broj prijeđenih kilometara
-- Broj prijatelja i pridruživanja
-- Pregled spremljenih avantura
-- Pregled objavljenih avantura
-- Pregled osobnih znački
-- Roo avatar sustav
+Projekt koristi veliku bazu stvarnih aktivnosti i lokacija.
 
-## Aktivna i završena putovanja
+Svaki grad sadrži:
 
-Korisnici mogu pregledavati:
+- Popularne restorane
+- Muzeje
+- Klubove
+- Rooftop barove
+- Hidden gem lokacije
+- Povijesne znamenitosti
+- Outdoor aktivnosti
+- Plaže
+- Wellness lokacije
+- Lokalna događanja
 
-### Aktivna putovanja
-- Putovanja drugih korisnika
-- Otvorene avanture za zajedničko putovanje
+Aktivnosti su podijeljene prema:
 
-### Završena putovanja
-- Arhivu završenih avantura
-- Inspiraciju za buduća putovanja
-- Pregled iskustava drugih korisnika
+- Tipu putovanja
+- Budžetu (`low`, `mid`, `high`)
+- Lokaciji
 
+---
+
+## Sustav prijatelja i sudionika
+
+Projekt implementira:
+
+### Friend system
+- Slanje zahtjeva za prijateljstvo
+- Prihvaćanje zahtjeva
+- Pregled prijatelja
+- Dinamički broj prijatelja na profilu
+
+### Adventure participant system
+- Pridruživanje avanturama
+- Pregled sudionika avanture
+- Praćenje pridruživanja korisnika
+- Dinamička statistika sudjelovanja
+
+---
+
+## Završene avanture i galerija
+
+Nakon završetka avanture korisnici mogu:
+
+- Označiti avanturu kao završenu
+- Objaviti post o putovanju
+- Uploadati slike putovanja
+- Dodati opis iskustva
+- Prikazati avanturu u galeriji profila
+
+Galerija funkcionira kao mini travel social feed.
+
+---
 
 ## Rang liste i motivacija
 
-Aplikacija uključuje sustav rang lista i motivacije korisnika:
+Aplikacija uključuje:
 
-- Rang lista najaktivnijih putnika
-- Motivacija za češće korištenje aplikacije
-- Sustav znački i postignuća
-- Napredak korisnika kroz aplikaciju
+- Rang listu najaktivnijih korisnika
+- Sustav znački
+- Travel title sustav
+- Motivaciju za aktivno korištenje aplikacije
+
+---
 
 # Korištene tehnologije
 
 ## Backend
+
 - PHP 8+
 - MySQL
 - PDO
 - Composer
+- PHPUnit
 - PHPMailer
 - vlucas/phpdotenv
 
 ## Frontend
+
 - HTML5
 - CSS3
 - JavaScript
+- Bootstrap 5
 - Flatpickr
 
+---
+
 # Sigurnost
+
 Projekt implementira više sigurnosnih mehanizama:
 
 - `password_hash()` i `password_verify()`
@@ -111,10 +166,35 @@ Projekt implementira više sigurnosnih mehanizama:
 - `hash_equals()` usporedba tokena
 - Rate limiting prijava
 - Escape outputa pomoću `htmlspecialchars()`
-- SMTP podaci spremljeni u `.env`
+- SMTP i DB podaci spremljeni u `.env`
 - `.gitignore` zaštita osjetljivih podataka
+- Sigurno spremanje tokena u bazu
 
-# Struktura projekta 📁
+---
+
+# Testiranje
+
+Projekt koristi PHPUnit za automatizirano testiranje.
+
+## Implementirani testovi
+
+### Unit testovi
+- Password hashing test
+- Password verify test
+
+### Integration testovi
+- Test konekcije na bazu
+- Test postojanja tablica
+
+Pokretanje testova:
+
+```bash
+vendor/bin/phpunit
+```
+
+---
+
+# Struktura projekta
 
 ```txt
 roo_app/
@@ -123,11 +203,16 @@ roo_app/
 ├── js/
 ├── logs/
 ├── media/
+├── uploads/
+├── vendor/
+│
 ├── database/
 │   ├── schema.sql
 │   └── seed.sql
-├── uploads/
-├── vendor/
+│
+├── tests/
+│   ├── Unit/
+│   └── Integration/
 │
 ├── adventure-details.php
 ├── auth_helpers.php
@@ -153,6 +238,7 @@ roo_app/
 ├── verify-notice.php
 ├── verify.php
 │
+├── phpunit.xml
 ├── .env
 ├── .env.example
 ├── .gitignore
@@ -160,6 +246,35 @@ roo_app/
 ├── composer.lock
 └── README.md
 ```
+
+---
+
+# Arhitektura projekta
+
+Projekt koristi modularni pristup bez frameworka.
+
+Ključne komponente:
+
+- `auth_helpers.php` — autentifikacijska logika
+- `mail_helpers.php` — email funkcionalnosti
+- `db.php` — PDO database layer
+- `bootstrap.php` — inicijalizacija aplikacije
+- `config.php` — environment konfiguracija
+
+Database konekcija koristi PDO dependency pristup:
+
+```php
+$pdo = require 'db.php';
+```
+
+što omogućuje:
+
+- jednostavnije testiranje
+- modularnost
+- bolju održivost
+- lakšu integraciju PHPUnit testova
+
+---
 
 # Instalacija
 
@@ -175,13 +290,13 @@ git clone https://github.com/USERNAME/roo_app.git
 cd roo_app
 ```
 
----
-
-## 3. Instalacija Composer dependencyja
+## 3. Instalacija dependencyja
 
 ```bash
 composer install
 ```
+
+---
 
 ## 4. Kreiranje `.env` datoteke
 
@@ -207,22 +322,25 @@ MAIL_FROM_NAME=Roo
 APP_URL=http://localhost/roo_app
 ```
 
+---
+
 ## 5. Pokretanje baze podataka
 
-Importati SQL datoteke:
+Importati:
 
-```
+```txt
 database/schema.sql
 database/seed.sql
 ```
 
-
-
 u phpMyAdmin ili MySQL.
+
+---
 
 ## 6. Pokretanje aplikacije
 
 Pokrenuti:
+
 - Apache
 - MySQL
 
@@ -234,34 +352,51 @@ Aplikacija se pokreće na:
 http://localhost/roo_app
 ```
 
+---
+
 # Composer paketi
 
 Projekt koristi:
 
-- phpmailer/phpmailer
-- vlucas/phpdotenv
+- `phpmailer/phpmailer`
+- `vlucas/phpdotenv`
+- `phpunit/phpunit`
+
+---
 
 # Git i verzioniranje
 
 Projekt koristi:
+
 - Git
 - GitHub
 - `.gitignore`
 - Composer dependency management
+- Feature branch development
+
+---
 
 # Buduća poboljšanja
 
 - MVC arhitektura
-- Admin panel
+- Real-time chat
 - API integracija za putovanja
-- Chat između korisnika
-- Napredni recommendation sustav
-- Real-time notifikacije
+- Recommendation engine
+- Push notifikacije
+- Mobile responsive improvements
+- Real-time friend notifications
+
+---
 
 # Autor
 
-Tim Koncept - Selena Petrinjac, Mihael Kulić i Ivan Zdelar
+Tim Koncept
 
-Tehničko Veleučilište u Zagrebu - Smjer Informatika
+- Selena Petrinjac
+- Mihael Kulić
+- Ivan Zdelar
+
+Tehničko Veleučilište u Zagrebu — Informatika
 
 2026.
+
