@@ -749,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!data.success || !data.activities || data.activities.length === 0) {
                     card.innerHTML = `
                         <h3>${escapeHtml(location.name)}</h3>
-                        <p>Za ovaj grad zasad nemamo prijedloge u bazi. Podržani gradovi su samo Hrvatski gradovi.</p>
+                        <p>Za ovaj grad zasad nemamo prijedloge u bazi. Podržani gradovi su samo 12 Hrvatskih gradova s najviše stanovnika.</p>
                     `;
                     continue;
                 }
