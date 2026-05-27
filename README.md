@@ -1,6 +1,6 @@
 # Roo aplikacija
 
-<h3>Projekt za TVZ mc² — tim Koncept</h3>
+# Projekt za TVZ mc² — tim Koncept
 
 Roo je web aplikacija za planiranje putovanja i avantura razvijena pomoću PHP-a bez frameworka.
 Aplikacija korisnicima omogućuje kreiranje personaliziranih avantura, organizaciju putovanja, povezivanje s drugim korisnicima i dijeljenje iskustava nakon završenih putovanja.
@@ -189,7 +189,7 @@ Projekt koristi PHPUnit za automatizirano testiranje.
 Pokretanje testova:
 
 ```bash
-vendor/bin/phpunit
+vendor\bin\phpunit
 ```
 
 ---
