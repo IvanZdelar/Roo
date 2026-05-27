@@ -1,5 +1,7 @@
 <?php
 $pdo = require 'db.php';
+require_once 'bootstrap.php';
+
 function base_url(): string {
     return 'http://localhost/roo';
 }
