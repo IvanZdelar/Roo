@@ -72,6 +72,25 @@ $startDate = $tags['start_date'][0] ?? '';
 $endDate = $tags['end_date'][0] ?? '';
 $buddySlots = $tags['buddy_slots'][0] ?? null;
 $isBuddyOpen = isset($tags['travel_buddy_open']);
+
+$isOwner = (int)$adventure['user_id'] === (int)$_SESSION['user_id'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_adventure'])) {
+
+    if ($isOwner && $adventure['status'] !== 'completed') {
+
+        $stmt = $pdo->prepare("
+            UPDATE adventures
+            SET status = 'completed'
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$adventureId]);
+
+        header("Location: adventure-details.php?id=" . $adventureId);
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -229,7 +248,24 @@ $isBuddyOpen = isset($tags['travel_buddy_open']);
                     <p>Ova avantura trenutno nije otvorena za druge korisnike.</p>
                 <?php endif; ?>
             </div>
-
+            <?php if ((int)$adventure['user_id'] === (int)$_SESSION['user_id']): ?>
+                <?php if (($adventure['status'] ?? 'active') !== 'completed'): ?>
+                    <div class="details-complete-box">
+                        <a
+                            href="complete-adventure.php?id=<?= (int)$adventure['id'] ?>"
+                            class="details-complete-btn"
+                        >
+                            ✅ Označi avanturu završenom
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <div class="details-complete-box">
+                        <button class="details-complete-btn completed" disabled>
+                            ✔ Avantura završena
+                        </button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </aside>
 
     </section>

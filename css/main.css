@@ -718,17 +718,7 @@ form {
     margin-bottom: 0;
 }
 
-@media (max-width: 576px) {
-    .auth-utility-card {
-        padding: 1.6rem 1.1rem;
-        border-radius: 22px;
-    }
 
-    .auth-utility-header h1,
-    .auth-utility-header h2 {
-        font-size: 1.8rem;
-    }
-}
 
 .roo-intro-page {
     min-height: 100vh;
@@ -913,33 +903,6 @@ form {
     color: var(--siva);
     border-color: var(--siva);
     box-shadow: none;
-}
-
-@media (max-width: 768px) {
-    .roo-intro-wrap {
-        min-height: 90vh;
-        padding: 1.5rem 1rem 1.25rem;
-    }
-
-    .roo-intro-img {
-        width: min(300px, 78vw);
-        max-height: 34vh;
-    }
-
-    .roo-bubble-area {
-        min-height: 270px;
-    }
-
-    .roo-bubble {
-        padding: 1.15rem 1rem 1rem;
-        border-radius: 22px;
-    }
-
-    .roo-intro-controls {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
 }
 
 .profile-upload-wrap {
@@ -1387,78 +1350,6 @@ form {
     z-index: 2;
 }
 
-@media (max-width: 1100px) {
-    .home-main-grid {
-        grid-template-columns: 1fr;
-        width: 90%;
-        margin: auto;
-        margin-top: 2rem;
-    }
-
-    .home-right {
-        order: 2;
-    }
-
-    .bottom-banner-mascot {
-    position: absolute;
-    left: 60px;
-    bottom: 20px;
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-}
-    .travel-cards-grid-putovanja {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .travel-card-img {
-        width: 100%;
-        height: 200px;
-        font-weight: 700;
-        border-bottom: 2px solid var(--tplava);
-    }
-    .hero-home {
-        min-height: 540px;
-        border-radius: 24px;
-    }
-
-    .hero-mascot-placeholder {
-        width: 350px;
-        height: 350px;
-        bottom: 20px;
-        left: 10px;
-    }
-
-    .hero-mascot-placeholder img{
-        width: 90%;
-    }
-
-    .hero-side-text, .hero-side-text a {
-        right: 18px;
-        bottom: 22px;
-        font-size: 1.5rem;
-    }
-
-    .hero-side-text a{
-        line-height: 1;
-    }
-
-    .bottom-banner-home {
-        min-height: 420px;
-        border-radius: 24px;
-    }
-
-    .bottom-banner-mascot {
-        left: 20px;
-        bottom: 20px;
-    }
-}
-
 body.homepage-body {
     animation: pageFadeIn 0.7s ease;
 }
@@ -1706,16 +1597,6 @@ body.homepage-body {
 .count-up {
     display: inline-block;
     min-width: 2ch;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
-    }
 }
 
 .page-transition {
@@ -2099,19 +1980,26 @@ body.homepage-body {
 }
 
 .profile-trip-card {
+    max-height: 350px !important;
     background: white;
-    border: 3px solid var(--naran);
+    border: 3px solid var(--naran) !important;
     border-radius: 28px;
-    padding: 1rem;
+    padding: 1rem 1rem;
     display: grid;
-    grid-template-columns: 0.5fr 1fr;
-    gap: 0.5rem;
-    align-items: center;
+    grid-template-columns: 0.75fr 1fr;
+    gap: 1rem;
 }
 
 .profile-trip-img {
     width: 100%;
+    height: 100%;
+    overflow: hidden !important;
     border-radius: 24px;
+}
+
+.profile-trip-content{
+    display: grid;
+    grid-template-rows: 0.25fr 0.25fr 1fr;
 }
 
 .profile-trip-content h3 {
@@ -2129,9 +2017,14 @@ body.homepage-body {
 }
 
 .profile-trip-tags {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #d0b06a;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+}
+
+.detail-btn{
+    text-align: center;
+    align-self: flex-end;
 }
 
 .small-btn {
@@ -2277,154 +2170,6 @@ body.homepage-body {
     color: white;
 }
 
-
-@media (max-width: 1100px) {
-    .profile-page-wrap{
-        width: 90%;
-    }
-
-    .profile-top-grid,
-    .profile-bottom-grid,
-    .profile-trips-box {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-middle-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .profile-page-wrap{
-        width: 98%;
-    }
-
-    .profile-main-avatar {
-        margin: 0 auto;
-    }
-
-    .profile-gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .profile-stat-text strong {
-        font-size: 3rem;
-    }
-
-    .profile-trip-content h3 {
-        font-size: 1.8rem;
-    }
-
-    .profile-page-wrap {
-        width: 100%;
-        max-width: 100%;
-        padding: 1rem 0.75rem 3rem;
-        overflow-x: hidden;
-    }
-
-    .profile-top-grid {
-        grid-template-columns: 1fr !important;
-        gap: 1rem;
-        width: 100%;
-    }
-
-    .profile-left-column {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-stats-box {
-        grid-template-columns: 1fr 1fr;
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-middle-grid {
-        grid-template-columns: 1fr !important;
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-main-box {
-        width: 100%;
-        min-width: 0;
-        padding: 1rem;
-    }
-
-    .profile-main-top {
-        grid-template-columns: 1fr !important;
-        width: 100%;
-        gap: 1rem;
-    }
-
-    .profile-main-avatar {
-        width: 160px;
-        height: 160px;
-        margin: 0 auto;
-        max-width: 100%;
-    }
-
-    .profile-badges-box {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-badges-placeholder {
-        width: 100%;
-    }
-
-    .profile-info-list,
-    .profile-info-row {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-info-label,
-    .profile-info-value {
-        min-width: 0;
-        word-break: break-word;
-    }
-
-    .profile-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .profile-btn {
-        width: 100%;
-    }
-
-    .profile-stat-card {
-        min-width: 0;
-        padding: 0.85rem;
-    }
-
-    .profile-stat-text span {
-        font-size: 1rem;
-    }
-
-    .profile-stat-text strong {
-        font-size: 2.6rem;
-    }
-
-    .profile-stat-icon {
-        width: 56px;
-        height: 56px;
-        flex-shrink: 0;
-    }
-
-    .profile-side-badges,
-    .profile-mascot-card {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-mascot-placeholder {
-        min-height: 150px;
-        width: 100%;
-        object-fit: contain;
-    }
-}
 
 .profile-empty-trips {
     grid-column: 1 / -1;
@@ -2774,6 +2519,86 @@ body.homepage-body {
     cursor:not-allowed;
 }
 
+.details-complete-box {
+    margin-top: 20px;
+}
+
+.details-complete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 22px;
+    border-radius: 14px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.2s ease;
+    border: none;
+}
+
+.details-complete-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+.details-complete-btn.completed {
+    background: #4CAF50;
+    cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (max-width: 1100px) {
+    .home-main-grid {
+        grid-template-columns: 1fr;
+        width: 90%;
+        margin: auto;
+        margin-top: 2rem;
+    }
+
+    .home-right {
+        order: 2;
+    }
+
+    .bottom-banner-mascot {
+        position: absolute;
+        left: 60px;
+        bottom: 20px;
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+    .travel-cards-grid-putovanja {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2.2rem;
+    }
+
+    .profile-page-wrap{
+        width: 90%;
+    }
+
+    .profile-top-grid,
+    .profile-bottom-grid,
+    .profile-trips-box {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-middle-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 @media (max-width: 900px) {
     .adventure-details-hero {
         flex-direction: column;
@@ -2785,3 +2610,221 @@ body.homepage-body {
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 768px) {
+    .roo-intro-wrap {
+        min-height: 90vh;
+        padding: 1.5rem 1rem 1.25rem;
+    }
+
+    .roo-intro-img {
+        width: min(300px, 78vw);
+        max-height: 34vh;
+    }
+
+    .roo-bubble-area {
+        min-height: 270px;
+    }
+
+    .roo-bubble {
+        padding: 1.15rem 1rem 1rem;
+        border-radius: 22px;
+    }
+
+    .roo-intro-controls {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .travel-card-img {
+        width: 100%;
+        height: 200px;
+        font-weight: 700;
+        border-bottom: 2px solid var(--tplava);
+    }
+    .hero-home {
+        min-height: 540px;
+        border-radius: 24px;
+    }
+
+    .hero-mascot-placeholder {
+        width: 350px;
+        height: 350px;
+        bottom: 20px;
+        left: 10px;
+    }
+
+    .hero-mascot-placeholder img{
+        width: 90%;
+    }
+
+    .hero-side-text, .hero-side-text a {
+        right: 18px;
+        bottom: 22px;
+        font-size: 1.5rem;
+    }
+
+    .hero-side-text a{
+        line-height: 1;
+    }
+
+    .bottom-banner-home {
+        min-height: 420px;
+        border-radius: 24px;
+    }
+
+    .bottom-banner-mascot {
+        left: 20px;
+        bottom: 20px;
+    }
+
+    .profile-page-wrap{
+        width: 98%;
+    }
+
+    .profile-main-avatar {
+        margin: 0 auto;
+    }
+
+    .profile-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profile-stat-text strong {
+        font-size: 3rem;
+    }
+
+    .profile-trip-content h3 {
+        font-size: 1.8rem;
+    }
+
+    .profile-page-wrap {
+        width: 100%;
+        max-width: 100%;
+        padding: 1rem 0.75rem 3rem;
+        overflow-x: hidden;
+    }
+
+    .profile-top-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .profile-left-column {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .profile-stats-box {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .profile-middle-grid {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .profile-main-box {
+        width: 100%;
+        min-width: 0;
+        padding: 1rem;
+    }
+
+    .profile-main-top {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .profile-main-avatar {
+        width: 160px;
+        height: 160px;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    .profile-badges-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .profile-badges-placeholder {
+        width: 100%;
+    }
+
+    .profile-info-list,
+    .profile-info-row {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .profile-info-label,
+    .profile-info-value {
+        min-width: 0;
+        word-break: break-word;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .profile-btn {
+        width: 100%;
+    }
+
+    .profile-stat-card {
+        min-width: 0;
+        padding: 0.85rem;
+    }
+
+    .profile-stat-text span {
+        font-size: 1rem;
+    }
+
+    .profile-stat-text strong {
+        font-size: 2.6rem;
+    }
+
+    .profile-stat-icon {
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+    }
+
+    .profile-side-badges,
+    .profile-mascot-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .profile-mascot-placeholder {
+        min-height: 150px;
+        width: 100%;
+        object-fit: contain;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+    .auth-utility-card {
+        padding: 1.6rem 1.1rem;
+        border-radius: 22px;
+    }
+
+    .auth-utility-header h1,
+    .auth-utility-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .profile-trip-card{
+        grid-template-columns: 1fr;
+    }
+}
+

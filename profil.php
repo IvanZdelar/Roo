@@ -94,17 +94,6 @@ $stmt = $pdo->prepare("
     WHERE user_id = ?
 ");
 
-$stmt = $pdo->prepare("
-    SELECT COALESCE(SUM(distance_km), 0)
-    FROM adventures
-    WHERE user_id = ?
-    AND status = 'completed'
-");
-
-$stmt->execute([$user_id]);
-
-$totalKm = $stmt->fetchColumn();
-
 $stmt->execute([$user_id]);
 
 $totalParticipants = $stmt->fetchColumn();
@@ -367,13 +356,13 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="profile-trip-content">
                                 <h3><?= htmlspecialchars($adventure['naziv']) ?></h3>
 
-                                <p>Trajanje putovanja: <?= htmlspecialchars($durationText) ?></p>
+                                <p>Trajanje putovanja: <strong><?= htmlspecialchars($durationText) ?></strong></p>
 
                                 <div class="profile-trip-tags">
                                     <?= htmlspecialchars($tagText) ?>
                                 </div>
 
-                                <a href="adventure-details.php?id=<?= (int)$adventure['id'] ?>" class="hero-btn-home small-btn transition-link">
+                                <a href="adventure-details.php?id=<?= (int)$adventure['id'] ?>" class="detail-btn hero-btn-home small-btn transition-link">
                                     Pogledaj detalje
                                 </a>
                             </div>
@@ -425,22 +414,30 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     : 'Završena avantura';
                             ?>
                             <div class="profile-trip-card completed-trip">
+                                <?php
+                                    $adventureImage = 'media/slike/map1.jpg';
+                                    if (!empty($adventure['adventure_image'])) {
+                                        $possiblePath = __DIR__ . '/' . $adventure['adventure_image'];
+
+                                        if (file_exists($possiblePath)) {
+                                            $adventureImage = htmlspecialchars($adventure['adventure_image']);
+                                        }
+                                    }
+                                ?>
                                 <img
-                                    class="profile-trip-map"
-                                    src="media/slike/map1.jpg"
+                                    class="profile-trip-img"
+                                    src="<?= $adventureImage ?>"
                                     alt="Mapa putovanja"
                                 >
                                 <div class="profile-trip-content">
                                     <h3>
                                         <?= htmlspecialchars(
-                                            $adventure['destination']
-                                            ?: $adventure['naziv']
+                                            $adventure['naziv']
                                         ) ?>
                                     </h3>
-                                    <p>Završeno putovanje</p>
-                                    <strong>
+                                    <p>Završeno putovanje <strong>
                                         <?= htmlspecialchars($durationText) ?>
-                                    </strong>
+                                    </strong></p>
                                     <div class="profile-trip-tags">
                                         <?= htmlspecialchars($tagText) ?>
                                     </div>
