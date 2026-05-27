@@ -150,9 +150,9 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="travel-card-img placeholder-img">IMG</div>
                             <?php endif; ?>
                             <div class="travel-card-body">
-                                <h3><?= htmlspecialchars($trip['destination']) ?></h3>
+                                <h3><?= htmlspecialchars($trip['naziv']) ?></h3>
                                 <p>
-                                    <?= htmlspecialchars($trip['naziv']) ?><br>
+                                    <?= htmlspecialchars($trip['destination']) ?><br>
                                     Traži društvo za putovanje.
                                 </p>
                                 <div class="travel-card-tags">
