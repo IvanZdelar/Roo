@@ -388,13 +388,16 @@ Projekt koristi:
 
 ---
 
-# Autor
+# Tim i mentorstvo
 
-Tim Koncept
-
+## Autori
 - Selena Petrinjac
 - Mihael Kulić
 - Ivan Zdelar
+
+## Mentori Mews
+- Lucija Jakšić
+- Danijel Bešlić
 
 Tehničko Veleučilište u Zagrebu — Informatika
 
