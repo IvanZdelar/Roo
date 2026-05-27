@@ -99,11 +99,9 @@ set_exception_handler(function ($exception) use ($logDir, $isDevelopment) {
     }
 });
 
-/*
-HELPER FUNCTION
-*/
-
-function env(string $key, $default = null)
-{
-    return $_ENV[$key] ?? $default;
+if (!function_exists('env')) {
+    function env($key, $default = null)
+    {
+        return $_ENV[$key] ?? $default;
+    }
 }

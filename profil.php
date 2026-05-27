@@ -1,9 +1,9 @@
 <?php
 session_start();
 require_once 'bootstrap.php';
+throw new Exception("Test logging system");
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
-require_once 'bootstrap.php';
 
 
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
