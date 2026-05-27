@@ -263,6 +263,11 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="bottom-banner-bg"></div>
         <h2>NE BOJ SE, SVIJET TE ČEKA</h2>
         <img src="media/svg/roo-wink.svg" alt="" class="bottom-banner-mascot">
+        <div class="social-media">
+            <a href="#"><img src="media/svg/instagram.svg" alt="Instagram"></a>
+            <a href="#"><img src="media/svg/facebook.svg" alt="Facebook"></a>
+            <a href="#"><img src="media/svg/twitter.svg" alt="Twitter"></a>
+        </div>
     </section>
     <script src="js/main.js"></script>
     <script src="js/hamburger.js"></script>
