@@ -8,7 +8,7 @@ $user = env('DB_USER');
 $pass = env('DB_PASS');
 
 try {
-    $pdo = new PDO(
+    return new PDO(
         "mysql:host=$host;dbname=$db;charset=utf8mb4",
         $user,
         $pass,
@@ -18,5 +18,5 @@ try {
         ]
     );
 } catch (PDOException $e) {
-    die('Database connection failed.');
+    die('Database connection failed: ' . $e->getMessage());
 }

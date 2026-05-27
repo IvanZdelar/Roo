@@ -2,27 +2,26 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../db.php';
-
 class DatabaseConnectionTest extends TestCase
 {
-    public function test_database_connection_exists()
-    {
-        global $pdo;
+    private PDO $pdo;
 
-        $this->assertInstanceOf(PDO::class, $pdo);
+    protected function setUp(): void
+    {
+        $this->pdo = require __DIR__ . '/../../db.php';
     }
 
-    public function test_users_table_exists()
+    public function test_database_connection_exists(): void
     {
-        global $pdo;
+        $this->assertInstanceOf(PDO::class, $this->pdo);
+    }
 
-        $stmt = $pdo->query("
-            SHOW TABLES LIKE 'users'
-        ");
+    public function test_users_table_exists(): void
+    {
+        $stmt = $this->pdo->query(
+            "SHOW TABLES LIKE 'users'"
+        );
 
-        $result = $stmt->fetch();
-
-        $this->assertNotFalse($result);
+        $this->assertNotFalse($stmt->fetch());
     }
 }

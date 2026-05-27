@@ -1,6 +1,5 @@
 <?php
-require_once 'db.php';
-
+$pdo = require 'db.php';
 function base_url(): string {
     return 'http://localhost/roo';
 }

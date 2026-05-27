@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+$pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
 header('Content-Type: application/json; charset=utf-8');

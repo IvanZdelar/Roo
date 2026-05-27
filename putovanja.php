@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+$pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
