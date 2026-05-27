@@ -87,7 +87,7 @@ function creatorName(array $row): string {
      AKTIVNA PUTOVANJA – otvorena za pridruživanje
 ════════════════════════════════════════════════ -->
 <section class="putovanja-main">
-    <h2 class="section-title-gold reveal-up">Aktivna putovanja</h2>
+    <h2 class="section-title-blue reveal-up">Aktivna putovanja</h2>
 
     <?php if (!empty($activeAdventures)): ?>
         <div class="travel-cards-grid-putovanja">
@@ -112,7 +112,8 @@ function creatorName(array $row): string {
                 <a href="adventure-details.php?id=<?= (int)$trip['id'] ?>" class="travel-card reveal-up">
                     <img src="<?= $imgSrc ?>" class="travel-card-img" alt="">
                     <div class="travel-card-body">
-                        <h3><?= htmlspecialchars($trip['destination'] ?: $trip['naziv']) ?></h3>
+                        <h3><?= htmlspecialchars($trip['naziv']) ?></h3>
+                        <p><?= htmlspecialchars($trip['destination']) ?></p>
                         <p>
                             <?= htmlspecialchars(creatorName($trip)) ?> traži društvo za putovanje.
                             <?php if ($slots > 0): ?>
@@ -174,8 +175,8 @@ function creatorName(array $row): string {
                 <a href="adventure-details.php?id=<?= (int)$trip['id'] ?>" class="travel-card reveal-up">
                     <img src="<?= $imgSrc ?>" class="travel-card-img" alt="">
                     <div class="travel-card-body">
-                        <h3><?= htmlspecialchars($trip['destination'] ?: $trip['naziv']) ?></h3>
-                        <p><?= htmlspecialchars($trip['naziv']) ?></p>
+                        <h3><?= htmlspecialchars($trip['naziv'] ?: $trip['naziv']) ?></h3>
+                        <p><?= htmlspecialchars($trip['destination']) ?></p>
                         <div class="travel-card-tags">
                             <?= htmlspecialchars($trip['trip_type'] ?? '') ?>
                         </div>
