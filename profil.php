@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once 'bootstrap.php';
-throw new Exception("Test logging system");
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
