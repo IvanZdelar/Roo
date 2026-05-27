@@ -187,9 +187,13 @@ Projekt koristi PHPUnit za automatizirano testiranje.
 - Test postojanja tablica
 
 Pokretanje testova:
-
+- Windows:
 ```bash
 vendor\bin\phpunit
+```
+- Mac:
+```bash
+vendor/bin/phpunit
 ```
 
 ---
