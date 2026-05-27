@@ -22,6 +22,7 @@ $stmt = $pdo->prepare("
         ON a.id = t.adventure_id
     WHERE t.tag_type = 'travel_buddy_open'
     AND t.tag_value = '1'
+    AND a.status = 'active'
     ORDER BY a.id DESC
     LIMIT 4
 ");
@@ -48,6 +49,51 @@ if (empty($display_name)) {
 
 $profilna_slika = $user['profilna_slika'] ?? null;
 $status_nadimak = $user['title'] ?? 'Dnevni sanjar';
+
+$stmt = $pdo->prepare("
+    SELECT COALESCE(SUM(distance_km), 0)
+    FROM adventures
+    WHERE user_id = ?
+    AND status = 'completed'
+");
+
+$stmt->execute([$user_id]);
+
+$totalKilometers = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("
+    DELETE FROM adventure_tags
+    WHERE adventure_id = ?
+    AND tag_type = 'travel_buddy_open'
+");
+
+$stmt = $pdo->prepare("
+    SELECT 
+        u.id,
+        u.korisnicko_ime,
+        u.ime,
+        u.prezime,
+        u.profilna_slika,
+        u.title,
+
+        COALESCE(SUM(a.distance_km), 0) AS total_km
+
+    FROM users u
+
+    LEFT JOIN adventures a
+        ON u.id = a.user_id
+        AND a.status = 'completed'
+
+    GROUP BY u.id
+
+    ORDER BY total_km DESC
+
+    LIMIT 5
+");
+
+$stmt->execute();
+
+$topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -140,68 +186,62 @@ $status_nadimak = $user['title'] ?? 'Dnevni sanjar';
             <div class="top-travelers-box reveal-right">
                 <h2 class="section-title-gold small">Top travelers</h2>
 
+                <?php foreach ($topTravelers as $index => $traveler): ?>
+                <?php
+                    $travelerName = trim(
+                        $traveler['korisnicko_ime']
+                        ?: ($traveler['ime'] . ' ' . $traveler['prezime'])
+                    );
+                    if ($travelerName === '') {
+                        $travelerName = 'Korisnik';
+                    }
+                    $travelerImage = 'media/svg/roo-happy.svg';
+                    if (!empty($traveler['profilna_slika'])) {
+                        $cleanPath = ltrim($traveler['profilna_slika'], '/');
+                        if (file_exists(__DIR__ . '/' . $cleanPath)) {
+                            $travelerImage = $cleanPath;
+                        }
+                    }
+                ?>
                 <div class="traveler-row">
-                    <div class="traveler-avatar">IMG</div>
+                    <div class="traveler-avatar">
+                        <img
+                            src="<?= htmlspecialchars($travelerImage) ?>"
+                            alt=""
+                            class="traveler-avatar-img">
+                    </div>
                     <div class="traveler-info">
-                        <strong>1. MARKO MARIĆ</strong>
-                        <span>Digitalni Nomad-pripravnik</span>
-                        <p>PRIJEĐENO <strong class="count-up" data-target="859">0</strong>km</p>
+                        <strong>
+                            <?= $index + 1 ?>.
+                            <?= htmlspecialchars($travelerName) ?>
+                        </strong>
+                        <span>
+                            <?= htmlspecialchars($traveler['title'] ?? 'Putnik') ?>
+                        </span>
+                        <p>
+                            PRIJEĐENO
+                            <strong class="count-up"
+                                data-target="<?= (int)$traveler['total_km'] ?>">
+                                0
+                            </strong>km
+                        </p>
                     </div>
                 </div>
-
-                <div class="traveler-row">
-                    <div class="traveler-avatar">IMG</div>
-                    <div class="traveler-info">
-                        <strong>2. ANA TOMIĆ</strong>
-                        <span>Kulturni ambasador</span>
-                        <p>PRIJEĐENO <strong class="count-up" data-target="700">0</strong>km</p>
-                    </div>
-                </div>
-
-                <div class="traveler-row">
-                    <div class="traveler-avatar">IMG</div>
-                    <div class="traveler-info">
-                        <strong>3. TANJA HORVAT</strong>
-                        <span>Nomad ninja</span>
-                        <p>PRIJEĐENO <strong class="count-up" data-target="665">0</strong>km</p>
-                    </div>
-                </div>
-
-                <div class="traveler-row">
-                    <div class="traveler-avatar">IMG</div>
-                    <div class="traveler-info">
-                        <strong>4. SLATKANA DAB</strong>
-                        <span>Arhitekt avantura</span>
-                        <p>PRIJEĐENO <strong class="count-up" data-target="625">0</strong>km</p>
-                    </div>
-                </div>
-
-                <div class="traveler-row">
-                    <div class="traveler-avatar">IMG</div>
-                    <div class="traveler-info">
-                        <strong>5. IVAN ZDEKI</strong>
-                        <span>Lovac na skrivene mjesta</span>
-                        <p>PRIJEĐENO <strong class="count-up" data-target="610">0</strong>km</p>
-                    </div>
-                </div>
+            <?php endforeach; ?>
             </div>
-
             <div class="status-box reveal-right">
                 <h2 class="section-title-gold small">TVOJ STATUS</h2>
                 <div class="status-avatar">
                     <?php
                     $profileImageSrc = null;
-
                     if (!empty($profilna_slika)) {
                         $cleanPath = ltrim($profilna_slika, '/');
                         $absolutePath = __DIR__ . '/' . $cleanPath;
-
                         if (file_exists($absolutePath)) {
                             $profileImageSrc = $cleanPath;
                         }
                     }
                     ?>
-
                     <?php if ($profileImageSrc): ?>
                         <img src="<?php echo htmlspecialchars($profileImageSrc); ?>" alt="Profilna slika">
                     <?php else: ?>

@@ -170,6 +170,39 @@ $stmt = $pdo->prepare("
 $stmt->execute([$user_id]);
 
 $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->prepare("
+    SELECT 
+        u.id,
+        u.korisnicko_ime,
+        u.ime,
+        u.prezime,
+        u.profilna_slika,
+        u.title,
+
+        COALESCE(SUM(a.distance_km), 0) AS total_km
+
+    FROM friendships f
+
+    INNER JOIN users u
+        ON (
+            (f.user_one = ? AND u.id = f.user_two)
+            OR
+            (f.user_two = ? AND u.id = f.user_one)
+        )
+
+    LEFT JOIN adventures a
+        ON u.id = a.user_id
+        AND a.status = 'completed'
+
+    GROUP BY u.id
+
+    ORDER BY total_km DESC
+");
+
+$stmt->execute([$user_id, $user_id]);
+
+$friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -527,33 +560,54 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="profile-friends-box">
                     <h2>PRIJATELJI</h2>
-                    <div class="traveler-row">
-                        <div class="traveler-avatar">IMG</div>
-                        <div class="traveler-info">
-                            <strong>MARKO MARIĆ</strong>
-                            <span>Digitalni Nomad-pripravnik</span>
-                            <p>PRIJEĐENO <strong class="count-up" data-target="859">0</strong>km</p>
-                        </div>
-                    </div>
+                    <?php if (!empty($friends)): ?>
+                        <?php foreach ($friends as $friend): ?>
+                            <?php
+                                $friendName = trim(
+                                    $friend['korisnicko_ime']
+                                    ?: ($friend['ime'] . ' ' . $friend['prezime'])
+                                );
+                                if ($friendName === '') {
+                                    $friendName = 'Korisnik';
+                                }
+                                $friendImage = 'media/svg/roo-happy.svg';
+                                if (!empty($friend['profilna_slika'])) {
 
-                    <div class="traveler-row">
-                        <div class="traveler-avatar">IMG</div>
-                        <div class="traveler-info">
-                            <strong>ANA TOMIĆ</strong>
-                            <span>Kulturni ambasador</span>
-                            <p>PRIJEĐENO <strong class="count-up" data-target="700">0</strong>km</p>
-                        </div>
-                    </div>
+                                    $cleanPath = ltrim($friend['profilna_slika'], '/');
 
-                    <div class="traveler-row">
-                        <div class="traveler-avatar">IMG</div>
-                        <div class="traveler-info">
-                            <strong>TANJA HORVAT</strong>
-                            <span>Nomad ninja</span>
-                            <p>PRIJEĐENO <strong class="count-up" data-target="665">0</strong>km</p>
-                        </div>
-                    </div>
-
+                                    if (file_exists(__DIR__ . '/' . $cleanPath)) {
+                                        $friendImage = $cleanPath;
+                                    }
+                                }
+                            ?>
+                            <div class="traveler-row">
+                                <div class="traveler-avatar">
+                                    <img
+                                        src="<?= htmlspecialchars($friendImage) ?>"
+                                        class="traveler-avatar-img"
+                                        alt=""
+                                    >
+                                </div>
+                                <div class="traveler-info">
+                                    <strong>
+                                        <?= htmlspecialchars($friendName) ?>
+                                    </strong>
+                                    <span>
+                                        <?= htmlspecialchars($friend['title'] ?? 'Putnik') ?>
+                                    </span>
+                                    <p>
+                                        PRIJEĐENO
+                                        <strong class="count-up"
+                                            data-target="<?= (int)$friend['total_km'] ?>">
+                                            0
+                                        </strong>km
+                                    </p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Još nemaš prijatelja.</p>
+                    <?php endif; ?>
                     <a href="#" class="discover-more-link">VIŠE>>></a>
                 </div>
             </section>
