@@ -72,8 +72,8 @@ function creatorName(array $row): string {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="icon" type="image/x-icon" href="media/svg/LOGO.svg">
 </head>
-<body class="homepage-body">
-
+<body class="putovanja-body">
+<div class="putovanja-bg"></div>
 <div class="page-transition" id="pageTransition">
     <img src="media/svg/roo-happy.svg" alt="Roo loading">
     <div class="page-transition-text">
