@@ -2425,10 +2425,12 @@ body.homepage-body {
     border-radius: 999px;
     font-weight: 800;
     cursor: pointer;
+    transition: all 0.25s ease;
 }
 
 .details-join-btn:hover {
-    background: var(--naran);
+    background: var(--smeda);
+    scale: 1.025;
 }
 
 .details-owner-note {
