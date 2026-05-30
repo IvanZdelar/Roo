@@ -147,13 +147,13 @@ function notif_has_reject(string $type): bool {
         </a>
         <h1>MOJE OBAVIJESTI</h1>
         <div class="notif-header-icons">
-            <a href="notifications.php?filter=sleep_request" class="notif-header-icon <?= $filter === 'sleep_request' ? 'active' : '' ?>">
+            <a href="notifications.php?filter=sleep_request" class="notif-header-icon krevet-btn <?= $filter === 'sleep_request' ? 'active' : '' ?>">
                 <img src="media/svg/krevet.svg" alt="Smještaj">
             </a>
-            <a href="notifications.php?filter=friend_request" class="notif-header-icon <?= $filter === 'friend_request' ? 'active' : '' ?>">
+            <a href="notifications.php?filter=friend_request" class="notif-header-icon nagrada-btn <?= $filter === 'friend_request' ? 'active' : '' ?>">
                 <img src="media/svg/nagrada.svg" alt="Prijatelji">
             </a>
-            <a href="notifications.php?filter=buddy_request" class="notif-header-icon <?= $filter === 'buddy_request' ? 'active' : '' ?>">
+            <a href="notifications.php?filter=buddy_request" class="notif-header-icon prijatelj-btn<?= $filter === 'buddy_request' ? 'active' : '' ?>">
                 <img src="media/svg/prijatelj.svg" alt="Buddy">
             </a>
         </div>

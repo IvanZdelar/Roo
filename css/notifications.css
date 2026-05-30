@@ -40,14 +40,14 @@
     font-size: 2rem;
     font-weight: 900;
     letter-spacing: 2px;
-    color: #1b3a5c;
+    color: var(--tplava);
     margin: 0;
 }
 
 .notif-back-btn img {
     width: 42px;
     height: 42px;
-    background: #1b3a5c;
+    background: var(--tplava);
     border-radius: 50%;
     padding: 10px;
 }
@@ -56,23 +56,6 @@
     display: flex;
     gap: 10px;
 }
-
-.notif-header-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #d0dce8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-}
-
-.notif-header-icon img { width: 22px; }
-.notif-header-icon.active,
-.notif-header-icon:hover { background: #1b3a5c; }
-.notif-header-icon.active img,
-.notif-header-icon:hover img { filter: brightness(0) invert(1); }
 
 /* Filter pills */
 .notif-filters {
@@ -85,8 +68,8 @@
 .notif-filter-pill {
     padding: 6px 16px;
     border-radius: 20px;
-    background: #e8eef4;
-    color: #1b3a5c;
+    background: var(--bijela);
+    color: var(--tplava);
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
@@ -94,11 +77,11 @@
     transition: all 0.2s;
 }
 
-.notif-filter-pill:hover { background: #d0dce8; color: #1b3a5c; }
+.notif-filter-pill:hover { background: var(--bijela); color: var(--tplava); }
 .notif-filter-pill.active {
-    background: #1b3a5c;
+    background: var(--tplava);
     color: #fff;
-    border-color: #1b3a5c;
+    border-color: var(--tplava);
 }
 
 /* Cards */
@@ -110,7 +93,7 @@
 
 .notif-card {
     position: relative;
-    background: #eaecee;
+    background: var(--bijela);
     border-radius: 16px;
     border-left: 6px solid var(--notif-color);
     padding: 18px 70px 18px 20px;
@@ -128,14 +111,14 @@
 
 .notif-card-body p {
     font-size: 15px;
-    color: #333;
+    color: var(--siva);
     margin: 0;
     line-height: 1.5;
 }
 
 .notif-card-time {
     font-size: 11px;
-    color: #999;
+    color: var(--smeda);
     margin-top: 8px;
 }
 
@@ -164,21 +147,65 @@
 }
 
 .notif-btn-arrow {
-    background: #1b3a5c;
-    color: #fff;
+    background: var(--tplava);
+    color: var(--bijela);
 }
 
 .notif-btn-reject {
-    background: #e63946;
-    color: #fff;
+    background: var(--naran);
+    color: var(--bijela);
 }
 
 .notif-btn-arrow:hover,
-.notif-btn-reject:hover { opacity: 0.8; color: #fff; }
+.notif-btn-reject:hover { opacity: 0.8; color: var(--bijela); }
 
 .notif-page-empty {
     text-align: center;
     padding: 60px 0;
-    color: #999;
+    color: var(--smeda);
     font-size: 16px;
+}
+
+.notif-header-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.notif-header-icon img { width: 30px; transition: all 0.3s; }
+.notif-header-icon:hover, .notif-header-icon.active{
+    scale: 1.05;
+}
+.notif-header-icon.active img,
+.notif-header-icon:hover img { filter: brightness(0) invert(0.25); }
+
+.krevet-btn{
+    background: var(--zelena);
+    border: 2px solid var(--zelena);
+}
+
+.krevet-btn.active, .krevet-btn:hover{
+    background: var(--bijela);
+}
+
+.nagrada-btn{
+    background: var(--tplava);
+    border: 2px solid var(--tplava);
+}
+
+.nagrada-btn.active, .nagrada-btn:hover{
+    background: var(--bijela);
+}
+
+.prijatelj-btn{
+    background: var(--naran);
+    border: 2px solid var(--naran);
+}
+
+.prijatelj-btn.active, .prijatelj-btn:hover{
+    background: var(--bijela);
 }
