@@ -13,7 +13,11 @@ if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
 $user_id = $_SESSION['user_id'];
 
 // Označi sve kao pročitano kad otvori stranicu
-mark_all_read($pdo, $user_id);
+if (isset($_GET['mark_read'])) {
+    mark_all_read($pdo, $user_id);
+    header('Location: notifications.php');
+    exit;
+}
 
 // Filter po kategoriji
 $filter = $_GET['filter'] ?? 'all';
@@ -144,13 +148,13 @@ function notif_has_reject(string $type): bool {
         <h1>MOJE OBAVIJESTI</h1>
         <div class="notif-header-icons">
             <a href="notifications.php?filter=sleep_request" class="notif-header-icon <?= $filter === 'sleep_request' ? 'active' : '' ?>">
-                <img src="media/svg/bed.svg" alt="Smještaj">
+                <img src="media/svg/krevet.svg" alt="Smještaj">
             </a>
             <a href="notifications.php?filter=friend_request" class="notif-header-icon <?= $filter === 'friend_request' ? 'active' : '' ?>">
-                <img src="media/svg/user.svg" alt="Prijatelji">
+                <img src="media/svg/nagrada.svg" alt="Prijatelji">
             </a>
             <a href="notifications.php?filter=buddy_request" class="notif-header-icon <?= $filter === 'buddy_request' ? 'active' : '' ?>">
-                <img src="media/svg/user-plus.svg" alt="Buddy">
+                <img src="media/svg/prijatelj.svg" alt="Buddy">
             </a>
         </div>
     </div>

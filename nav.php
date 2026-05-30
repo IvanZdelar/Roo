@@ -1,5 +1,8 @@
 <?php
 require_once 'notifications_helper.php';
+if (!isset($user_id)) {
+    $user_id = $_SESSION['user_id'] ?? null;
+}
 $notif_count = isset($user_id) ? get_unread_count($pdo, $user_id) : 0;
 $notifications = isset($user_id) ? get_notifications($pdo, $user_id, 10) : [];
 ?>

@@ -4,6 +4,8 @@ require_once 'bootstrap.php';
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
+$user_id = $_SESSION['user_id'];
+
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
     header('Location: index.php');
     exit;
