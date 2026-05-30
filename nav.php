@@ -10,6 +10,7 @@
             <a href="profil.php" class="roo-menu-link transition-link">Profil</a>
             <a href="putovanja.php" class="roo-menu-link transition-link">Putovanja</a>
             <a href="razgovori.php" class="roo-menu-link transition-link">Razgovori</a>
+            <a href="create-adventure.php" class="create-adventure-btn  transition-link">Osmisli Putovanje</a>
         </div>
     </div>
 
