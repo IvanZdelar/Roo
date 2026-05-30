@@ -12,7 +12,7 @@ $notifications = isset($user_id) ? get_notifications($pdo, $user_id, 10) : [];
         </div>
 
         <div class="roo-notif" id="rooNotif">
-            <a href="notifications.php" class="notif-bell" id="notifBell">
+            <a href="notifications.php" class="notif-bell transition-link" id="notifBell">
                 <img src="media/svg/notif-bell.svg" alt="Notifikacije">
                 <?php if ($notif_count > 0): ?>
                     <span class="notif-badge"><?= $notif_count > 99 ? '99+' : $notif_count ?></span>

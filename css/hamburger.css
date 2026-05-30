@@ -53,7 +53,7 @@
 .roo-menu-panel {
     position: absolute;
     top:-5px;
-    right: 100px;
+    right: 160px;
     background: var(--bez);
     border-radius: 18px;
     padding: 1rem 1.2rem;

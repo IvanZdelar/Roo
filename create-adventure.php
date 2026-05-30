@@ -253,19 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <div class="roo-menu">
-        <div class="roo-hamburger" id="rooHamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="roo-menu-panel" id="rooMenuPanel">
-            <a href="dashboard.php" class="roo-menu-link transition-link">Početna</a>
-            <a href="profil.php" class="roo-menu-link transition-link">Profil</a>
-            <a href="putovanja.php" class="roo-menu-link transition-link">Putovanja</a>
-            <a href="razgovori.php" class="roo-menu-link transition-link">Razgovori</a>
-        </div>
-    </div>
+<?php include 'nav.php'; ?>
     <main class="adventure-wizard-wrap">
         <form action="create-adventure.php" method="POST" id="adventureWizardForm" enctype="multipart/form-data">
     <input type="hidden" name="route_locations" id="route_locations_input">

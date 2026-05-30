@@ -126,14 +126,20 @@ function notif_has_reject(string $type): bool {
     <link rel="icon" type="image/x-icon" href="media/svg/LOGO.svg">
 </head>
 <body>
+    <div class="page-transition" id="pageTransition">
+    <img src="media/svg/roo-happy.svg" alt="Roo loading">
+    <div class="page-transition-text">
+        Roo te vodi dalje<span class="page-transition-dots" id="transitionDots">...</span>
+    </div>
+</div>
 <?php include 'nav.php'; ?>
 
-<main class="notif-page">
+<div class="notif-page">
 
     <!-- Header -->
     <div class="notif-page-header">
         <a href="javascript:history.back()" class="notif-back-btn">
-            <img src="media/svg/arrow-left.svg" alt="Nazad">
+            <img src="media/svg/prevBtn.svg" alt="Nazad">
         </a>
         <h1>MOJE OBAVIJESTI</h1>
         <div class="notif-header-icons">
@@ -184,8 +190,9 @@ function notif_has_reject(string $type): bool {
         <?php endif; ?>
     </div>
 
-</main>
+</div>
 
 <script src="js/main.js"></script>
+<script src="js/hamburger.js"></script>
 </body>
 </html>
