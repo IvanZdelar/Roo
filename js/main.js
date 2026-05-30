@@ -427,3 +427,10 @@ if (notifBell && notifDropdown) {
         e.stopPropagation();
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const transition = document.getElementById('pageTransition');
+    if (transition) {
+        transition.classList.remove('active');
+    }
+});

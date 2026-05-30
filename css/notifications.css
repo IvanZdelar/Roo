@@ -1,9 +1,6 @@
-
-
 .notif-page {
     max-width: 60%;
     margin: 0 auto;
-    padding: 100px 20px 60px;
 }
 
 /* Responsive adjustments */
@@ -66,50 +63,42 @@
     gap: 10px;
 }
 
-/* Filter pills */
-.notif-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 32px;
-}
-
-.notif-filter-pill {
-    padding: 6px 16px;
-    border-radius: 20px;
-    background: var(--bijela);
-    color: var(--tplava);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    border: 2px solid transparent;
-    transition: all 0.2s;
-}
-
-.notif-filter-pill:hover { background: var(--bijela); color: var(--tplava); }
-.notif-filter-pill.active {
-    background: var(--tplava);
-    color: #fff;
-    border-color: var(--tplava);
-}
-
 /* Cards */
 .notif-list-page {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 30px;
 }
 
 .notif-card {
     position: relative;
     background: var(--bijela);
-    border-radius: 16px;
+    border-radius: 28px;
     border-left: 6px solid var(--notif-color);
     padding: 18px 70px 18px 20px;
-    min-height: 160px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 0 8px 20px hsla(0, 0%, 0%, 0.25);
+    transition: all 0.3s ease;
+}
+
+.notif-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px hsla(0, 0%, 0%, 0.35);
+}
+
+.notif-card:hover .notif-card-label {
+    font-size: 1.3rem;
+}
+
+.notif-card:hover .notif-card-body p {
+    font-size: 1.05rem;
+}
+
+.notif-card:hover .notif-card-time {
+    font-size: 0.85rem;
 }
 
 .notif-card-label {
@@ -120,6 +109,7 @@
     color: var(--notif-color);
     font-family: var(--naslov);
     margin-bottom: 8px;
+    transition: all 0.3s ease;
 }
 
 .notif-card-body p {
@@ -127,12 +117,14 @@
     color: var(--siva);
     margin: 0;
     line-height: 1.5;
+    transition: all 0.3s ease;
 }
 
 .notif-card-time {
     font-size: 0.8rem;
     color: var(--smeda);
     margin-top: 8px;
+    transition: all 0.3s ease;
 }
 
 /* Action buttons */
@@ -141,7 +133,7 @@
     bottom: 16px;
     right: 16px;
     display: flex;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
 }
 
@@ -163,17 +155,29 @@
     background: var(--tplava);
     color: var(--bijela);
     box-shadow: 0 8px 20px rgb(41, 79, 105, 0.6);
+    transition: all 0.3s;
+}
+
+.notif-btn-arrow img{
+    width: 24px;
+    height: 24px;
 }
 
 .notif-btn-reject {
     background: var(--naran);
     color: var(--bijela);
     box-shadow: 0 8px 20px rgb(205, 152, 66, 0.6);
-
+    transition: all 0.3s;
 }
 
-.notif-btn-arrow:hover,
-.notif-btn-reject:hover { opacity: 0.8; color: var(--bijela); }
+.notif-btn-reject img{
+    width: 24px;
+    height: 24px;
+}  
+
+.notif-btn-arrow:hover, .notif-btn-reject:hover{
+    scale: 1.05;
+}
 
 .notif-page-empty {
     text-align: center;
@@ -198,6 +202,16 @@
 }
 .notif-header-icon.active img,
 .notif-header-icon:hover img { filter: brightness(0) invert(0.25); }
+
+.sve-btn{
+    background: var(--siva);
+    border: 2px solid var(--siva);
+    box-shadow: 0 8px 20px rgb(76, 76, 76, 0.6);
+}
+
+.sve-btn.active, .sve-btn:hover{
+    background: var(--bijela);
+}
 
 .krevet-btn{
     background: var(--zelena);
