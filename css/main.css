@@ -1761,6 +1761,7 @@ body.homepage-body {
     grid-template-columns: 1.05fr 1fr;
     gap: 1.5rem;
     align-items: stretch;
+    margin-bottom: 4rem;
 }
 
 .profile-stats-box {
@@ -2055,6 +2056,7 @@ body.homepage-body {
     grid-template-columns: 2fr 1fr;
     gap: 1rem;
     align-items: start;
+    margin-bottom: 4rem;
 }
 
 .profile-gallery-box {
@@ -2577,6 +2579,44 @@ body.homepage-body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.profile-place-to-stay{
+    margin-top: 8rem;
+    background-image: url(../media/slike/ponuda-bg.png);
+    min-height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 28px;
+    border: solid 4px var(--tplava);
+    position: relative;
+    padding: 2rem;
+}
+
+.stay-title{
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.profile-place-to-stay strong{
+    font-size: 1.5rem;
+    color: var(--tplava);
+}
+
+.profile-place-to-stay p{
+    margin-top: 0.8rem;
+    color: var(--tplava);
+    font-size: 1.25rem;
+}
+
+.profile-place-to-stay p, .profile-place-to-stay strong{
+    width: 30%;
+}
+
+.stay-btn{
+    position: absolute;
+    right: 60px;
+    bottom: 50px;
 }
 
 @media (prefers-reduced-motion: reduce) {

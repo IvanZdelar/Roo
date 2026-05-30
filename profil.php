@@ -230,7 +230,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
         <main class="profile-page-wrap">
-            <h1 class="profile-section-title">
+            <h1 class="profile-section-title section-title-blue">
                 MOJI PODACI
             </h1>
             <section class="profile-top-grid reveal-up">
@@ -337,7 +337,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </section>
-            <h1 class="profile-section-title">
+            <h1 class="profile-section-title section-title-blue">
                 AKTIVNE AVANTURE
             </h1>
             <section class="profile-trips-box profile-active-trips reveal-up">
@@ -409,7 +409,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 <?php endif; ?>
             </section>
-            <h1 class="profile-section-title">
+            <h1 class="profile-section-title section-title-blue">
                 ZAVRŠENE AVANTURE
             </h1>
             <section class="profile-trips-box profile-finished-trips reveal-up">
@@ -611,7 +611,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="#" class="discover-more-link">VIŠE>>></a>
                 </div>
             </section>
-            <h1 class="profile-section-title">ZABILJEŽI SVOJ KILOMETAR</h1>
+            <h1 class="profile-section-title section-title-blue">ZABILJEŽI SVOJ KILOMETAR</h1>
             <section class="profile-minigames reveal-up">
                 <div class="profile-fridge-box">
                     <img src="media/svg/frizider.svg" alt="Fridge">
@@ -647,6 +647,14 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                 </div>
+            </section>
+            <section class="profile-place-to-stay reveal-up">
+                 <h1 class="stay-title section-title-blue">PONUDI SMJEŠTAJ</h1><br>
+                <strong>
+                    Imaš sobu viška ili apartman koji želiš posuditi?
+                </strong>
+                <p>Ne dopusti da ti prostor skuplja prašinu. Pretvori ga u u bazu za nove svjetkse putnike.</p>
+                <button type="button" class="wizard-arrow stay-btn"><img src="media/svg/nextBtn.svg" alt="dalje"></button>
             </section>
         </main>
     <script src="js/main.js"></script>

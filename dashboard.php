@@ -61,12 +61,16 @@ $stmt->execute([$user_id]);
 
 $totalKilometers = $stmt->fetchColumn();
 
-$stmt = $pdo->prepare("
-    DELETE FROM adventure_tags
-    WHERE adventure_id = ?
-    AND tag_type = 'travel_buddy_open'
-");
+$adventureId = $_GET['adventure_id'] ?? null;
 
+if ($adventureId) {
+    $stmt = $pdo->prepare("
+        DELETE FROM adventure_tags
+        WHERE adventure_id = ?
+        AND tag_type = 'travel_buddy_open'
+    ");
+    $stmt->execute([$adventureId]);
+}
 $stmt = $pdo->prepare("
     SELECT 
         u.id,
