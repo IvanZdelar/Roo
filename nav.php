@@ -5,6 +5,9 @@
             <span></span>
         </div>
 
+        <div class="roo-notif" id="rooNotif">
+        </div>
+
         <div class="roo-menu-panel" id="rooMenuPanel">
             <a href="dashboard.php" class="roo-menu-link transition-link">Početna</a>
             <a href="profil.php" class="roo-menu-link transition-link">Profil</a>

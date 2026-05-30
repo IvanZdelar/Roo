@@ -3,9 +3,14 @@
     top: 27.5px;
     right: 5%;
     z-index: 999;
+    display: flex;
 }
 
-.roo-hamburger {
+.roo-notif{
+    margin-left: 1rem;
+}
+
+.roo-hamburger, .roo-notif {
     width: 60px;
     height: 60px;
     background: var(--plava);
@@ -19,7 +24,7 @@
     transition: all 0.3s ease;
 }
 
-.roo-hamburger:hover {
+.roo-hamburger:hover, .roo-notif:hover {
     transform: scale(1.08);
     background: var(--smeda);
 }
@@ -116,7 +121,6 @@
     background: var(--smeda);
     scale: 1.03;
 }
-
 @media screen and (max-width: 600px){
     .roo-menu-panel {
     position: absolute;
