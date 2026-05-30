@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($adventure['naziv']) ?> - Roo</title>
+    <title>Roo - <?= htmlspecialchars($adventure['naziv']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/main.css">
@@ -117,6 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
 </head>
 
 <body class="adventure-details-body">
+    <div class="page-transition" id="pageTransition">
+        <img src="media/svg/roo-happy.svg" alt="Roo loading">
+        <div class="page-transition-text">
+            Roo te vodi dalje<span class="page-transition-dots" id="transitionDots">...</span>
+        </div>
+    </div>
 
 <?php include 'nav.php'; ?>
 
