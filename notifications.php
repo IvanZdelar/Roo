@@ -67,13 +67,13 @@ $categories = [
 // Boja lijevog bordera po tipu (kao na dizajnu)
 function notif_color(string $type): string {
     return match($type) {
-        'achievement'               => '#4a9eca',   // plava
-        'buddy_request'             => '#c9922a',   // zlatna
-        'buddy_accepted'            => '#c9922a',
-        'friend_request'            => '#2a7a5c',   // zelena
-        'friend_accepted'           => '#2a7a5c',
-        'sleep_request', 'sleep_accepted' => '#7a5c2a', // smeđa
-        default                     => '#999',
+        'achievement'               => '#294F69',   // plava
+        'buddy_request'             => '#CD9842',   // zlatna
+        'buddy_accepted'            => '#CD9842',
+        'friend_request'            => '#3A5A40',   // zelena
+        'friend_accepted'           => '#3A5A40',
+        'sleep_request', 'sleep_accepted' => '#7C5618', // smeđa
+        default                     => '#D9D9D9',
     };
 }
 

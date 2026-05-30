@@ -37,19 +37,28 @@
 }
 
 .notif-page-header h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 900;
     letter-spacing: 2px;
     color: var(--tplava);
     margin: 0;
 }
 
+.notif-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 8px 20px hsla(210, 36%, 37%, 0.6);
+    border-radius: 50%;
+}
+
 .notif-back-btn img {
-    width: 42px;
-    height: 42px;
+    width: 60px;
+    height: 60px;
     background: var(--tplava);
     border-radius: 50%;
-    padding: 10px;
+    padding: 20px;
 }
 
 .notif-header-icons {
@@ -97,27 +106,31 @@
     border-radius: 16px;
     border-left: 6px solid var(--notif-color);
     padding: 18px 70px 18px 20px;
-    min-height: 90px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .notif-card-label {
-    font-size: 11px;
+    font-size: 1.25rem;
     font-weight: 800;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--notif-color);
+    font-family: var(--naslov);
     margin-bottom: 8px;
 }
 
 .notif-card-body p {
-    font-size: 15px;
+    font-size: 1rem;
     color: var(--siva);
     margin: 0;
     line-height: 1.5;
 }
 
 .notif-card-time {
-    font-size: 11px;
+    font-size: 0.8rem;
     color: var(--smeda);
     margin-top: 8px;
 }
@@ -134,8 +147,8 @@
 
 .notif-btn-arrow,
 .notif-btn-reject {
-    width: 36px;
-    height: 36px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -149,11 +162,14 @@
 .notif-btn-arrow {
     background: var(--tplava);
     color: var(--bijela);
+    box-shadow: 0 8px 20px rgb(41, 79, 105, 0.6);
 }
 
 .notif-btn-reject {
     background: var(--naran);
     color: var(--bijela);
+    box-shadow: 0 8px 20px rgb(205, 152, 66, 0.6);
+
 }
 
 .notif-btn-arrow:hover,
@@ -163,7 +179,7 @@
     text-align: center;
     padding: 60px 0;
     color: var(--smeda);
-    font-size: 16px;
+    font-size: 2rem;
 }
 
 .notif-header-icon {
@@ -177,7 +193,7 @@
 }
 
 .notif-header-icon img { width: 30px; transition: all 0.3s; }
-.notif-header-icon:hover, .notif-header-icon.active{
+.notif-header-icon:hover, .notif-header-icon.active, .notif-back-btn:hover {
     scale: 1.05;
 }
 .notif-header-icon.active img,
@@ -186,6 +202,7 @@
 .krevet-btn{
     background: var(--zelena);
     border: 2px solid var(--zelena);
+    box-shadow: 0 8px 20px rgb(58, 90, 64, 0.6);
 }
 
 .krevet-btn.active, .krevet-btn:hover{
@@ -195,6 +212,7 @@
 .nagrada-btn{
     background: var(--tplava);
     border: 2px solid var(--tplava);
+    box-shadow: 0 8px 20px rgb(41, 79, 105, 0.6);
 }
 
 .nagrada-btn.active, .nagrada-btn:hover{
@@ -204,6 +222,7 @@
 .prijatelj-btn{
     background: var(--naran);
     border: 2px solid var(--naran);
+    box-shadow: 0 8px 20px rgb(205, 152, 66, 0.6);
 }
 
 .prijatelj-btn.active, .prijatelj-btn:hover{
