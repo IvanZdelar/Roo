@@ -409,3 +409,21 @@ if (parallaxBg) {
 
     parallaxLoop();
 }
+
+const notifBell = document.getElementById('notifBell');
+const notifDropdown = document.getElementById('notifDropdown');
+
+if (notifBell && notifDropdown) {
+    notifBell.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notifDropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', () => {
+        notifDropdown.classList.remove('open');
+    });
+
+    notifDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}

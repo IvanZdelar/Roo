@@ -1,11 +1,16 @@
 .roo-menu {
     position: fixed;
-    top: 20px;
+    top: 27.5px;
     right: 5%;
     z-index: 999;
+    display: flex;
 }
 
-.roo-hamburger {
+.roo-notif{
+    margin-left: 1rem;
+}
+
+.roo-hamburger, .roo-notif {
     width: 60px;
     height: 60px;
     background: var(--plava);
@@ -19,7 +24,7 @@
     transition: all 0.3s ease;
 }
 
-.roo-hamburger:hover {
+.roo-hamburger:hover, .roo-notif:hover {
     transform: scale(1.08);
     background: var(--smeda);
 }
@@ -48,12 +53,13 @@
 .roo-menu-panel {
     position: absolute;
     top:-5px;
-    right: 100px;
+    right: 160px;
     background: var(--bez);
     border-radius: 18px;
     padding: 1rem 1.2rem;
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 0.6rem;
     min-width: 180px;
     box-shadow: 0 20px 40px hsla(0, 0%, 0%, 0.25);
@@ -100,6 +106,21 @@
     width: 100%;
 }
 
+.create-adventure-btn{
+    width: max-content;
+    background: var(--tplava);
+    font-family: var(--naslov);
+    color: var(--bijela);
+    padding: 0.75rem 1rem;
+    border-radius: 28px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.create-adventure-btn:hover {
+    background: var(--smeda);
+    scale: 1.03;
+}
 @media screen and (max-width: 600px){
     .roo-menu-panel {
     position: absolute;

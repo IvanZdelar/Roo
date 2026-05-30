@@ -11,7 +11,6 @@ if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
 
 $user_id = $_SESSION['user_id'];
 
-// ── Aktivna putovanja: avanture otvorene za pridruživanje (status = active, travel_buddy_open = 1)
 $stmtActive = $pdo->prepare("
     SELECT a.id, a.naziv, a.destination, a.trip_type, a.budget_per_day,
            a.adventure_image, a.travel_with,
@@ -34,7 +33,6 @@ $stmtActive = $pdo->prepare("
 $stmtActive->execute();
 $activeAdventures = $stmtActive->fetchAll(PDO::FETCH_ASSOC);
 
-// ── Inspiracija: sve završene avanture
 $stmtCompleted = $pdo->prepare("
     SELECT a.id, a.naziv, a.destination, a.trip_type, a.budget_per_day,
            a.adventure_image, a.travel_with,
@@ -51,7 +49,6 @@ $stmtCompleted = $pdo->prepare("
 $stmtCompleted->execute();
 $completedAdventures = $stmtCompleted->fetchAll(PDO::FETCH_ASSOC);
 
-// helper – display ime autora
 function creatorName(array $row): string {
     $name = trim($row['korisnicko_ime'] ?? '');
     if ($name === '') {
@@ -83,9 +80,6 @@ function creatorName(array $row): string {
 
 <?php include 'nav.php'; ?>
 
-<!-- ═══════════════════════════════════════════════
-     AKTIVNA PUTOVANJA – otvorena za pridruživanje
-════════════════════════════════════════════════ -->
 <section class="putovanja-main">
     <h2 class="section-title-blue reveal-up">Aktivna putovanja</h2>
 
@@ -150,9 +144,6 @@ function creatorName(array $row): string {
     <a href="create-adventure.php" class="discover-more-link transition-link">OSMISLI SVOJE >>></a>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     PRONAĐI INSPIRACIJU – završene avanture
-════════════════════════════════════════════════ -->
 <section class="putovanja-second">
     <h2 class="section-title-white reveal-up">Pronađi inspiraciju</h2>
 

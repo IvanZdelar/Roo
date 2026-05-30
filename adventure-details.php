@@ -4,6 +4,8 @@ require_once 'bootstrap.php';
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
+$user_id = $_SESSION['user_id'];
+
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
     header('Location: index.php');
     exit;
@@ -91,12 +93,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_adventure'])
         exit;
     }
 }
+
+require_once 'notifications_helper.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
+    $adventure_owner_id = (int)$adventure['user_id'];
+    $requester_id       = (int)$_SESSION['user_id'];
+
+    create_notification($pdo, $adventure_owner_id, 'buddy_request', $requester_id, $adventureId);
+
+    header('Location: adventure-details.php?id=' . $adventureId);
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($adventure['naziv']) ?> - Roo</title>
+    <title>Roo - <?= htmlspecialchars($adventure['naziv']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/main.css">
@@ -105,6 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_adventure'])
 </head>
 
 <body class="adventure-details-body">
+    <div class="page-transition" id="pageTransition">
+        <img src="media/svg/roo-happy.svg" alt="Roo loading">
+        <div class="page-transition-text">
+            Roo te vodi dalje<span class="page-transition-dots" id="transitionDots">...</span>
+        </div>
+    </div>
 
 <?php include 'nav.php'; ?>
 
@@ -239,7 +259,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_adventure'])
                     </p>
 
                     <?php if ((int)$adventure['user_id'] !== (int)$_SESSION['user_id']): ?>
-                        <button class="details-join-btn">Želim se pridružiti</button>
+                        <form method="POST">
+                            <button type="submit" name="join_adventure" class="details-join-btn">
+                                Želim se pridružiti
+                            </button>
+                        </form>
                     <?php else: ?>
                         <p class="details-owner-note">Ovo je tvoja avantura.</p>
                     <?php endif; ?>

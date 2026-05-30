@@ -36,6 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" type="image/x-icon" href="media/svg/LOGO.svg">
 </head>
 <body class="auth-utility-page">
+    <div class="page-transition" id="pageTransition">
+        <img src="media/svg/roo-happy.svg" alt="Roo loading">
+        <div class="page-transition-text">
+            Roo te vodi dalje<span class="page-transition-dots" id="transitionDots">...</span>
+        </div>
+    </div>
     <div class="auth-utility-card">
         <div class="auth-utility-header">
             <h1>Zaboravljena lozinka?</h1>
