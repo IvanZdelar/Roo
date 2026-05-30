@@ -91,6 +91,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_adventure'])
         exit;
     }
 }
+
+require_once 'notifications_helper.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
+    $adventure_owner_id = (int)$adventure['user_id'];
+    $requester_id       = (int)$_SESSION['user_id'];
+
+    create_notification($pdo, $adventure_owner_id, 'buddy_request', $requester_id, $adventureId);
+
+    header('Location: adventure-details.php?id=' . $adventureId);
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -239,7 +251,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_adventure'])
                     </p>
 
                     <?php if ((int)$adventure['user_id'] !== (int)$_SESSION['user_id']): ?>
-                        <button class="details-join-btn">Želim se pridružiti</button>
+                        <form method="POST">
+                            <button type="submit" name="join_adventure" class="details-join-btn">
+                                Želim se pridružiti
+                            </button>
+                        </form>
                     <?php else: ?>
                         <p class="details-owner-note">Ovo je tvoja avantura.</p>
                     <?php endif; ?>
