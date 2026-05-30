@@ -24,7 +24,7 @@ if (!$user) {
         <link rel="stylesheet" href="css/main.css" type="text/css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body class="auth-utility-page">
+    <body class="auth-utility-page">    
         <div class="auth-utility-card">
             <div class="auth-utility-header">
                 <h1>Ups...</h1>

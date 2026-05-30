@@ -119,9 +119,7 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Roo te vodi dalje<span class="page-transition-dots" id="transitionDots">...</span>
     </div>
 </div>
-   <?php
-    include 'nav.php';
-    ?>
+   <?php include 'nav.php'; ?>
     <!-- Hero -->
     <section class="hero-home reveal-up">
         <div class="hero-content-home">

@@ -225,9 +225,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
         <main class="profile-page-wrap">
             <h1 class="profile-section-title section-title-blue">
