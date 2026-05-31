@@ -144,7 +144,7 @@ function notif_has_reject(string $type, array $n): bool {
 <div class="notif-page">
 
     <!-- Header -->
-    <div class="notif-page-header">
+    <div class="notif-page-header reveal-up">
         <a href="javascript:history.back()" class="notif-back-btn">
             <img src="media/svg/prevBtn.svg" alt="Nazad">
         </a>
@@ -175,7 +175,7 @@ function notif_has_reject(string $type, array $n): bool {
     </div>
 
     <!-- Notifikacije -->
-    <div class="notif-list-page">
+    <div class="notif-list-page reveal-up">
         <?php if (empty($notifications)): ?>
             <div class="notif-page-empty">
                 <p>Nema obavijesti u ovoj kategoriji.</p>
