@@ -1,3 +1,9 @@
+body{
+    background-image: url(../media/slike/basic-bg.png);
+    background-size: cover;
+    background-position: 50% 70%;
+}
+
 .notif-page {
     max-width: 60%;
     margin: 0 auto;
@@ -138,7 +144,7 @@
 }
 
 .notif-btn-arrow,
-.notif-btn-reject {
+.notif-btn-reject, .notif-btn-accept, .notif-btn-seen {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -148,14 +154,20 @@
     font-size: 16px;
     font-weight: 700;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
+}
+
+.notif-btn-accept{
+    background: var(--zelena);
+    color: var(--bijela);
+    box-shadow: 0 8px 20px rgb(58, 90, 64, 0.6);
+    font-size: 1.75rem;
 }
 
 .notif-btn-arrow {
     background: var(--tplava);
     color: var(--bijela);
     box-shadow: 0 8px 20px rgb(41, 79, 105, 0.6);
-    transition: all 0.3s;
 }
 
 .notif-btn-arrow img{
@@ -167,7 +179,6 @@
     background: var(--naran);
     color: var(--bijela);
     box-shadow: 0 8px 20px rgb(205, 152, 66, 0.6);
-    transition: all 0.3s;
 }
 
 .notif-btn-reject img{
@@ -175,7 +186,19 @@
     height: 24px;
 }  
 
-.notif-btn-arrow:hover, .notif-btn-reject:hover{
+.notif-btn-seen{
+    background: var(--smeda);
+    color: var(--bijela);
+    box-shadow: 0 8px 20px rgba(124, 86, 24, 0.6);
+}
+
+.notif-btn-seen img{
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+}
+
+.notif-btn-arrow:hover, .notif-btn-reject:hover, .notif-btn-accept:hover, .notif-btn-seen:hover {
     scale: 1.05;
 }
 
@@ -183,7 +206,7 @@
     text-align: center;
     padding: 60px 0;
     color: var(--smeda);
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .notif-header-icon {
@@ -240,5 +263,25 @@
 }
 
 .prijatelj-btn.active, .prijatelj-btn:hover{
+    background: var(--bijela);
+}
+
+/* Kartica kad je prihvaćena/odbijena */
+.notif-card.accepted { opacity: 0.5; }
+.notif-card.rejected { opacity: 0.35; }
+
+.seen-btn {
+    background: var(--smeda);
+    border: 2px solid var(--smeda);
+    box-shadow: 0 8px 20px rgba(124, 86, 24, 0.6);
+}
+
+.seen-btn img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+}
+
+.seen-btn.active, .seen-btn:hover {
     background: var(--bijela);
 }

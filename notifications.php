@@ -35,12 +35,15 @@ if (!array_key_exists($filter, $filter_map)) {
 
 $types = $filter_map[$filter];
 
+$show_seen = isset($_GET['seen']);
+
 if (empty($types)) {
     $stmt = $pdo->prepare("
         SELECT n.*, u.korisnicko_ime, u.ime, u.prezime, u.profilna_slika
         FROM notifications n
         LEFT JOIN users u ON u.id = n.from_user_id
         WHERE n.user_id = ?
+        AND (" . ($show_seen ? "n.status = 'seen' OR n.status = 'accepted' OR n.status = 'rejected'" : "n.status = 'pending'") . ")
         ORDER BY n.created_at DESC
     ");
     $stmt->execute([$user_id]);
@@ -51,6 +54,7 @@ if (empty($types)) {
         FROM notifications n
         LEFT JOIN users u ON u.id = n.from_user_id
         WHERE n.user_id = ? AND n.type IN ($placeholders)
+        AND (" . ($show_seen ? "n.status = 'seen' OR n.status = 'accepted' OR n.status = 'rejected'" : "n.status = 'pending'") . ")
         ORDER BY n.created_at DESC
     ");
     $stmt->execute(array_merge([$user_id], $types));
@@ -107,8 +111,14 @@ function notif_link(array $n): string {
     };
 }
 
-function notif_has_reject(string $type): bool {
-    return in_array($type, ['buddy_request', 'friend_request', 'sleep_request']);
+function notif_has_accept(array $n): bool {
+    return in_array($n['type'], ['friend_request', 'buddy_request', 'sleep_request'])
+        && ($n['status'] ?? 'pending') === 'pending';
+}
+
+function notif_has_reject(string $type, array $n): bool {
+    return in_array($type, ['buddy_request', 'friend_request', 'sleep_request'])
+        && ($n['status'] ?? 'pending') === 'pending';
 }
 ?>
 <!DOCTYPE html>
@@ -131,7 +141,6 @@ function notif_has_reject(string $type): bool {
     </div>
 </div>
 <?php include 'nav.php'; ?>
-
 <div class="notif-page">
 
     <!-- Header -->
@@ -141,23 +150,28 @@ function notif_has_reject(string $type): bool {
         </a>
         <h1>MOJE OBAVIJESTI</h1>
         <div class="notif-header-icons">
-            <a href="notifications.php" 
-            class="notif-header-icon sve-btn <?= $filter === 'all' ? 'active' : '' ?>" data-no-transition>
-                <img src="media/svg/notif-bell.svg" alt="Sve">
-            </a>
-            <a href="notifications.php?filter=smjestaj" 
-            class="notif-header-icon krevet-btn <?= $filter === 'smjestaj' ? 'active' : '' ?>" data-no-transition>
-                <img src="media/svg/krevet.svg" alt="Smještaj">
-            </a>
-            <a href="notifications.php?filter=nagrade" 
-            class="notif-header-icon nagrada-btn <?= $filter === 'nagrade' ? 'active' : '' ?>" data-no-transition>
-                <img src="media/svg/nagrada.svg" alt="Nagrade">
-            </a>
-            <a href="notifications.php?filter=prijatelji" 
-            class="notif-header-icon prijatelj-btn <?= $filter === 'prijatelji' ? 'active' : '' ?>" data-no-transition>
-                <img src="media/svg/prijatelj.svg" alt="Prijatelji">
-            </a>
-        </div>
+        <a href="notifications.php" 
+        class="notif-header-icon sve-btn <?= $filter === 'all' && !$show_seen ? 'active' : '' ?>" data-no-transition>
+            <img src="media/svg/notif-bell.svg" alt="Sve">
+        </a>
+        <a href="notifications.php?filter=smjestaj<?= $show_seen ? '&seen' : '' ?>" 
+        class="notif-header-icon krevet-btn <?= $filter === 'smjestaj' ? 'active' : '' ?>" data-no-transition>
+            <img src="media/svg/krevet.svg" alt="Smještaj">
+        </a>
+        <a href="notifications.php?filter=nagrade<?= $show_seen ? '&seen' : '' ?>" 
+        class="notif-header-icon nagrada-btn <?= $filter === 'nagrade' ? 'active' : '' ?>" data-no-transition>
+            <img src="media/svg/nagrada.svg" alt="Nagrade">
+        </a>
+        <a href="notifications.php?filter=prijatelji<?= $show_seen ? '&seen' : '' ?>" 
+        class="notif-header-icon prijatelj-btn <?= $filter === 'prijatelji' ? 'active' : '' ?>" data-no-transition>
+            <img src="media/svg/prijatelj.svg" alt="Prijatelji">
+        </a>
+        <!-- Toggle seen/unseen -->
+        <a href="notifications.php?filter=<?= $filter ?><?= $show_seen ? '' : '&seen' ?>" 
+        class="notif-header-icon seen-btn <?= $show_seen ? 'active' : '' ?>" data-no-transition>
+            <img src="media/svg/seen.png" alt="Pregledane">
+        </a>
+    </div>
     </div>
 
     <!-- Notifikacije -->
@@ -176,10 +190,22 @@ function notif_has_reject(string $type): bool {
                     </div>
                 </div>
                 <div class="notif-card-actions">
-                    <?php if (notif_has_reject($n['type'])): ?>
-                        <a href="reject-notification.php?id=<?= (int)$n['id'] ?>" class="notif-btn-reject"><img src="media/svg/x.svg" alt=""></a>
+                    <?php if (notif_has_accept($n)): ?>
+                        <a href="handle-notification.php?id=<?= (int)$n['id'] ?>&action=accept" 
+                        class="notif-btn-accept">✓</a>
                     <?php endif; ?>
-                    <a href="<?= notif_link($n) ?>" class="notif-btn-arrow"><img src="media/svg/nextBtn.svg" alt=""></a>
+
+                    <?php if (notif_has_reject($n['type'], $n)): ?>
+                        <a href="handle-notification.php?id=<?= (int)$n['id'] ?>&action=reject" 
+                        class="notif-btn-reject"><img src="media/svg/x.svg" alt=""></a>
+                    <?php endif; ?>
+
+                    <?php if ($n['type'] === 'achievement' && ($n['status'] ?? 'pending') !== 'seen'): ?>
+                        <a href="handle-notification.php?id=<?= (int)$n['id'] ?>&action=seen" 
+                        class="notif-btn-seen"><img src="media/svg/seen.png" alt=""></a>
+                    <?php endif; ?>
+
+                    <a href="<?= notif_link($n) ?>" class="notif-btn-arrow"><img src="media/svg/nextBtn.svg" alt="Slijedeće"></a>
                 </div>
                 <div class="notif-card-time"><?= date('d.m.Y. H:i', strtotime($n['created_at'])) ?></div>
             </div>
