@@ -43,9 +43,7 @@ if ($action === 'seen') {
     $stmt = $pdo->prepare("UPDATE notifications SET status = 'accepted', is_read = 1 WHERE id = ?");
     $stmt->execute([$notif_id]);
 
-    // Logika ovisno o tipu
     if ($type === 'friend_request') {
-        // Provjeri postoji li već prijateljstvo
         $stmt = $pdo->prepare("
             SELECT id FROM friendships 
             WHERE (user_id = ? AND friend_id = ?) 
@@ -61,7 +59,6 @@ if ($action === 'seen') {
             $stmt->execute([$user_id, $notif['from_user_id']]);
         }
 
-        // Pošalji notifikaciju pošiljatelju
         $stmt = $pdo->prepare("
             INSERT INTO notifications (user_id, type, from_user_id, reference_id) 
             VALUES (?, 'friend_accepted', ?, ?)
@@ -69,6 +66,20 @@ if ($action === 'seen') {
         $stmt->execute([$notif['from_user_id'], $user_id, $notif['reference_id']]);
 
     } elseif ($type === 'buddy_request') {
+        $stmt = $pdo->prepare("
+            SELECT id FROM adventure_participants 
+            WHERE adventure_id = ? AND user_id = ?
+        ");
+        $stmt->execute([$notif['reference_id'], $notif['from_user_id']]);
+
+        if (!$stmt->fetch()) {
+            $stmt = $pdo->prepare("
+                INSERT INTO adventure_participants (adventure_id, user_id, role)
+                VALUES (?, ?, 'participant')
+            ");
+            $stmt->execute([$notif['reference_id'], $notif['from_user_id']]);
+        }
+
         $stmt = $pdo->prepare("
             INSERT INTO notifications (user_id, type, from_user_id, reference_id) 
             VALUES (?, 'buddy_accepted', ?, ?)
