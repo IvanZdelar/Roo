@@ -46,15 +46,15 @@ if ($action === 'seen') {
     if ($type === 'friend_request') {
         $stmt = $pdo->prepare("
             SELECT id FROM friendships 
-            WHERE (user_id = ? AND friend_id = ?) 
-               OR (user_id = ? AND friend_id = ?)
+            WHERE (user_one = ? AND user_two = ?) 
+            OR (user_one = ? AND user_two = ?)
         ");
         $stmt->execute([$user_id, $notif['from_user_id'], $notif['from_user_id'], $user_id]);
         
         if (!$stmt->fetch()) {
             $stmt = $pdo->prepare("
-                INSERT INTO friendships (user_id, friend_id, status) 
-                VALUES (?, ?, 'accepted')
+                INSERT INTO friendships (user_one, user_two) 
+                VALUES (?, ?)
             ");
             $stmt->execute([$user_id, $notif['from_user_id']]);
         }
