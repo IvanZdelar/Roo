@@ -5,6 +5,16 @@ $pdo = require 'db.php';
 require_once 'auth_helpers.php';
 require_once 'notifications_helper.php';
 
+
+if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
+    header('Location: index.php');
+    exit;
+}
+
+$logged_user_id  = (int)$_SESSION['user_id'];
+$profile_user_id = isset($_GET['id']) ? (int)$_GET['id'] : $logged_user_id;
+$is_own_profile  = $profile_user_id === $logged_user_id;
+
 if (!$is_own_profile && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['send_friend_request'])) {
         create_notification($pdo, $profile_user_id, 'friend_request', $logged_user_id, null);
@@ -30,16 +40,6 @@ if (!$is_own_profile && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
-
-if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
-    header('Location: index.php');
-    exit;
-}
-
-$logged_user_id  = (int)$_SESSION['user_id'];
-$profile_user_id = isset($_GET['id']) ? (int)$_GET['id'] : $logged_user_id;
-$is_own_profile  = $profile_user_id === $logged_user_id;
 
 $friendship_status = null;
 $pending_notif_id  = null;
