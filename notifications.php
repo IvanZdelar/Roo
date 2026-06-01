@@ -144,7 +144,7 @@ function notif_has_reject(string $type, array $n): bool {
 <div class="notif-page">
 
     <!-- Header -->
-    <div class="notif-page-header reveal-up">
+    <div class="notif-page-header">
         <a href="javascript:history.back()" class="notif-back-btn">
             <img src="media/svg/prevBtn.svg" alt="Nazad">
         </a>
