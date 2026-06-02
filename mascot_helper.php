@@ -25,18 +25,24 @@ function get_items_catalog(): array
 {
     return [
         'hats' => [
-            ['id' => 'hat_cap',    'name' => 'Cap',         'file' => 'hats/hat_cap.svg'],
-            ['id' => 'hat_wizard', 'name' => 'Čarobnjak',   'file' => 'hats/hat_wizard.svg'],
-            ['id' => 'hat_crown',  'name' => 'Kruna',       'file' => 'hats/hat_crown.svg'],
+            ['id' => 'rajf',    'name' => 'Rozi rajf',         'file' => 'hats/hat-rajf.svg'],
+            ['id' => 'rajf2', 'name' => 'Narančasti rajf',   'file' => 'hats/hat-rajf2.svg'],
+            ['id' => 'rajf3',  'name' => 'Srce rajf',       'file' => 'hats/hat-rajf3.svg'],
+            ['id' => 'sesir',  'name' => 'sesir',       'file' => 'hats/hat-sesir.svg'],
+            ['id' => 'sparkle',  'name' => 'sparkle',       'file' => 'hats/hat-sparkle.svg'],
+            ['id' => 'sparkle2',  'name' => 'sparkle2',       'file' => 'hats/hat-sparkle2.svg'],
+            ['id' => 'hr',  'name' => 'hr',       'file' => 'hats/hat-hr.svg'],
         ],
         'shirts' => [
-            ['id' => 'shirt_blue',   'name' => 'Plava',     'file' => 'shirts/shirt_blue.svg'],
-            ['id' => 'shirt_roo',    'name' => 'Roo brand', 'file' => 'shirts/shirt_roo.svg'],
+            ['id' => 'naran',   'name' => 'Naran',     'file' => 'shirts/shirt-naran.svg'],
+            ['id' => 'plava',    'name' => 'Plava', 'file' => 'shirts/shirt-plava.svg'],
+            ['id' => 'roza',    'name' => 'Roza', 'file' => 'shirts/shirt-roza.svg'],
+            ['id' => 'srce',    'name' => 'Srce', 'file' => 'shirts/shirt-srce.svg'],
+            ['id' => 'narod',    'name' => 'Narod', 'file' => 'shirts/shirt-narod.svg'],
         ],
         'hand_items' => [
-            ['id' => 'hand_coffee', 'name' => 'Kava',       'file' => 'hand/hand_coffee.svg'],
-            ['id' => 'hand_map',    'name' => 'Mapa',       'file' => 'hand/hand_map.svg'],
-            ['id' => 'hand_camera', 'name' => 'Kamera',     'file' => 'hand/hand_camera.svg'],
+            ['id' => 'hand_srce', 'name' => 'Srce',       'file' => 'hand/hand-srce.svg'],
+            ['id' => 'zastava',    'name' => 'Zastava',       'file' => 'hand/hand-zastava.svg'],
         ],
     ];
 }
