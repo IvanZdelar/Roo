@@ -133,6 +133,16 @@ Aplikacija uključuje:
 
 ---
 
+## Osobni ai chatbot
+
+Osobni ai chatbot integriran u sklop aplikacije:
+
+- Služi kao pomoć snalaženja u aplikaciji
+- Pomoć kod kreiranja avantura
+- Sugestije za planiranje putovanja
+
+---
+
 # Korištene tehnologije
 
 ## Backend
@@ -203,6 +213,7 @@ vendor/bin/phpunit
 ```txt
 roo_app/
 │
+├── .github/
 ├── css/
 ├── js/
 ├── logs/
@@ -221,21 +232,26 @@ roo_app/
 ├── adventure-details.php
 ├── auth_helpers.php
 ├── bootstrap.php
-├── config.php
+├── complete-adventure.php
 ├── create-adventure.php
 ├── dashboard.php
 ├── db.php
+├── footer.php
 ├── forgot-password.php
 ├── get-accommodations.php
 ├── get-city-activities.php
+├── handle-notification.php
 ├── index.php
 ├── kviz.php
 ├── logout.php
 ├── mail_helpers.php
 ├── nav.php
+├── notification_helper.php
+├── notifications.php
 ├── profil.php
 ├── putovanja.php
 ├── razgovori.php
+├── reject-notification.php
 ├── resend-verification.php
 ├── reset-password.php
 ├── upoznavanje.php
@@ -384,11 +400,8 @@ Projekt koristi:
 
 - MVC arhitektura
 - Real-time chat
-- API integracija za putovanja
-- Recommendation engine
 - Push notifikacije
 - Mobile responsive improvements
-- Real-time friend notifications
 
 ---
 
