@@ -47,6 +47,7 @@ function get_svg_inner(string $path): string
     <link rel="icon" type="image/x-icon" href="media/svg/LOGO.svg">
 </head>
 <body>
+<div class="customer-bg" id="parallaxBg"></div>
 <div class="profile-bg" id="parallaxBg"></div>
 <div class="page-transition" id="pageTransition">
     <img src="media/svg/roo-happy.svg" alt="Roo loading">
