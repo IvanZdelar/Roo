@@ -70,12 +70,9 @@ function get_svg_inner(string $path): string
                     <g id="baseRoo">
                         <?= get_svg_inner(__DIR__ . '/media/svg/roo.svg') ?>
                     </g>
-                    <image id="layerShirt" href="" x="15" y="85" 
-                           width="95" height="80" style="display:none"/>
-                    <image id="layerHat"   href="" x="28" y="-15" 
-                           width="70" height="50" style="display:none"/>
-                    <image id="layerHand"  href="" x="-20" y="90"  
-                           width="55" height="55" style="display:none"/>
+                    <image id="layerShirt" href="" style="display:none"/>
+                    <image id="layerHat"   href="" style="display:none"/>
+                    <image id="layerHand"  href="" style="display:none"/>
                 </svg>
             </div>
         </div>
@@ -118,15 +115,11 @@ function get_svg_inner(string $path): string
                         };
                     ?>
                     <div class="mascot-item-card <?= ($mascot[$slot] ?? '') === $item['id'] ? 'selected' : '' ?>"
-                         data-slot="<?= $slot ?>"
-                         data-value="<?= $item['id'] ?>"
-                         data-layer="<?= $layerId ?>"
-                         data-file="media/svg/mascot/<?= $item['file'] ?>"
-                         data-x="<?= $item['pos']['x'] ?>"
-                         data-y="<?= $item['pos']['y'] ?>"
-                         data-w="<?= $item['pos']['w'] ?>"
-                         data-h="<?= $item['pos']['h'] ?>">
-                        <img src="media/svg/mascot/<?= $item['file'] ?>" alt="">
+                    data-slot="<?= $slot ?>"
+                    data-value="<?= $item['id'] ?>"
+                    data-layer="<?= $layerId ?>"
+                    data-file="media/svg/mascot/<?= $item['file'] ?>">
+                    <img src="media/svg/mascot/<?= $item['file'] ?>" alt="">
                         <?php if (!empty($item['locked'])): ?>
                             <div class="mascot-lock">🔒</div>
                         <?php endif; ?>

@@ -44,10 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (file) {
                 layer.setAttribute('href', file);
-                layer.setAttribute('x', x);
-                layer.setAttribute('y', y);
-                layer.setAttribute('width', w);
-                layer.setAttribute('height', h);
+
+                layer.setAttributeNS(
+                    'http://www.w3.org/1999/xlink',
+                    'href',
+                    file
+                );
                 layer.style.display = 'block';
             } else {
                 layer.setAttribute('href', '');
@@ -66,10 +68,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!layer) return;
 
         layer.setAttribute('href', file);
-        layer.setAttribute('x', card.dataset.x);
-        layer.setAttribute('y', card.dataset.y);
-        layer.setAttribute('width', card.dataset.w);
-        layer.setAttribute('height', card.dataset.h);
         layer.style.display = 'block';
     });
 });
+
+console.log({
+    slot,
+    value,
+    layerId,
+    file
+});
+
+const h       = this.dataset.h;

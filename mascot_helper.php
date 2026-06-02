@@ -25,12 +25,7 @@ function get_items_catalog(): array
 {
     return [
         'hats' => [
-            [
-                'id'     => 'hat_rajf',
-                'name'   => 'Rozi rajf',
-                'file'   => 'hats/hat-rajf.svg',
-                'pos'    => ['x' => 100, 'y' => -200, 'w' => 100, 'h' => 100],
-            ],
+            ['id' => 'rajf',    'name' => 'Rozi rajf',         'file' => 'hats/hat-rajf.svg'],
             ['id' => 'rajf2', 'name' => 'Narančasti rajf',   'file' => 'hats/hat-rajf2.svg'],
             ['id' => 'rajf3',  'name' => 'Srce rajf',       'file' => 'hats/hat-rajf3.svg'],
             ['id' => 'sesir',  'name' => 'sesir',       'file' => 'hats/hat-sesir.svg'],
