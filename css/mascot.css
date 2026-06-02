@@ -1,0 +1,149 @@
+body{
+    background-color: var(--bijela);
+}
+
+.mascot-page {
+    min-height: 100vh;
+    padding: 80px 20px 40px;
+}
+
+.mascot-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+/* Preview */
+.mascot-preview-frame {
+    position: relative;
+    background: #d9d9d9;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mascot-bg-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+#mascotSVG {
+    position: relative;
+    z-index: 1;
+    width: 70%;
+    height: 70%;
+}
+
+/* Tabs */
+.mascot-selector {
+    background: #d9d9d9;
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.mascot-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.mascot-tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid #bbb;
+    background: transparent;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--tplava);
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
+
+.mascot-tab.active {
+    background: var(--tplava);
+    color: #fff;
+    border-color: var(--tplava);
+}
+
+/* Grid */
+.mascot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.mascot-item-card {
+    background: #fff;
+    border-radius: 16px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    position: relative;
+    transition: all 0.2s;
+    padding: 12px;
+}
+
+.mascot-item-card:hover {
+    transform: translateY(-2px);
+    border-color: #bbb;
+}
+
+.mascot-item-card.selected {
+    border-color: var(--naran);
+}
+
+.mascot-item-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 30%;    
+}
+
+.mascot-empty-icon {
+    font-size: 28px;
+    color: #bbb;
+}
+
+.mascot-lock {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    font-size: 16px;
+}
+
+.mascot-save-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--tplava);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+    box-shadow: 0 6px 16px rgba(41,79,105,0.35);
+}
+
+.mascot-save-btn:hover { opacity: 0.85; }
+
+@media (max-width: 768px) {
+    .mascot-editor { grid-template-columns: 1fr; }
+}
