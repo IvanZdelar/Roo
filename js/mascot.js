@@ -1,27 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const items = document.querySelectorAll('.mascot-item');
 
-    // Postavi inicijalni preview iz već odabranih vrijednosti
-    document.querySelectorAll('.mascot-item.selected').forEach(item => {
-        const file = item.dataset.file;
-        const layerId = item.dataset.layer;
-        if (file) updateLayer(layerId, file);
+    // Tab switching
+    document.querySelectorAll('.mascot-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.mascot-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mascot-grid').forEach(g => g.style.display = 'none');
+
+            this.classList.add('active');
+            document.getElementById('grid-' + this.dataset.category).style.display = 'grid';
+        });
     });
 
-    items.forEach(item => {
-        item.addEventListener('click', function () {
+    // Item selection
+    document.querySelectorAll('.mascot-item-card').forEach(card => {
+        card.addEventListener('click', function () {
+            if (this.dataset.locked) return;
+
             const slot    = this.dataset.slot;
             const value   = this.dataset.value;
-            const file    = this.dataset.file;
             const layerId = this.dataset.layer;
+            const file    = this.dataset.file;
+            const x       = this.dataset.x;
+            const y       = this.dataset.y;
+            const w       = this.dataset.w;
+            const h       = this.dataset.h;
 
-            // Makni selected sa svih u istom slotu
-            document.querySelectorAll(`.mascot-item[data-slot="${slot}"]`)
+            // Deselect others in same slot
+            document.querySelectorAll(`.mascot-item-card[data-slot="${slot}"]`)
                 .forEach(el => el.classList.remove('selected'));
-
             this.classList.add('selected');
 
-            // Ažuriraj hidden input
+            // Update hidden input
             const inputMap = {
                 'hat':       'inputHat',
                 'shirt':     'inputShirt',
@@ -29,21 +38,38 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             document.getElementById(inputMap[slot]).value = value;
 
-            // Ažuriraj layer
-            updateLayer(layerId, file);
+            // Update SVG layer
+            const layer = document.getElementById(layerId);
+            if (!layer) return;
+
+            if (file) {
+                layer.setAttribute('href', file);
+                layer.setAttribute('x', x);
+                layer.setAttribute('y', y);
+                layer.setAttribute('width', w);
+                layer.setAttribute('height', h);
+                layer.style.display = 'block';
+            } else {
+                layer.setAttribute('href', '');
+                layer.style.display = 'none';
+            }
         });
     });
 
-    function updateLayer(layerId, file) {
+    // Init layers from already selected items
+    document.querySelectorAll('.mascot-item-card.selected').forEach(card => {
+        const file    = card.dataset.file;
+        const layerId = card.dataset.layer;
+        if (!file || !layerId) return;
+
         const layer = document.getElementById(layerId);
         if (!layer) return;
 
-        if (file) {
-            layer.src = file;
-            layer.style.display = 'block';
-        } else {
-            layer.src = '';
-            layer.style.display = 'none';
-        }
-    }
+        layer.setAttribute('href', file);
+        layer.setAttribute('x', card.dataset.x);
+        layer.setAttribute('y', card.dataset.y);
+        layer.setAttribute('width', card.dataset.w);
+        layer.setAttribute('height', card.dataset.h);
+        layer.style.display = 'block';
+    });
 });
