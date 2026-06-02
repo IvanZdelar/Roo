@@ -83,7 +83,7 @@ function get_svg_inner(string $path): string
 
             <!-- Tab navigacija -->
             <div class="mascot-tabs">
-                <button class="mascot-tab" data-category="emotion">POZADINA</button>
+                <button class="mascot-tab" data-category="emotion">EMOCIJE</button>
                 <button class="mascot-tab active" data-category="hats">KAPE</button>
                 <button class="mascot-tab" data-category="shirts">MAJICE</button>
                 <button class="mascot-tab" data-category="hand_items">REKVIZITI</button>
