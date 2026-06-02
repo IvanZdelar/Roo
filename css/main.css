@@ -2024,6 +2024,11 @@ body.homepage-body {
     display: grid;
     grid-template-columns: 0.75fr 1fr;
     gap: 1rem;
+    transition: transform 0.25s ease;
+}
+
+.profile-trip-card:hover {
+    transform: translateY(-6px);
 }
 
 .profile-trip-img {
@@ -2458,6 +2463,10 @@ body.homepage-body {
     height: fit-content;
 }
 
+.profile-fridge-box{
+    transition: transform 0.25s ease;
+}
+
 .profile-fridge-box img{
     width: 100%;
 }
@@ -2467,6 +2476,7 @@ body.homepage-body {
     border-radius: 28px;
     background-color: var(--bijela);
     padding: 2rem;
+    transition: transform 0.25s ease;
 }
 
 .profile-minimage-intro-box{
@@ -2507,7 +2517,13 @@ body.homepage-body {
     flex-direction: column;
     align-items: center;
     position: relative;
+    transition: transform 0.25s ease;
 }
+
+.profile-fridge-box:hover, .profile-minigame-intro:hover, .profile-my-status:hover{
+    transform: translateY(-6px);
+}
+
 
 .profile-my-status .profile-main-avatar{
     width: 225px;
@@ -2805,6 +2821,22 @@ body.homepage-body {
 }
 
 .traveler-row-link:hover { background: rgba(0,0,0,0.05); }
+
+#chatbase-bubble-button {
+    position: fixed;
+    bottom: 20px !important;
+    right: 40px !important;
+    width: 60px !important;
+    height: 60px !important;
+    z-index: 1000 !important;
+}
+
+#chatbase-bubble-button div img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 50% !important;
+}
 
 @media (prefers-reduced-motion: reduce) {
     *,

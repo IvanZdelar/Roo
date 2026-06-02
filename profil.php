@@ -359,7 +359,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
-                <div class="profile-main-box">
+                <div class="profile-main-box reveal-right">
                     <div class="profile-main-top">
                         <div class="profile-main-avatar">
                             <?php if ($profileImageSrc): ?>
@@ -688,7 +688,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php endif; ?>
                 </div>
-                <div class="profile-friends-box">
+                <div class="profile-friends-box reveal-right">
                     <h2>PRIJATELJI</h2>
                     <?php if (!empty($friends)): ?>
                         <?php foreach ($friends as $friend): ?>
@@ -837,6 +837,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </section>
             <?php endif; ?>
         </main>
+    <?php include 'chatbot.php'; ?>
     <script src="js/main.js"></script>
     <script src="js/hamburger.js"></script>
 </body>

@@ -214,7 +214,7 @@ function notif_has_reject(string $type, array $n): bool {
     </div>
 
 </div>
-
+<?php include 'chatbot.php'; ?>
 <script src="js/main.js"></script>
 <script src="js/hamburger.js"></script>
 </body>

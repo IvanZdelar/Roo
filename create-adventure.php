@@ -517,7 +517,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
 </form>
     </main>
-
+    <?php include 'chatbot.php'; ?>
     <script src="js/main.js"></script>
     <script src="js/hamburger.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

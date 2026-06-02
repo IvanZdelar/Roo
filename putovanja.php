@@ -194,7 +194,7 @@ function creatorName(array $row): string {
 
     <a href="#" class="discover-more-link discover-more-link-putovanja discover-more-link-nar">OTKRIJ VIŠE >>></a>
 </section>
-
+<?php include 'chatbot.php'; ?>
 <script src="js/main.js"></script>
 <script src="js/hamburger.js"></script>
 </body>

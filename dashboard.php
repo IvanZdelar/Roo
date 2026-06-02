@@ -271,6 +271,7 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="#"><img src="media/svg/twitter.svg" alt="Twitter"></a>
         </div>
     </section>
+    <?php include 'chatbot.php'; ?>
     <script src="js/main.js"></script>
     <script src="js/hamburger.js"></script>
 </body>
