@@ -411,9 +411,6 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </button>
                                 <?php endif; ?>
                             </form>
-                            <a href="razgovori.php?user=<?= $profile_user_id ?>" class="profile-btn edit-btn transition-link">
-                                💬 Pošalji poruku
-                            </a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -751,8 +748,14 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="#" class="discover-more-link">VIŠE>>></a>
                 </div>
             </section>
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">ZABILJEŽI SVOJ KILOMETAR</h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue"><?= htmlspecialchars($user['ime']) ?> - KILOMETRI</h1>
+            <?php endif; ?>
             <section class="profile-minigames reveal-up">
+                <?php if ($is_own_profile): ?>
                 <div class="profile-fridge-box">
                     <img src="media/svg/frizider.svg" alt="Fridge">
                 </div>
@@ -787,6 +790,41 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
+                <?php if (!$is_own_profile): ?>
+                <div class="profile-fridge-box">
+                    <img src="media/svg/frizider.svg" alt="Fridge">
+                </div>
+                <div class="profile-minigame-intro">
+                    <div class="profile-minimage-intro-box">
+                        <h2>Popis posjećenih gradova</h2>
+
+                    </div>
+                </div>
+                <div class="profile-my-status">
+                    <h2 class="profile-status-title">TVOJ STATUS</h2>
+                    <div class="profile-main-avatar">
+                        <?php if ($profileImageSrc): ?>
+                            <img src="<?= htmlspecialchars($profileImageSrc) ?>" alt="Profilna slika">
+                        <?php else: ?>
+                            <img src="media/svg/roo-happy.svg" alt="Default">
+                        <?php endif; ?>
+                    </div>
+                        <h2 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h2>
+                        <?= htmlspecialchars($status_nadimak) ?>
+                        <div class="quick-stats-box">
+                            <div class="quick-stat">
+                                <p>PRIJEĐENO</p>
+                                <h3><b class="count-up" data-target="<?= $totalKilometers ?>">0</b>km</h3>
+                            </div>
+                            <div class="quick-stat">
+                                <p>BODOVI</p>
+                                <h3><b class="count-up" data-target="<?= $totalKilometers * 6.7 ?>">0</b></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
             </section>
             <?php if ($is_own_profile): ?>
                 <section class="profile-place-to-stay reveal-up">
