@@ -253,8 +253,10 @@ $participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <aside class="details-right">
 
             <div class="details-creator-card">
-                <img src="<?= htmlspecialchars($profileImage) ?>" alt="">
-                <h3><?= htmlspecialchars($creatorName) ?></h3>
+                <a href="profil.php?id=<?= (int)$adventure['user_id'] ?>">
+                    <img src="<?= htmlspecialchars($profileImage) ?>" alt="">
+                    <h3><?= htmlspecialchars($creatorName) ?></h3>
+                </a>
                 <p>Organizator avanture</p>
             </div>
 

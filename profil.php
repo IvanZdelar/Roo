@@ -3,6 +3,7 @@ session_start();
 require_once 'bootstrap.php';
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
+require_once 'notifications_helper.php';
 
 
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
@@ -10,7 +11,66 @@ if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$logged_user_id  = (int)$_SESSION['user_id'];
+$profile_user_id = isset($_GET['id']) ? (int)$_GET['id'] : $logged_user_id;
+$is_own_profile  = $profile_user_id === $logged_user_id;
+
+if (!$is_own_profile && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['send_friend_request'])) {
+        create_notification($pdo, $profile_user_id, 'friend_request', $logged_user_id, null);
+        header('Location: profil.php?id=' . $profile_user_id);
+        exit;
+    }
+
+    if (isset($_POST['cancel_friend_request']) && $pending_notif_id) {
+        $stmt = $pdo->prepare("DELETE FROM notifications WHERE id = ? AND from_user_id = ?");
+        $stmt->execute([$pending_notif_id, $logged_user_id]);
+        header('Location: profil.php?id=' . $profile_user_id);
+        exit;
+    }
+
+    if (isset($_POST['remove_friend'])) {
+        $stmt = $pdo->prepare("
+            DELETE FROM friendships
+            WHERE (user_one = ? AND user_two = ?)
+               OR (user_one = ? AND user_two = ?)
+        ");
+        $stmt->execute([$logged_user_id, $profile_user_id, $profile_user_id, $logged_user_id]);
+        header('Location: profil.php?id=' . $profile_user_id);
+        exit;
+    }
+}
+
+$friendship_status = null;
+$pending_notif_id  = null;
+
+if (!$is_own_profile) {
+    // Postoji li već prijateljstvo?
+    $stmt = $pdo->prepare("
+        SELECT id FROM friendships
+        WHERE (user_one = ? AND user_two = ?)
+           OR (user_one = ? AND user_two = ?)
+    ");
+    $stmt->execute([$logged_user_id, $profile_user_id, $profile_user_id, $logged_user_id]);
+    
+    if ($stmt->fetch()) {
+        $friendship_status = 'friends';
+    } else {
+        // Postoji li pending zahtjev?
+        $stmt = $pdo->prepare("
+            SELECT id FROM notifications
+            WHERE user_id = ? AND from_user_id = ? 
+            AND type = 'friend_request' AND status = 'pending'
+        ");
+        $stmt->execute([$profile_user_id, $logged_user_id]);
+        $pending = $stmt->fetch();
+        
+        if ($pending) {
+            $friendship_status = 'pending';
+            $pending_notif_id  = $pending['id'];
+        }
+    }
+}
 
 $stmt = $pdo->prepare("
     SELECT *
@@ -20,7 +80,7 @@ $stmt = $pdo->prepare("
     ORDER BY created_at DESC
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $activeAdventures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -32,7 +92,7 @@ $stmt = $pdo->prepare("
     ORDER BY created_at DESC
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $completedAdventures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,7 +103,7 @@ $stmt = $pdo->prepare("
     AND status = 'completed'
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $totalCompletedTrips = $stmt->fetchColumn();
 
@@ -54,7 +114,7 @@ $stmt = $pdo->prepare("
     AND status = 'completed'
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $totalKilometers = $stmt->fetchColumn();
 
@@ -63,7 +123,7 @@ $stmt = $pdo->prepare("
     FROM users
     WHERE id = ?
 ");
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 $user = $stmt->fetch();
 
 $stmt = $pdo->prepare("
@@ -73,7 +133,7 @@ $stmt = $pdo->prepare("
     AND status = 'completed'
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $totalAdventures = $stmt->fetchColumn();
 
@@ -84,7 +144,7 @@ $stmt = $pdo->prepare("
     OR user_two = ?
 ");
 
-$stmt->execute([$user_id, $user_id]);
+$stmt->execute([$profile_user_id, $profile_user_id]);
 
 $totalFriends = $stmt->fetchColumn();
 
@@ -94,7 +154,7 @@ $stmt = $pdo->prepare("
     WHERE user_id = ?
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $totalParticipants = $stmt->fetchColumn();
 
@@ -109,7 +169,7 @@ $stmt = $pdo->prepare("
     WHERE user_id = ?
     ORDER BY id ASC
 ");
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 $interests = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 $korisnicko_ime = trim($user['korisnicko_ime'] ?? '');
@@ -167,7 +227,7 @@ $stmt = $pdo->prepare("
     ORDER BY ap.created_at DESC
 ");
 
-$stmt->execute([$user_id]);
+$stmt->execute([$profile_user_id]);
 
 $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -200,7 +260,7 @@ $stmt = $pdo->prepare("
     ORDER BY total_km DESC
 ");
 
-$stmt->execute([$user_id, $user_id]);
+$stmt->execute([$profile_user_id, $profile_user_id]);
 
 $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -228,9 +288,16 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include 'nav.php'; ?>
 
         <main class="profile-page-wrap">
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">
-                MOJI PODACI
+                TVOJI PODACI
             </h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue">
+                BOK, JA SAM <?= htmlspecialchars($user['ime'] . ' ' . $user['prezime']) ?>!
+            </h1>
+            <?php endif; ?>
             <section class="profile-top-grid reveal-up">
                 <div class="profile-left-column">
                     <div class="profile-stats-box">
@@ -325,19 +392,39 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                     <div class="profile-actions">
-                        <a href="kviz.php" class="profile-btn edit-btn transition-link">
-                            ✏️ Uredi profil
-                        </a>
-
-                        <a href="logout.php" class="profile-btn logout-btn transition-link">
-                            🚪 Logout
-                        </a>
+                        <?php if ($is_own_profile): ?>
+                            <a href="kviz.php" class="profile-btn edit-btn transition-link">✏️ Uredi profil</a>
+                            <a href="logout.php" class="profile-btn logout-btn transition-link">🚪 Logout</a>
+                        <?php else: ?>
+                            <form method="POST">
+                                <?php if ($friendship_status === 'friends'): ?>
+                                    <button type="submit" name="remove_friend" class="profile-btn friend-btn friend-remove">
+                                        ✓ Prijatelji &nbsp;·&nbsp; Ukloni
+                                    </button>
+                                <?php elseif ($friendship_status === 'pending'): ?>
+                                    <button type="submit" name="cancel_friend_request" class="profile-btn friend-btn friend-pending">
+                                        ⏳ Zahtjev poslan &nbsp;·&nbsp; Otkaži
+                                    </button>
+                                <?php else: ?>
+                                    <button type="submit" name="send_friend_request" class="profile-btn friend-btn friend-add">
+                                        + Dodaj prijatelja
+                                    </button>
+                                <?php endif; ?>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </section>
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">
-                AKTIVNE AVANTURE
+                TVOJE AKTIVNE AVANTURE
             </h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue">
+                MOJE AKTIVNE AVANTURE
+            </h1>
+            <?php endif; ?>
             <section class="profile-trips-box profile-active-trips reveal-up">
                 <?php if (!empty($activeAdventures)): ?>
                     <?php foreach ($activeAdventures as $adventure): ?>
@@ -401,15 +488,28 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="profile-empty-trips">
+                        <?php if ($is_own_profile): ?>
                         <h3>Trenutno nemaš aktivnih avantura.</h3>
                         <p>Kreni planirati svoje novo putovanje s Roo.</p>
-                        <a href="create-adventure.php" class="hero-btn-home small-btn transition-link">OSMISLI PUTOVANJE</a>
+                            <a href="create-adventure.php" class="hero-btn-home small-btn transition-link">OSMISLI PUTOVANJE</a>
+                        <?php endif; ?>
+                        <?php if (!$is_own_profile): ?>
+                        <h3><?= htmlspecialchars($user['ime']) ?> još nema aktivnih avantura.</h3>
+                        <p>Kada osmisliti novo putovanje, pojavit će se ovdje.</p>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </section>
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">
-                ZAVRŠENE AVANTURE
+                TVOJE ZAVRŠENE AVANTURE
             </h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue">
+                MOJE ZAVRŠENE AVANTURE
+            </h1>
+            <?php endif; ?>
             <section class="profile-trips-box profile-finished-trips reveal-up">
                     <?php if (!empty($completedAdventures)): ?>
                         <?php foreach ($completedAdventures as $adventure): ?>
@@ -483,6 +583,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="profile-empty-trips">
+                            <?php if ($is_own_profile): ?>
                             <h3>
                                 Još nemaš završenih avantura.
                             </h3>
@@ -490,16 +591,37 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 Kada završiš putovanje,
                                 pojavit će se ovdje.
                             </p>
+                            <?php endif; ?>
+                            <?php if (!$is_own_profile): ?>
+                            <h3>
+                                <?= htmlspecialchars($user['ime'])?> još nije završio svoje avanture.
+                            </h3>
+                            <p>
+                                Kada završi putovanje,
+                                pojavit će se ovdje.
+                            </p>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </section>
             <section class="profile-bottom-grid reveal-up">
                 <div class="profile-gallery-box">
                     <div class="gallery-top-row">
-                        <h1>MOJA GALERIJA</h1>
-                        <a href="create-post.php" class="hero-btn-home small-btn transition-link">
+                        <?php if ($is_own_profile): ?>
+                        <h1>
+                            TVOJE OBJAVE
+                        </h1>
+                        <?php endif; ?>
+                        <?php if (!$is_own_profile): ?>
+                        <h1>
+                            OVO SU MOJE OBJAVE
+                        </h1>
+                        <?php endif; ?>
+                        <?php if ($is_own_profile): ?>
+                            <a href="create-post.php" class="hero-btn-home small-btn transition-link">
                             + NOVA OBJAVA
                         </a>
+                        <?php endif; ?>
                     </div>
                     <?php if (!empty($posts)): ?>
                         <div class="profile-gallery-grid">
@@ -541,6 +663,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php else: ?>
                         <div class="profile-empty-trips">
+                            <?php if ($is_own_profile): ?>
                             <h3>
                                 Još nema objava.
                             </h3>
@@ -553,6 +676,15 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             >
                                 STVORI OBJAVU
                             </a>
+                            <?php endif; ?>
+                            <?php if (!$is_own_profile): ?>
+                            <h3>
+                                <?= htmlspecialchars($user['ime'])?> još nije podijelio objave.
+                            </h3>
+                            <p>
+                                Kada podijeli uspomene sa svojih avantura, pojavit će se ovdje.
+                            </p>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -578,7 +710,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     }
                                 }
                             ?>
-                            <div class="traveler-row">
+                            <a href="profil.php?id=<?= (int)$friend['id'] ?>" class="traveler-row traveler-row-link">
                                 <div class="traveler-avatar">
                                     <img
                                         src="<?= htmlspecialchars($friendImage) ?>"
@@ -601,16 +733,29 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </strong>km
                                     </p>
                                 </div>
-                            </div>
+                            </a>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>Još nemaš prijatelja.</p>
+                        <?php if ($is_own_profile): ?>
+                            <p>Još nemaš prijatelja.</p>
+                            <p>Kreni istraživati, upoznavati ljude i stvarati prijateljstva!</p>
+                        <?php endif; ?>
+                        <?php if (!$is_own_profile): ?>
+                            <p><?= htmlspecialchars($user['ime']) ?> još nema prijatelja.</p>
+                            <p>Dodaj ga kao prijatelja i putujte zajedno!</p>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <a href="#" class="discover-more-link">VIŠE>>></a>
                 </div>
             </section>
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">ZABILJEŽI SVOJ KILOMETAR</h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue"><?= htmlspecialchars($user['ime']) ?> - KILOMETRI</h1>
+            <?php endif; ?>
             <section class="profile-minigames reveal-up">
+                <?php if ($is_own_profile): ?>
                 <div class="profile-fridge-box">
                     <img src="media/svg/frizider.svg" alt="Fridge">
                 </div>
@@ -645,15 +790,52 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
+                <?php if (!$is_own_profile): ?>
+                <div class="profile-fridge-box">
+                    <img src="media/svg/frizider.svg" alt="Fridge">
+                </div>
+                <div class="profile-minigame-intro">
+                    <div class="profile-minimage-intro-box">
+                        <h2>Popis posjećenih gradova</h2>
+
+                    </div>
+                </div>
+                <div class="profile-my-status">
+                    <h2 class="profile-status-title">TVOJ STATUS</h2>
+                    <div class="profile-main-avatar">
+                        <?php if ($profileImageSrc): ?>
+                            <img src="<?= htmlspecialchars($profileImageSrc) ?>" alt="Profilna slika">
+                        <?php else: ?>
+                            <img src="media/svg/roo-happy.svg" alt="Default">
+                        <?php endif; ?>
+                    </div>
+                        <h2 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h2>
+                        <?= htmlspecialchars($status_nadimak) ?>
+                        <div class="quick-stats-box">
+                            <div class="quick-stat">
+                                <p>PRIJEĐENO</p>
+                                <h3><b class="count-up" data-target="<?= $totalKilometers ?>">0</b>km</h3>
+                            </div>
+                            <div class="quick-stat">
+                                <p>BODOVI</p>
+                                <h3><b class="count-up" data-target="<?= $totalKilometers * 6.7 ?>">0</b></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
             </section>
-            <section class="profile-place-to-stay reveal-up">
-                 <h1 class="stay-title section-title-blue">PONUDI SMJEŠTAJ</h1><br>
-                <strong>
-                    Imaš sobu viška ili apartman koji želiš posuditi?
-                </strong>
-                <p>Ne dopusti da ti prostor skuplja prašinu. Pretvori ga u u bazu za nove svjetkse putnike.</p>
-                <button type="button" class="wizard-arrow stay-btn"><img src="media/svg/nextBtn.svg" alt="dalje"></button>
-            </section>
+            <?php if ($is_own_profile): ?>
+                <section class="profile-place-to-stay reveal-up">
+                    <h1 class="stay-title section-title-blue">PONUDI SMJEŠTAJ</h1><br>
+                    <strong>
+                        Imaš sobu viška ili apartman koji želiš posuditi?
+                    </strong>
+                    <p>Ne dopusti da ti prostor skuplja prašinu. Pretvori ga u u bazu za nove svjetkse putnike.</p>
+                    <button type="button" class="wizard-arrow stay-btn"><img src="media/svg/nextBtn.svg" alt="dalje"></button>
+                </section>
+            <?php endif; ?>
         </main>
     <script src="js/main.js"></script>
     <script src="js/hamburger.js"></script>
