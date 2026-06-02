@@ -398,7 +398,7 @@ Projekt koristi:
 
 # Buduća poboljšanja
 
-- MVC arhitektura
+- Migracija na MVC arhitekturu
 - Real-time chat
 - Push notifikacije
 - Mobile responsive improvements
