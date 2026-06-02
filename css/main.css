@@ -2806,6 +2806,22 @@ body.homepage-body {
 
 .traveler-row-link:hover { background: rgba(0,0,0,0.05); }
 
+#chatbase-bubble-button {
+    position: fixed;
+    bottom: 20px !important;
+    right: 40px !important;
+    width: 60px !important;
+    height: 60px !important;
+    z-index: 1000 !important;
+}
+
+#chatbase-bubble-button div img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border-radius: 50% !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
