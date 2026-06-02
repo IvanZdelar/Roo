@@ -15,6 +15,7 @@
     include 'nav.php';
     ?>
     uskoro😉
+    <?php include 'chatbot.php'; ?>
     <script src="js/main.js"></script>
     <script src="js/hamburger.js"></script>
 </body>
