@@ -335,27 +335,29 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="profile-middle-grid">
-                        <div class="profile-side-badges">
-                            <h3>ZNAČKE</h3>
-                            <div class="profile-side-badges-grid">
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                                <div class="mini-badge empty">+</div>
-                            </div>
-                        </div>
 
-                        <div class="profile-mascot-card">
-                            <img class="profile-mascot-placeholder" src="media/svg/maskot.svg">
-                        </div>
+                        <a href="customize-mascot.php" class="profile-mascot-card transition-link" title="Uredi Roo-a">
+                            <div class="mascot-preview">
+                                <img src="media/svg/roo.svg">
+                                <?php
+                                require_once 'mascot_helper.php';
+                                $my_mascot = get_user_mascot($pdo, $user_id);
+                                $catalog   = get_items_catalog();
+                                $all_items = array_merge($catalog['hats'], $catalog['shirts'], $catalog['hand_items']);
+
+                                foreach (['shirt' => 'layerShirt', 'hat' => 'layerHat', 'hand_item' => 'layerHand'] as $slot => $layerId):
+                                    $equipped = $my_mascot[$slot] ?? null;
+                                    if (!$equipped) continue;
+                                    $item = array_filter($all_items, fn($i) => $i['id'] === $equipped);
+                                    $item = array_values($item)[0] ?? null;
+                                    if (!$item) continue;
+                                ?>
+                                    <img src="media/svg/mascot/<?= htmlspecialchars($item['file']) ?>"
+                                        style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+                                <?php endforeach; ?>
+                            </div>
+                            <p>✏️ Uredi Roo-a</p>
+                        </a>
                     </div>
                 </div>
 
