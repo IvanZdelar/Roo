@@ -1938,7 +1938,7 @@ body.homepage-body {
     text-decoration: none;
 }
 
-.profile-mascot-card:hover .profile-mascot-placeholder{
+.profile-mascot-card:hover .mascot-preview img{
     animation: maskota 1s ease-out;
 }
 
@@ -1956,10 +1956,10 @@ body.homepage-body {
 }
 
 .mascot-preview{
-    width:90%;
+    width:60%;
     height:100% !important;
     position:relative;
-    margin:0;
+    margin: 0;
 }
 
 .mascot-preview img{
