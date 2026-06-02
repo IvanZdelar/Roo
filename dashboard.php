@@ -205,7 +205,7 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         }
                     }
                 ?>
-                <div class="traveler-row">
+                <a href="profil.php?id=<?= (int)$traveler['id'] ?>" class="traveler-row traveler-row-link">
                     <div class="traveler-avatar">
                         <img
                             src="<?= htmlspecialchars($travelerImage) ?>"
@@ -228,7 +228,7 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </strong>km
                         </p>
                     </div>
-                </div>
+                </a>
             <?php endforeach; ?>
             </div>
             <div class="status-box reveal-right">

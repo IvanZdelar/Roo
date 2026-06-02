@@ -65,8 +65,24 @@ $stmt = $pdo->prepare("
         distance_km = ?
     WHERE id = ?
 ");
-
 $stmt->execute([$distanceKm, $adventureId]);
+
+// Dohvati sudionike i kreiraj im kopiju završene avanture
+$stmt = $pdo->prepare("
+    SELECT user_id FROM adventure_participants 
+    WHERE adventure_id = ? AND role = 'participant'
+");
+$stmt->execute([$adventureId]);
+$participants = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+foreach ($participants as $participant_id) {
+    $stmt = $pdo->prepare("
+        INSERT INTO adventures (user_id, naziv, destination, distance_km, status, trip_type, budget_per_day, transport_mode, travel_with, created_at)
+        SELECT ?, naziv, destination, ?, 'completed', trip_type, budget_per_day, transport_mode, travel_with, NOW()
+        FROM adventures WHERE id = ?
+    ");
+    $stmt->execute([$participant_id, $distanceKm, $adventureId]);
+}
 
 header('Location: profil.php');
 exit;

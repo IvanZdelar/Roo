@@ -105,6 +105,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
     header('Location: adventure-details.php?id=' . $adventureId);
     exit;
 }
+
+// Dohvati sudionike avanture
+$stmt = $pdo->prepare("
+    SELECT u.id, u.korisnicko_ime, u.ime, u.prezime, u.profilna_slika, u.title
+    FROM adventure_participants ap
+    JOIN users u ON u.id = ap.user_id
+    WHERE ap.adventure_id = ? AND ap.role = 'participant'
+");
+$stmt->execute([$adventureId]);
+$participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -243,13 +253,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
         <aside class="details-right">
 
             <div class="details-creator-card">
-                <img src="<?= htmlspecialchars($profileImage) ?>" alt="">
-                <h3><?= htmlspecialchars($creatorName) ?></h3>
+                <a href="profil.php?id=<?= (int)$adventure['user_id'] ?>">
+                    <img src="<?= htmlspecialchars($profileImage) ?>" alt="">
+                    <h3><?= htmlspecialchars($creatorName) ?></h3>
+                </a>
                 <p>Organizator avanture</p>
             </div>
 
             <div class="details-card">
-                <h2>👥 Travel Buddy</h2>
+                <h2>Travel Buddy</h2>
 
                 <?php if ($isBuddyOpen): ?>
                     <p>Ova avantura prima nove putnike.</p>
@@ -272,6 +284,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
                     <p>Ova avantura trenutno nije otvorena za druge korisnike.</p>
                 <?php endif; ?>
             </div>
+            <?php if (!empty($participants)): ?>
+            <div class="details-card">
+                <h2>Sudionici avanture</h2>
+                <div class="details-participants">
+                    <?php foreach ($participants as $p): ?>
+                        <?php
+                        $pName = trim($p['korisnicko_ime'] ?: ($p['ime'] . ' ' . $p['prezime'])) ?: 'Korisnik';
+                        $pImg  = 'media/svg/roo-happy.svg';
+                        if (!empty($p['profilna_slika'])) {
+                            $cleanPath = ltrim($p['profilna_slika'], '/');
+                            if (file_exists(__DIR__ . '/' . $cleanPath)) {
+                                $pImg = $cleanPath;
+                            }
+                        }
+                        ?>
+                        <a href="profil.php?id=<?= (int)$p['id'] ?>" class="details-participant-item">
+                            <img src="<?= htmlspecialchars($pImg) ?>" alt="">
+                            <div class="details-participant-info">
+                                <strong><?= htmlspecialchars($pName) ?></strong>
+                                <span><?= htmlspecialchars($p['title'] ?? 'Putnik') ?></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
             <?php if ((int)$adventure['user_id'] === (int)$_SESSION['user_id']): ?>
                 <?php if (($adventure['status'] ?? 'active') !== 'completed'): ?>
                     <div class="details-complete-box">
@@ -279,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_adventure'])) {
                             href="complete-adventure.php?id=<?= (int)$adventure['id'] ?>"
                             class="details-complete-btn"
                         >
-                            ✅ Označi avanturu završenom
+                            Označi avanturu završenom
                         </a>
                     </div>
                 <?php else: ?>
