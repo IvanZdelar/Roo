@@ -288,9 +288,16 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include 'nav.php'; ?>
 
         <main class="profile-page-wrap">
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">
-                MOJI PODACI
+                TVOJI PODACI
             </h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue">
+                BOK, JA SAM <?= htmlspecialchars($user['ime'] . ' ' . $user['prezime']) ?>!
+            </h1>
+            <?php endif; ?>
             <section class="profile-top-grid reveal-up">
                 <div class="profile-left-column">
                     <div class="profile-stats-box">
@@ -411,9 +418,16 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </section>
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">
-                AKTIVNE AVANTURE
+                TVOJE AKTIVNE AVANTURE
             </h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue">
+                MOJE AKTIVNE AVANTURE
+            </h1>
+            <?php endif; ?>
             <section class="profile-trips-box profile-active-trips reveal-up">
                 <?php if (!empty($activeAdventures)): ?>
                     <?php foreach ($activeAdventures as $adventure): ?>
@@ -477,17 +491,28 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="profile-empty-trips">
+                        <?php if ($is_own_profile): ?>
                         <h3>Trenutno nemaš aktivnih avantura.</h3>
                         <p>Kreni planirati svoje novo putovanje s Roo.</p>
-                        <?php if ($is_own_profile): ?>
                             <a href="create-adventure.php" class="hero-btn-home small-btn transition-link">OSMISLI PUTOVANJE</a>
+                        <?php endif; ?>
+                        <?php if (!$is_own_profile): ?>
+                        <h3><?= htmlspecialchars($user['ime']) ?> još nema aktivnih avantura.</h3>
+                        <p>Kada osmisliti novo putovanje, pojavit će se ovdje.</p>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </section>
+            <?php if ($is_own_profile): ?>
             <h1 class="profile-section-title section-title-blue">
-                ZAVRŠENE AVANTURE
+                TVOJE ZAVRŠENE AVANTURE
             </h1>
+            <?php endif; ?>
+            <?php if (!$is_own_profile): ?>
+            <h1 class="profile-section-title section-title-blue">
+                MOJE ZAVRŠENE AVANTURE
+            </h1>
+            <?php endif; ?>
             <section class="profile-trips-box profile-finished-trips reveal-up">
                     <?php if (!empty($completedAdventures)): ?>
                         <?php foreach ($completedAdventures as $adventure): ?>
@@ -561,6 +586,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="profile-empty-trips">
+                            <?php if ($is_own_profile): ?>
                             <h3>
                                 Još nemaš završenih avantura.
                             </h3>
@@ -568,13 +594,32 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 Kada završiš putovanje,
                                 pojavit će se ovdje.
                             </p>
+                            <?php endif; ?>
+                            <?php if (!$is_own_profile): ?>
+                            <h3>
+                                <?= htmlspecialchars($user['ime'])?> još nije završio svoje avanture.
+                            </h3>
+                            <p>
+                                Kada završi putovanje,
+                                pojavit će se ovdje.
+                            </p>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </section>
             <section class="profile-bottom-grid reveal-up">
                 <div class="profile-gallery-box">
                     <div class="gallery-top-row">
-                        <h1>MOJA GALERIJA</h1>
+                        <?php if ($is_own_profile): ?>
+                        <h1>
+                            TVOJE OBJAVE
+                        </h1>
+                        <?php endif; ?>
+                        <?php if (!$is_own_profile): ?>
+                        <h1>
+                            OVO SU MOJE OBJAVE
+                        </h1>
+                        <?php endif; ?>
                         <?php if ($is_own_profile): ?>
                             <a href="create-post.php" class="hero-btn-home small-btn transition-link">
                             + NOVA OBJAVA
@@ -621,6 +666,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php else: ?>
                         <div class="profile-empty-trips">
+                            <?php if ($is_own_profile): ?>
                             <h3>
                                 Još nema objava.
                             </h3>
@@ -633,6 +679,15 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             >
                                 STVORI OBJAVU
                             </a>
+                            <?php endif; ?>
+                            <?php if (!$is_own_profile): ?>
+                            <h3>
+                                <?= htmlspecialchars($user['ime'])?> još nije podijelio objave.
+                            </h3>
+                            <p>
+                                Kada podijeli uspomene sa svojih avantura, pojavit će se ovdje.
+                            </p>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -684,7 +739,14 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>Još nemaš prijatelja.</p>
+                        <?php if ($is_own_profile): ?>
+                            <p>Još nemaš prijatelja.</p>
+                            <p>Kreni istraživati, upoznavati ljude i stvarati prijateljstva!</p>
+                        <?php endif; ?>
+                        <?php if (!$is_own_profile): ?>
+                            <p><?= htmlspecialchars($user['ime']) ?> još nema prijatelja.</p>
+                            <p>Dodaj ga kao prijatelja i putujte zajedno!</p>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <a href="#" class="discover-more-link">VIŠE>>></a>
                 </div>
