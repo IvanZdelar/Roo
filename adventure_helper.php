@@ -88,3 +88,29 @@ function getTitleFromXp(int $xp): string
     return 'Dnevni sanjar';
 }
 
+function updateUserTitle(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT total_xp
+        FROM users
+        WHERE id = ?
+    ");
+
+    $stmt->execute([$userId]);
+
+    $xp = (int)$stmt->fetchColumn();
+
+    $title = getTitleFromXp($xp);
+
+    $stmt = $pdo->prepare("
+        UPDATE users
+        SET title = ?
+        WHERE id = ?
+    ");
+
+    $stmt->execute([
+        $title,
+        $userId
+    ]);
+}
+
