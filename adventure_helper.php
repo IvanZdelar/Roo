@@ -114,3 +114,29 @@ function updateUserTitle(PDO $pdo, int $userId): void
     ]);
 }
 
+function checkAdventureAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*)
+        FROM adventures
+        WHERE user_id = ?
+    ");
+
+    $stmt->execute([$userId]);
+
+    $count = (int)$stmt->fetchColumn();
+
+    $map = [
+        1  => 'CREATE_1',
+        5  => 'CREATE_5',
+        10 => 'CREATE_10',
+        25 => 'CREATE_25',
+        50 => 'CREATE_50'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($count >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
