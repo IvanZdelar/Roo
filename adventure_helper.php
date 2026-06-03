@@ -247,3 +247,30 @@ function checkKilometerAchievements(PDO $pdo, int $userId): void
         }
     }
 }
+
+function checkCityAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COUNT(DISTINCT destination)
+        FROM adventures
+        WHERE user_id = ?
+        AND status='completed'
+    ");
+
+    $stmt->execute([$userId]);
+
+    $cities = (int)$stmt->fetchColumn();
+
+    $map = [
+        5  => 'CITY_5',
+        10 => 'CITY_10',
+        25 => 'CITY_25',
+        50 => 'CITY_50'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($cities >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
