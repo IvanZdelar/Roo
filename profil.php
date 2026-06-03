@@ -156,7 +156,7 @@ $stmt = $pdo->prepare("
 
 $stmt->execute([$profile_user_id]);
 
-$totalParticipants = $stmt->fetchColumn();
+$totalJoined = $stmt->fetchColumn();
 
 if (!$user) {
     header('Location: index.php');
