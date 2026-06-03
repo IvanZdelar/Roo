@@ -402,6 +402,11 @@ Projekt koristi:
 - Real-time chat
 - Push notifikacije
 - Mobile responsive improvements
+- Smještaj kod lokalaca
+- Raspodjela na free i premium verzije aplikacije
+- Objavljivanje avantura
+- Više gradova i mjesta
+
 
 ---
 
