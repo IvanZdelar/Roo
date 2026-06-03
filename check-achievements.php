@@ -153,28 +153,6 @@ function check_user_achievements(PDO $pdo, int $user_id): void
     if ($cities >= 10) award_achievement($pdo,$user_id,'CITY_10');
     if ($cities >= 25) award_achievement($pdo,$user_id,'CITY_25');
     if ($cities >= 50) award_achievement($pdo,$user_id,'CITY_50');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | OBJAVE S AVANTURA
-    |--------------------------------------------------------------------------
-    */
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*)
-        FROM adventure_posts
-        WHERE user_id = ?
-    ");
-    $stmt->execute([$user_id]);
-
-    $posts = (int)$stmt->fetchColumn();
-
-    if ($posts >= 1)  award_achievement($pdo,$user_id,'POST_1');
-    if ($posts >= 10) award_achievement($pdo,$user_id,'POST_10');
-    if ($posts >= 25) award_achievement($pdo,$user_id,'POST_25');
-    if ($posts >= 50) award_achievement($pdo,$user_id,'POST_50');
-
-
     /*
     |--------------------------------------------------------------------------
     | PUTOVANJA S DRUGIMA
