@@ -16,8 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_mascot'])) {
     $hat       = $_POST['hat']       ?? null;
     $shirt     = $_POST['shirt']     ?? null;
     $hand_item = $_POST['hand_item'] ?? null;
+    $emotion   = $_POST['emotion']   ?? 'roo';
 
-    save_user_mascot($pdo, $user_id, $hat ?: null, $shirt ?: null, $hand_item ?: null);
+    save_user_mascot($pdo, $user_id, $hat ?: null, $shirt ?: null, $hand_item ?: null, $emotion ?: 'roo');
     header('Location: profil.php');
     exit;
 }
@@ -66,11 +67,12 @@ function get_svg_inner(string $path): string
                 <div class="mascot-bg-layer" id="mascotBg"></div>
                 <!-- SVG maskota s layerima -->
                 <svg id="mascotSVG" viewBox="0 0 127 161" 
-                     xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <g id="baseRoo">
-                        <?= get_svg_inner(__DIR__ . '/media/svg/roo.svg') ?>
-                    </g>
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <!-- Base roo kao image tag koji JS može mijenjati -->
+                    <image id="baseRooImg" 
+                        href="media/svg/<?= htmlspecialchars($mascot['emotion'] ?? 'roo') ?>.svg"
+                        x="0" y="0" width="127" height="161"/>
                     <image id="layerShirt" href="" style="display:none"/>
                     <image id="layerHat"   href="" style="display:none"/>
                     <image id="layerHand"  href="" style="display:none"/>
@@ -92,6 +94,18 @@ function get_svg_inner(string $path): string
             <!-- Grids po kategoriji -->
             <form method="POST" id="mascotForm">
                 <?php foreach (['hats', 'shirts', 'hand_items'] as $category): ?>
+                    <!-- Dodaj GRID za emocije PRIJE ostalih gridova -->
+                <div class="mascot-grid" id="grid-emotion" style="display:none">
+                    <?php foreach ($catalog['emotions'] as $item): ?>
+                    <div class="mascot-item-card <?= ($mascot['emotion'] ?? 'roo') === $item['id'] ? 'selected' : '' ?>"
+                        data-slot="emotion"
+                        data-value="<?= $item['id'] ?>"
+                        data-layer="baseRooImg"
+                        data-file="media/svg/<?= $item['file'] ?>">
+                        <img src="media/svg/<?= $item['file'] ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                    </div>
+                    <?php endforeach; ?>
+                </div>
                 <div class="mascot-grid" id="grid-<?= $category ?>" 
                      style="<?= $category !== 'hats' ? 'display:none' : '' ?>">
                     <?php
@@ -128,7 +142,7 @@ function get_svg_inner(string $path): string
                     <?php endforeach; ?>
                 </div>
                 <?php endforeach; ?>
-
+                <input type="hidden" name="emotion" id="inputEmotion" value="<?= htmlspecialchars($mascot['emotion'] ?? 'roo') ?>">
                 <input type="hidden" name="hat"       id="inputHat"      value="<?= htmlspecialchars($mascot['hat'] ?? '') ?>">
                 <input type="hidden" name="shirt"     id="inputShirt"    value="<?= htmlspecialchars($mascot['shirt'] ?? '') ?>">
                 <input type="hidden" name="hand_item" id="inputHandItem" value="<?= htmlspecialchars($mascot['hand_item'] ?? '') ?>">

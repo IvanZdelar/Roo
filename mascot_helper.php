@@ -7,23 +7,32 @@ function get_user_mascot(PDO $pdo, int $user_id): array
     $stmt->execute([$user_id]);
     $mascot = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $mascot ?: ['hat' => null, 'shirt' => null, 'hand_item' => null, 'unlocked_items' => '[]'];
+    return $mascot ?: ['hat' => null, 'shirt' => null, 'hand_item' => null, 'unlocked_items' => '[]', 'emotion' => 'roo'];
 }
 
-function save_user_mascot(PDO $pdo, int $user_id, ?string $hat, ?string $shirt, ?string $hand_item): void
+function save_user_mascot(PDO $pdo, int $user_id, ?string $hat, ?string $shirt, ?string $hand_item, ?string $emotion): void
 {
     $stmt = $pdo->prepare("
-        INSERT INTO user_mascot (user_id, hat, shirt, hand_item)
-        VALUES (?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE hat = ?, shirt = ?, hand_item = ?
+        INSERT INTO user_mascot (user_id, hat, shirt, hand_item, emotion)
+        VALUES (?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE hat = ?, shirt = ?, hand_item = ?, emotion = ?
     ");
-    $stmt->execute([$user_id, $hat, $shirt, $hand_item, $hat, $shirt, $hand_item]);
+    $stmt->execute([$user_id, $hat, $shirt, $hand_item, $emotion, $hat, $shirt, $hand_item, $emotion]);
 }
 
 // Katalog svih dostupnih predmeta
 function get_items_catalog(): array
 {
     return [
+        'emotions' => [
+            ['id' => 'roo',       'name' => 'Normalan',   'file' => 'roo.svg'],
+            ['id' => 'roo-happy', 'name' => 'Sretan', 'file' => 'roo-happy.svg'],
+            ['id' => 'roo-wink',  'name' => 'Namig',    'file' => 'roo-wink.svg'],
+            ['id' => 'roo-wink',  'name' => 'Namig',    'file' => 'roo-wink.svg'],
+            ['id' => 'roo-sad',   'name' => 'Tužan',    'file' => 'roo-sad.svg'],
+            ['id' => 'roo-mad',  'name' => 'Ljut',    'file' => 'roo-mad.svg'],
+            ['id' => 'roo-sleep',  'name' => 'Spava',    'file' => 'roo-sleep.svg'],
+        ],
         'hats' => [
             ['id' => 'rajf',    'name' => 'Rozi rajf',         'file' => 'hats/hat-rajf.svg'],
             ['id' => 'rajf2', 'name' => 'Narančasti rajf',   'file' => 'hats/hat-rajf2.svg'],
