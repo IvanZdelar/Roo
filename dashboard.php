@@ -269,7 +269,7 @@ $catalog = get_items_catalog();
         <div class="bottom-banner-bg"></div>
         <h2>NE BOJ SE, SVIJET TE ČEKA</h2>
         <div class="bottom-banner-mascot">
-            <?= render_mascot_svg($mascot, $catalog, '100%') ?>
+            <?= render_mascot_svg($mascot, $catalog) ?>
         </div>
         
     </section>

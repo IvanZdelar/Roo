@@ -1357,7 +1357,7 @@ form {
 .bottom-banner-mascot {
     position: absolute;
     left: 60px;
-    width: 100%;
+    width: 400px;
     bottom: 20px;
     z-index: 2;
 }
@@ -1987,7 +1987,7 @@ body.homepage-body {
 }
 
 .profile-trip-card {
-    max-height: 350px !important;
+    max-height: fit-content;
     background: white;
     border: 3px solid var(--naran) !important;
     border-radius: 28px;
@@ -2417,7 +2417,7 @@ body.homepage-body {
 
 .profile-minigames{
     display: grid;
-    grid-template-columns: 0.75fr 1fr 0.75fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
     height: fit-content;
 }
@@ -2505,8 +2505,7 @@ body.homepage-body {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    position: absolute;
-    bottom: 2rem;
+    margin-top: 1rem;
 }
 
 .quick-stat p{
@@ -2980,6 +2979,12 @@ body.homepage-body {
         gap: 1rem;
     }
 
+    .bottom-banner-mascot{
+        width: 300px !important;
+        left: 12px;
+        bottom: 12px;
+    }
+
     .profile-mascot-card {
         height: 280px;
     }
@@ -3141,7 +3146,7 @@ body.homepage-body {
     }
 
     .bottom-banner-mascot {
-        width: 45%;
+        width: 20%;
         left: 10px;
         bottom: 10px;
     }
