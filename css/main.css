@@ -1737,7 +1737,7 @@ body.homepage-body {
     position: relative;
 }
 
-.profile-bg, .putovanja-bg {
+.profile-bg, .putovanja-bg, .customer-bg {
     position: fixed;
     inset: 0;
     width: 100%;

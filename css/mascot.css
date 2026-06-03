@@ -1,17 +1,16 @@
 body{
-    background-color: var(--bijela);
+    background-color: transparent !important;
 }
 
 .mascot-page {
     min-height: 100vh;
-    padding: 80px 20px 40px;
 }
 
 .mascot-editor {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
-    max-width: 1100px;
+    max-width: 80%;
     margin: 0 auto;
     align-items: start;
 }
@@ -19,7 +18,7 @@ body{
 /* Preview */
 .mascot-preview-frame {
     position: relative;
-    background: #d9d9d9;
+    background: var(--bez);
     border-radius: 24px;
     overflow: hidden;
     aspect-ratio: 1;
@@ -45,7 +44,7 @@ body{
 
 /* Tabs */
 .mascot-selector {
-    background: #d9d9d9;
+    background: var(--bez);
     border-radius: 24px;
     padding: 24px;
 }
@@ -60,20 +59,27 @@ body{
 .mascot-tab {
     padding: 8px 20px;
     border-radius: 20px;
-    border: 2px solid #bbb;
+    border: 2px solid var(--naran);
     background: transparent;
     font-weight: 700;
     font-size: 13px;
     cursor: pointer;
-    color: var(--tplava);
+    color: var(--naran);
     transition: all 0.2s;
     letter-spacing: 1px;
 }
 
+.mascot-tab:hover {
+    border-color: var(--tplava);
+    color: var(--tplava);
+    scale: 1.05;
+}
+
 .mascot-tab.active {
     background: var(--tplava);
-    color: #fff;
+    color: var(--bijela);
     border-color: var(--tplava);
+    scale: 1.05;
 }
 
 /* Grid */
@@ -85,7 +91,7 @@ body{
 }
 
 .mascot-item-card {
-    background: #fff;
+    background: var(--bijela);
     border-radius: 16px;
     aspect-ratio: 1;
     display: flex;
@@ -96,28 +102,30 @@ body{
     position: relative;
     transition: all 0.2s;
     padding: 12px;
+    overflow: hidden;
 }
 
 .mascot-item-card:hover {
     transform: translateY(-2px);
-    border-color: #bbb;
+    border-color: var(--naran);
 }
 
 .mascot-item-card.selected {
     border-color: var(--naran);
 }
 
-.mascot-item-card img {
+.mascot-item-card svg {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    position: absolute;
-    top: 30%;    
+}
+
+.mascot-grid#grid-hand_items .mascot-item-card img {
+    transform: scale(2);
 }
 
 .mascot-empty-icon {
     font-size: 28px;
-    color: #bbb;
+    color: var(--naran);
 }
 
 .mascot-lock {
@@ -131,7 +139,7 @@ body{
     width: 100%;
     padding: 14px;
     background: var(--tplava);
-    color: #fff;
+    color: var(--bijela);
     border: none;
     border-radius: 12px;
     font-size: 1rem;
@@ -140,10 +148,27 @@ body{
     letter-spacing: 1px;
     transition: opacity 0.2s;
     box-shadow: 0 6px 16px rgba(41,79,105,0.35);
+    transition: all 0.2s;
 }
 
-.mascot-save-btn:hover { opacity: 0.85; }
+.mascot-save-btn:hover {
+    color: var(--naran);
+}
+
+@media (max-width: 1024px) {
+    .mascot-editor { grid-template-columns: 1fr; }
+}
 
 @media (max-width: 768px) {
     .mascot-editor { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .mascot-editor {
+        max-width: 90%;
+    }
+
+    .mascot-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
