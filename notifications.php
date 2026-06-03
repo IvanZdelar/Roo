@@ -91,13 +91,15 @@ function notif_label(string $type): string {
 function notif_text(array $n): string {
     $from = htmlspecialchars(trim($n['korisnicko_ime'] ?: ($n['ime'] . ' ' . $n['prezime'])) ?: 'Korisnik');
     return match($n['type']) {
-        'achievement'     => htmlspecialchars($n['message'] ?? 'Osvojio si novi achievement!'),
-        'buddy_request'   => "{$from} želi se pridružiti tvojoj avanturi. Pogledaj profil i baci mu poruku!",
+        'achievement'     => !empty($n['message']) 
+                             ? htmlspecialchars($n['message']) 
+                             : 'Osvojio si novi achievement!',
+        'buddy_request'   => "{$from} želi se pridružiti tvojoj avanturi.",
         'buddy_accepted'  => "{$from} je prihvatio tvoj zahtjev za pridruživanje avanturi.",
         'friend_request'  => "{$from} šalje ti zahtjev za prijateljstvo.",
         'friend_accepted' => "{$from} je prihvatio tvoj zahtjev za prijateljstvo!",
-        'sleep_request'   => "{$from} želi prespavati kod tebe. Provjeri detalje!",
-        'sleep_accepted'  => "{$from} je prihvatila tvoj upit za sobu! Pripremi ruksak i dogovori detalje oko kave.",
+        'sleep_request'   => "{$from} želi prespavati kod tebe.",
+        'sleep_accepted'  => "{$from} je prihvatila tvoj upit za sobu!",
         default           => 'Nova obavijest.',
     };
 }

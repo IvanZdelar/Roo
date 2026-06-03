@@ -3,7 +3,6 @@ session_start();
 require_once 'bootstrap.php';
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
-require_once 'check-achievements.php';
 
 $user_id = $_SESSION['user_id'];
 
@@ -207,8 +206,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->commit();
 
-            check_user_achievements($pdo, $userId);
-
             $success = 'Avantura je uspješno spremljena!';
 
             if ($isAjax) {
@@ -230,6 +227,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+    require_once 'check-achievements.php';
+    check_user_achievements($pdo, $user_id);
 }
 ?>
 <!DOCTYPE html>

@@ -64,6 +64,9 @@ if ($action === 'seen') {
             VALUES (?, 'friend_accepted', ?, ?)
         ");
         $stmt->execute([$notif['from_user_id'], $user_id, $notif['reference_id']]);
+        require_once 'check-achievements.php';
+        check_user_achievements($pdo, $user_id);
+        check_user_achievements($pdo, $notif['from_user_id']);
 
     } elseif ($type === 'buddy_request') {
         $stmt = $pdo->prepare("
@@ -86,6 +89,8 @@ if ($action === 'seen') {
         ");
         $stmt->execute([$notif['from_user_id'], $user_id, $notif['reference_id']]);
 
+        require_once 'check-achievements.php';
+        check_user_achievements($pdo, $notif['from_user_id']);
     } elseif ($type === 'sleep_request') {
         $stmt = $pdo->prepare("
             INSERT INTO notifications (user_id, type, from_user_id, reference_id) 

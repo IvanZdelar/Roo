@@ -84,5 +84,12 @@ foreach ($participants as $participant_id) {
     $stmt->execute([$participant_id, $distanceKm, $adventureId]);
 }
 
+require_once 'check-achievements.php';
+check_user_achievements($pdo, $userId);
+// I za sve sudionike:
+foreach ($participants as $participant_id) {
+    check_user_achievements($pdo, $participant_id);
+}
+
 header('Location: profil.php');
 exit;
