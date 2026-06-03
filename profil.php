@@ -204,32 +204,25 @@ $interest_text = !empty($interests) ? implode(', ', $interests) : 'Još nema oda
 
 $stmt = $pdo->prepare("
     SELECT
-        ap.id,
-        ap.title,
-        ap.description,
-        ap.created_at,
+        a.id,
+        a.naziv        AS title,
         a.destination,
-
-        (
-            SELECT image_path
-            FROM adventure_post_images
-            WHERE post_id = ap.id
-            LIMIT 1
-        ) AS cover_image
-
-    FROM adventure_posts ap
-
-    INNER JOIN adventures a
-        ON ap.adventure_id = a.id
-
-    WHERE ap.user_id = ?
-
-    ORDER BY ap.created_at DESC
+        a.trip_type,
+        a.budget_per_day,
+        a.adventure_image,
+        a.status,
+        u.korisnicko_ime,
+        u.ime,
+        u.prezime,
+        sa.saved_at
+    FROM saved_adventures sa
+    INNER JOIN adventures a ON a.id = sa.adventure_id
+    INNER JOIN users u      ON u.id = a.user_id
+    WHERE sa.user_id = ?
+    ORDER BY sa.saved_at DESC
 ");
-
 $stmt->execute([$profile_user_id]);
-
-$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$saved_adventures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $pdo->prepare("
     SELECT 
@@ -619,83 +612,68 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <section class="profile-bottom-grid reveal-up">
                 <div class="profile-gallery-box">
                     <div class="gallery-top-row">
-                        <?php if ($is_own_profile): ?>
-                        <h1>
-                            TVOJE OBJAVE
-                        </h1>
-                        <?php endif; ?>
-                        <?php if (!$is_own_profile): ?>
-                        <h1>
-                            OVO SU MOJE OBJAVE
-                        </h1>
-                        <?php endif; ?>
-                        <?php if ($is_own_profile): ?>
-                            <a href="create-post.php" class="hero-btn-home small-btn transition-link">
-                            + NOVA OBJAVA
-                        </a>
-                        <?php endif; ?>
+                        <h1><?= $is_own_profile ? 'SPREMLJENE AVANTURE' : 'SPREMLJENE AVANTURE' ?></h1>
                     </div>
-                    <?php if (!empty($posts)): ?>
+ 
+                    <?php if (!empty($saved_adventures)): ?>
                         <div class="profile-gallery-grid">
-                            <?php foreach ($posts as $post): ?>
-                                <div class="gallery-post-card">
-                                    <?php if (!empty($post['cover_image'])): ?>
-                                        <img
-                                            src="<?= htmlspecialchars($post['cover_image']) ?>"
-                                            class="gallery-post-image"
-                                            alt="Post image"
-                                        >
-                                    <?php else: ?>
-                                        <img
-                                            src="media/slike/map1.jpg"
-                                            class="gallery-post-image"
-                                            alt="Default"
-                                        >
-                                    <?php endif; ?>
+                            <?php foreach ($saved_adventures as $adv): ?>
+                                <?php
+                                    $advImage = 'media/slike/map1.jpg';
+                                    if (!empty($adv['adventure_image'])) {
+                                        $cleanPath = ltrim($adv['adventure_image'], '/');
+                                        if (file_exists(__DIR__ . '/' . $cleanPath)) {
+                                            $advImage = $cleanPath;
+                                        }
+                                    }
+                                    $advCreator = trim($adv['korisnicko_ime'] ?: ($adv['ime'] . ' ' . $adv['prezime'])) ?: 'Korisnik';
+                                    $advTags = array_filter([
+                                        $adv['trip_type'] ?? null,
+                                        !empty($adv['budget_per_day']) ? $adv['budget_per_day'] . '€/dan' : null,
+                                    ]);
+                                ?>
+                                <a href="adventure-details.php?id=<?= (int)$adv['id'] ?>"
+                                   class="gallery-post-card gallery-post-card--link transition-link">
+                                    <img
+                                        src="<?= htmlspecialchars($advImage) ?>"
+                                        class="gallery-post-image"
+                                        alt="<?= htmlspecialchars($adv['title']) ?>"
+                                    >
                                     <div class="gallery-post-content">
-                                        <h3>
-                                            <?= htmlspecialchars($post['title']) ?>
-                                        </h3>
-                                        <p>
-                                            <?= htmlspecialchars(
-                                                mb_strimwidth(
-                                                    $post['description'],
-                                                    0,
-                                                    120,
-                                                    '...'
-                                                )
-                                            ) ?>
-                                        </p>
+                                        <h3><?= htmlspecialchars($adv['title']) ?></h3>
                                         <span class="gallery-location">
-                                            📍 <?= htmlspecialchars($post['destination']) ?>
+                                            📍 <?= htmlspecialchars($adv['destination'] ?? '—') ?>
+                                        </span>
+                                        <?php if (!empty($advTags)): ?>
+                                            <div class="profile-trip-tags" style="margin-top:6px;font-size:12px;">
+                                                <?= htmlspecialchars(implode(' · ', $advTags)) ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <span class="gallery-saved-by">
+                                            👤 <?= htmlspecialchars($advCreator) ?>
                                         </span>
                                     </div>
-                                </div>
+                                    <?php if ($is_own_profile): ?>
+                                    <button
+                                        class="unsave-btn"
+                                        data-id="<?= (int)$adv['id'] ?>"
+                                        title="Ukloni iz spremljenih"
+                                        onclick="event.preventDefault(); unsaveAdventure(this)"
+                                    >✕</button>
+                                    <?php endif; ?>
+                                </a>
                             <?php endforeach; ?>
                         </div>
                     <?php else: ?>
                         <div class="profile-empty-trips">
                             <?php if ($is_own_profile): ?>
-                            <h3>
-                                Još nema objava.
-                            </h3>
-                            <p>
-                                Podijeli uspomene sa svojih avantura.
-                            </p>
-                            <a
-                                href="create-post.php"
-                                class="hero-btn-home small-btn transition-link"
-                            >
-                                STVORI OBJAVU
-                            </a>
-                            <?php endif; ?>
-                            <?php if (!$is_own_profile): ?>
-                            <h3>
-                                <?= htmlspecialchars($user['ime'])?> još nije podijelio objave.
-                            </h3>
-                            <p>
-                                Kada podijeli uspomene sa svojih avantura, pojavit će se ovdje.
-                            </p>
+                                <h3>Još nemaš spremljenih avantura.</h3>
+                                <p>Istraži tuđa putovanja i spremi ona koja te inspiriraju.</p>
+                                <a href="putovanja.php" class="hero-btn-home small-btn transition-link">
+                                    ISTRAŽI AVANTURE
+                                </a>
+                            <?php else: ?>
+                                <h3><?= htmlspecialchars($user['ime']) ?> još nema spremljenih avantura.</h3>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>

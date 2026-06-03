@@ -259,7 +259,21 @@ $participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </a>
                 <p>Organizator avanture</p>
             </div>
-
+            <?php
+            // Check if current user has saved this adventure
+            $sa_check = $pdo->prepare('SELECT id FROM saved_adventures WHERE user_id = ? AND adventure_id = ?');
+            $sa_check->execute([$user_id, $adventureId]);
+            $is_saved = (bool)$sa_check->fetch();
+            ?>
+            <?php if (!$isOwner): ?>
+            <button
+                class="details-save-btn <?= $is_saved ? 'is-saved' : '' ?>"
+                id="saveAdventureBtn"
+                data-id="<?= $adventureId ?>"
+            >
+                <span class="save-btn-label"><?= $is_saved ? 'Spremljeno' : 'Spremi avanturu' ?></span>
+            </button>
+            <?php endif; ?>
             <div class="details-card">
                 <h2>Travel Buddy</h2>
 

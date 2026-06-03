@@ -434,3 +434,59 @@ document.addEventListener('DOMContentLoaded', function() {
         transition.classList.remove('active');
     }
 });
+
+function unsaveAdventure(btn) {
+    const adventureId = +btn.dataset.id;
+    const card = btn.closest('.gallery-post-card');
+ 
+    fetch('save-adventure.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ adventure_id: adventureId })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.ok && !data.saved) {
+            card.style.transition = 'opacity .3s';
+            card.style.opacity = '0';
+            setTimeout(() => card.remove(), 300);
+        }
+    })
+    .catch(() => alert('Greška pri uklanjanju.'));
+}
+
+(function () {
+    const btn = document.getElementById('saveAdventureBtn');
+    if (!btn) return;
+ 
+    btn.addEventListener('click', function () {
+        const adventureId = +btn.dataset.id;
+        btn.classList.add('is-loading');
+ 
+        fetch('save-adventure.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ adventure_id: adventureId })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.ok) return;
+            const label = btn.querySelector('.save-btn-label');
+            if (data.saved) {
+                btn.classList.add('is-saved');
+                label.textContent = 'Spremljeno';
+            } else {
+                btn.classList.remove('is-saved');
+                label.textContent = 'Spremi avanturu';
+            }
+        })
+        .catch(() => {})
+        .finally(() => btn.classList.remove('is-loading'));
+    });
+})();

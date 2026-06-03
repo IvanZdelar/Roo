@@ -2809,6 +2809,75 @@ body.homepage-body {
     border-radius: 50% !important;
 }
 
+.details-save-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 1rem;
+    background: var(--tplava);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: 2px solid var(--tplava);
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 14px;
+    color: var(--bijela);
+}
+.details-save-btn:hover {
+    background-color: var(--smeda);
+    border-color: var(--smeda);
+    scale: 1.02;
+}
+.details-save-btn.is-saved {
+    background: var(--bez);
+    border: 2px solid var(--tplava);
+    color: var(--tplava);
+}
+.details-save-btn.is-loading {
+    opacity: .6;
+    pointer-events: none;
+}
+ 
+/* profil.php card styles */
+.gallery-post-card--link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+}
+.gallery-post-card--link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(30,26,46,.12);
+}
+.gallery-saved-by {
+    display: block;
+    font-size: 11px;
+    color: #7a6f8a;
+    margin-top: 6px;
+}
+.unsave-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(30,26,46,.55);
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s;
+    z-index: 2;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
