@@ -1,11 +1,5 @@
 <?php
-/**
- * api/save-adventure.php — Toggle save/unsave an adventure
- * ──────────────────────────────────────────────────────────
- * POST { "adventure_id": N }
- * Returns JSON { "ok": true, "saved": true|false }
- */
- 
+
 session_start();
 require_once __DIR__ . '/bootstrap.php';
 $pdo = require __DIR__ . '/db.php';
