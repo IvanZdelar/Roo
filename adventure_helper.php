@@ -78,12 +78,17 @@ function awardAchievement(PDO $pdo, int $userId, string $code): bool
 
 function getTitleFromXp(int $xp): string
 {
-    if ($xp >= 10000) return 'Legenda Roo svijeta';
-    if ($xp >= 7500) return 'Svjetski istraživač';
-    if ($xp >= 5000) return 'Veliki avanturist';
-    if ($xp >= 2500) return 'Iskusni putnik';
-    if ($xp >= 1000) return 'Avanturist';
-    if ($xp >= 500) return 'Istraživač';
+    if ($xp >= 25000) return 'Legenda Roo-a';
+    if ($xp >= 18000) return 'Osvajač kontinenata';
+    if ($xp >= 12000) return 'Nomad';
+    if ($xp >= 8000) return 'Kapetan ekspedicije';
+    if ($xp >= 5000) return 'Svjetski istraživač';
+    if ($xp >= 3000) return 'Lovac na horizonte';
+    if ($xp >= 1500) return 'Iskusni putnik';
+    if ($xp >= 700) return 'Avanturist';
+    if ($xp >= 300) return 'Radoznali istraživač';
+    if ($xp >= 100) return 'Početnik putnik';
+    if ($xp >= 0) return 'Dnevni sanjar';
 
     return 'Dnevni sanjar';
 }
