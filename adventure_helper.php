@@ -219,3 +219,31 @@ function checkFriendAchievements(PDO $pdo, int $userId): void
         }
     }
 }
+
+function checkKilometerAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COALESCE(SUM(distance_km),0)
+        FROM adventures
+        WHERE user_id = ?
+        AND status='completed'
+    ");
+
+    $stmt->execute([$userId]);
+
+    $km = (int)$stmt->fetchColumn();
+
+    $map = [
+        100   => 'KM_100',
+        500   => 'KM_500',
+        1000  => 'KM_1000',
+        5000  => 'KM_5000',
+        10000 => 'KM_10000'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($km >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
