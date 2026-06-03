@@ -119,6 +119,10 @@ body{
     height: 100%;
 }
 
+.mascot-grid#grid-hand_items .mascot-item-card img {
+    transform: scale(2);
+}
+
 .mascot-empty-icon {
     font-size: 28px;
     color: var(--naran);

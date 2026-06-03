@@ -50,8 +50,9 @@ function get_items_catalog(): array
             ['id' => 'narod',    'name' => 'Narod', 'file' => 'shirts/shirt-narod.svg', 'thumb_viewbox' => '0 70 127 90'],
         ],
         'hand_items' => [
-            ['id' => 'hand_srce', 'name' => 'Srce',       'file' => 'hand/hand-srce.svg', 'thumb_viewbox' => '0 85 127 76'],
-            ['id' => 'zastava',    'name' => 'Zastava',       'file' => 'hand/hand-zastava.svg', 'thumb_viewbox' => '0 85 127 76'],
+            ['id' => 'hand_srce', 'name' => 'Srce',       'file' => 'hand/hand-srce.svg', 'thumb_viewbox' => '40 70 127 76'],
+            ['id' => 'zastava',    'name' => 'Zastava',       'file' => 'hand/hand-zastava.svg', 'thumb_viewbox' => '40 70 127 76'],
+            ['id' => 'suncane',    'name' => 'Sunčane naočale',       'file' => 'hand/hand-sunglasses.svg', 'thumb_viewbox' => '0 40 127 76'],
         ],
     ];
 }
