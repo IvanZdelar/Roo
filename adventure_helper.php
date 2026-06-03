@@ -192,3 +192,30 @@ function checkSavedAchievements(PDO $pdo, int $userId): void
         }
     }
 }
+
+function checkFriendAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*)
+        FROM friendships
+        WHERE user_one = ?
+        OR user_two = ?
+    ");
+
+    $stmt->execute([$userId, $userId]);
+
+    $count = (int)$stmt->fetchColumn();
+
+    $map = [
+        1  => 'FRIEND_1',
+        5  => 'FRIEND_5',
+        20 => 'FRIEND_20',
+        50 => 'FRIEND_50'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($count >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
