@@ -145,7 +145,7 @@ function notif_has_reject(string $type, array $n): bool {
 
     <!-- Header -->
     <div class="notif-page-header">
-        <a href="javascript:history.back()" class="notif-back-btn">
+        <a href="profil.php" class="notif-back-btn transition-link">
             <img src="media/svg/prevBtn.svg" alt="Nazad">
         </a>
         <h1>MOJE OBAVIJESTI</h1>
