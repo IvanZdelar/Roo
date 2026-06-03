@@ -27,7 +27,7 @@ function get_items_catalog(): array
         'emotions' => [
             ['id' => 'roo',       'name' => 'Normalan',   'file' => 'roo.svg'],
             ['id' => 'roo-happy', 'name' => 'Sretan', 'file' => 'roo-happy.svg'],
-            ['id' => 'roo-wink',  'name' => 'Namig',    'file' => 'roo-wink.svg'],
+            ['id' => 'roo-eyebrow',  'name' => 'Namig',    'file' => 'roo-eyebrow.svg'],
             ['id' => 'roo-wink',  'name' => 'Namig',    'file' => 'roo-wink.svg'],
             ['id' => 'roo-sad',   'name' => 'Tužan',    'file' => 'roo-sad.svg'],
             ['id' => 'roo-mad',  'name' => 'Ljut',    'file' => 'roo-mad.svg'],
