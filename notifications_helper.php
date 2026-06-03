@@ -1,13 +1,34 @@
 <?php
 // notifications_helper.php
 
-function create_notification(PDO $pdo, int $user_id, string $type, ?int $from_user_id = null, ?int $reference_id = null): void
+function create_notification(
+    PDO $pdo,
+    int $user_id,
+    string $type,
+    ?int $from_user_id = null,
+    ?int $reference_id = null,
+    ?string $message = null
+): void
 {
     $stmt = $pdo->prepare("
-        INSERT INTO notifications (user_id, type, from_user_id, reference_id)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO notifications
+        (
+            user_id,
+            type,
+            from_user_id,
+            reference_id,
+            message
+        )
+        VALUES (?, ?, ?, ?, ?)
     ");
-    $stmt->execute([$user_id, $type, $from_user_id, $reference_id]);
+
+    $stmt->execute([
+        $user_id,
+        $type,
+        $from_user_id,
+        $reference_id,
+        $message
+    ]);
 }
 
 function get_unread_count(PDO $pdo, int $user_id): int

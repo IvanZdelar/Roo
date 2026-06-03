@@ -4,6 +4,9 @@ require_once 'bootstrap.php';
 $pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/logs/debug.log');
+
 $user_id = $_SESSION['user_id'];
 
 if (!isset($_SESSION['user_id']) && !try_remember_login($pdo)) {
@@ -205,6 +208,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insertTag->execute([$adventureId, 'end_date', $endDate]);
 
             $pdo->commit();
+
+            require_once 'check-achievements.php';
+            check_user_achievements($pdo, $userId);
 
             $success = 'Avantura je uspješno spremljena!';
 

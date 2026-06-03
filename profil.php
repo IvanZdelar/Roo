@@ -256,6 +256,10 @@ $stmt = $pdo->prepare("
 $stmt->execute([$profile_user_id, $profile_user_id]);
 
 $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->prepare("SELECT total_xp FROM users WHERE id = ?");
+$stmt->execute([$profile_user_id]);
+$totalXP = (int)$stmt->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -378,7 +382,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <h1 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h1>
 
                     <div class="profile-main-status">
-                        🏅 <?= htmlspecialchars($status_nadimak) ?>
+                        🏅 <?= htmlspecialchars($status_nadimak) ?> <a href="achievements.php" class="profile-btn edit-btn transition-link">🏆 Achievementi</a>
                     </div>
 
                     <div class="profile-info-list">
@@ -771,8 +775,8 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <h3><b class="count-up" data-target="<?= $totalKilometers ?>">0</b>km</h3>
                             </div>
                             <div class="quick-stat">
-                                <p>BODOVI</p>
-                                <h3><b class="count-up" data-target="<?= $totalKilometers * 6.7 ?>">0</b></h3>
+                                <p>XP</p>
+                                <h3><b class="count-up" data-target="<?= $totalXP ?>">0</b></h3>
                             </div>
                         </div>
                     </div>

@@ -67,7 +67,7 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$distanceKm, $adventureId]);
 
-// Dohvati sudionike i kreiraj im kopiju završene avanture
+// Dohvati sudionike
 $stmt = $pdo->prepare("
     SELECT user_id FROM adventure_participants 
     WHERE adventure_id = ? AND role = 'participant'
@@ -75,6 +75,7 @@ $stmt = $pdo->prepare("
 $stmt->execute([$adventureId]);
 $participants = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+// Kreiraj kopiju završene avanture za sudionike
 foreach ($participants as $participant_id) {
     $stmt = $pdo->prepare("
         INSERT INTO adventures (user_id, naziv, destination, distance_km, status, trip_type, budget_per_day, transport_mode, travel_with, created_at)
@@ -82,6 +83,18 @@ foreach ($participants as $participant_id) {
         FROM adventures WHERE id = ?
     ");
     $stmt->execute([$participant_id, $distanceKm, $adventureId]);
+}
+
+// Achievements i title update za vlasnika
+require_once 'check-achievements.php';
+require_once 'achievement_helper.php';
+check_user_achievements($pdo, $userId);
+update_user_title($pdo, $userId);
+
+// Achievements i title update za sudionike
+foreach ($participants as $participant_id) {
+    check_user_achievements($pdo, (int)$participant_id);
+    update_user_title($pdo, (int)$participant_id);
 }
 
 header('Location: profil.php');
