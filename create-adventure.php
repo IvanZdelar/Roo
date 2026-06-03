@@ -5,7 +5,7 @@ $pdo = require 'db.php';
 require_once 'auth_helpers.php';
 
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/debug.log');
+ini_set('error_log', __DIR__ . '/logs/debug.log');
 
 $user_id = $_SESSION['user_id'];
 

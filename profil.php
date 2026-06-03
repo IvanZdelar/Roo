@@ -382,7 +382,7 @@ $totalXP = (int)$stmt->fetchColumn();
                     <h1 class="profile-main-name"><?= htmlspecialchars($display_name) ?></h1>
 
                     <div class="profile-main-status">
-                        🏅 <?= htmlspecialchars($status_nadimak) ?>
+                        🏅 <?= htmlspecialchars($status_nadimak) ?> <a href="achievements.php" class="profile-btn edit-btn transition-link">🏆 Achievementi</a>
                     </div>
 
                     <div class="profile-info-list">
