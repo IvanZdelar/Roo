@@ -349,7 +349,7 @@ APP_URL=http://localhost/roo_app
 Importati:
 
 ```txt
-database/schema.sql
+database/database.sql
 database/seed.sql
 ```
 
