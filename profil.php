@@ -336,27 +336,38 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="profile-middle-grid">
 
-                        <a href="customize-mascot.php" class="profile-mascot-card transition-link" title="Uredi Roo-a">
-                            <div class="mascot-preview">
-                                <img src="media/svg/roo.svg">
-                                <?php
-                                require_once 'mascot_helper.php';
-                                $my_mascot = get_user_mascot($pdo, $user_id);
-                                $catalog   = get_items_catalog();
-                                $all_items = array_merge($catalog['hats'], $catalog['shirts'], $catalog['hand_items']);
+                    <?php
+                    require_once 'mascot_helper.php';
+                    $profile_mascot = get_user_mascot($pdo, $profile_user_id);
+                    $catalog = get_items_catalog();
+                    $all_items = array_merge(
+                        $catalog['hats'],
+                        $catalog['shirts'],
+                        $catalog['hand_items']
+                    );
+                    ?>
 
-                                foreach (['shirt' => 'layerShirt', 'hat' => 'layerHat', 'hand_item' => 'layerHand'] as $slot => $layerId):
-                                    $equipped = $my_mascot[$slot] ?? null;
-                                    if (!$equipped) continue;
-                                    $item = array_filter($all_items, fn($i) => $i['id'] === $equipped);
-                                    $item = array_values($item)[0] ?? null;
-                                    if (!$item) continue;
-                                ?>
-                                    <img src="media/svg/mascot/<?= htmlspecialchars($item['file']) ?>"
-                                        style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
-                                <?php endforeach; ?>
-                            </div>
-                        </a>
+                    <a href="<?= $is_own_profile ? 'customize-mascot.php' : '#' ?>"
+                    class="profile-mascot-card <?= $is_own_profile ? 'transition-link' : '' ?>"
+                    title="Roo">
+                        <div class="mascot-preview" style="position:relative;">
+                            <!-- Baza — emocija -->
+                            <img src="media/svg/<?= htmlspecialchars($profile_mascot['emotion'] ?? 'roo') ?>.svg"
+                                style="width:100%;height:100%;object-fit:contain;">
+
+                            <!-- Odjevni predmeti -->
+                            <?php foreach (['shirt' => null, 'hat' => null, 'hand_item' => null] as $slot => $_):
+                                $equipped = $profile_mascot[$slot] ?? null;
+                                if (!$equipped) continue;
+                                $item = array_values(array_filter($all_items, fn($i) => $i['id'] === $equipped))[0] ?? null;
+                                if (!$item) continue;
+                            ?>
+                                <img src="media/svg/mascot/<?= htmlspecialchars($item['file']) ?>"
+                                    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;"
+                                    alt="">
+                            <?php endforeach; ?>
+                        </div>
+                    </a>
                     </div>
                 </div>
 
