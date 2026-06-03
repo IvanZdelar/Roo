@@ -93,8 +93,8 @@ function get_svg_inner(string $path): string
 
             <!-- Grids po kategoriji -->
             <form method="POST" id="mascotForm">
-                <?php foreach (['hats', 'shirts', 'hand_items'] as $category): ?>
-                    <!-- Dodaj GRID za emocije PRIJE ostalih gridova -->
+
+                <!-- EMOCIJE grid - samo jednom, IZVAN foreacha -->
                 <div class="mascot-grid" id="grid-emotion" style="display:none">
                     <?php foreach ($catalog['emotions'] as $item): ?>
                     <div class="mascot-item-card <?= ($mascot['emotion'] ?? 'roo') === $item['id'] ? 'selected' : '' ?>"
@@ -102,39 +102,51 @@ function get_svg_inner(string $path): string
                         data-value="<?= $item['id'] ?>"
                         data-layer="baseRooImg"
                         data-file="media/svg/<?= $item['file'] ?>">
-                        <img src="media/svg/<?= $item['file'] ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                        <img src="media/svg/<?= $item['file'] ?>" alt="<?= htmlspecialchars($item['name']) ?>"
+                            style="width:100%;height:100%;object-fit:contain;">
                     </div>
                     <?php endforeach; ?>
                 </div>
-                <div class="mascot-grid" id="grid-<?= $category ?>" 
-                     style="<?= $category !== 'hats' ? 'display:none' : '' ?>">
-                    <?php
+
+                <!-- Ostale kategorije -->
+                <?php foreach (['hats', 'shirts', 'hand_items'] as $category):
                     $slot_map = ['hats' => 'hat', 'shirts' => 'shirt', 'hand_items' => 'hand_item'];
                     $slot = $slot_map[$category];
-                    ?>
+                    $layerId = match($slot) {
+                        'hat'       => 'layerHat',
+                        'shirt'     => 'layerShirt',
+                        'hand_item' => 'layerHand',
+                    };
+                ?>
+                <div class="mascot-grid" id="grid-<?= $category ?>" 
+                    style="<?= $category !== 'hats' ? 'display:none' : '' ?>">
+
                     <!-- Ništa opcija -->
                     <div class="mascot-item-card <?= empty($mascot[$slot]) ? 'selected' : '' ?>"
-                         data-slot="<?= $slot ?>"
-                         data-value=""
-                         data-layer="layer<?= ucfirst($slot === 'hand_item' ? 'Hand' : ucfirst(rtrim($slot, 's'))) ?>"
-                         data-file=""
-                         data-x="" data-y="" data-w="" data-h="">
+                        data-slot="<?= $slot ?>"
+                        data-value=""
+                        data-layer="<?= $layerId ?>"
+                        data-file=""
+                        data-x="" data-y="" data-w="" data-h="">
                         <div class="mascot-empty-icon">✕</div>
                     </div>
 
-                    <?php foreach ($catalog[$category] as $item): 
-                        $layerId = match($slot) {
-                            'hat'       => 'layerHat',
-                            'shirt'     => 'layerShirt',
-                            'hand_item' => 'layerHand',
-                        };
-                    ?>
+                    <?php foreach ($catalog[$category] as $item): ?>
                     <div class="mascot-item-card <?= ($mascot[$slot] ?? '') === $item['id'] ? 'selected' : '' ?>"
-                    data-slot="<?= $slot ?>"
-                    data-value="<?= $item['id'] ?>"
-                    data-layer="<?= $layerId ?>"
-                    data-file="media/svg/mascot/<?= $item['file'] ?>">
-                    <img src="media/svg/mascot/<?= $item['file'] ?>" alt="">
+                        data-slot="<?= $slot ?>"
+                        data-value="<?= $item['id'] ?>"
+                        data-layer="<?= $layerId ?>"
+                        data-file="media/svg/mascot/<?= $item['file'] ?>"
+                        data-x="<?= $item['pos']['x'] ?? 0 ?>"
+                        data-y="<?= $item['pos']['y'] ?? 0 ?>"
+                        data-w="<?= $item['pos']['w'] ?? 127 ?>"
+                        data-h="<?= $item['pos']['h'] ?? 161 ?>">
+                        <svg viewBox="<?= $item['thumb_viewbox'] ?? '0 0 127 161' ?>" 
+                            xmlns="http://www.w3.org/2000/svg"
+                            style="width:85%;height:85%;">
+                            <image href="media/svg/mascot/<?= $item['file'] ?>" 
+                                x="0" y="0" width="127" height="161"/>
+                        </svg>
                         <?php if (!empty($item['locked'])): ?>
                             <div class="mascot-lock">🔒</div>
                         <?php endif; ?>
@@ -142,10 +154,11 @@ function get_svg_inner(string $path): string
                     <?php endforeach; ?>
                 </div>
                 <?php endforeach; ?>
-                <input type="hidden" name="emotion" id="inputEmotion" value="<?= htmlspecialchars($mascot['emotion'] ?? 'roo') ?>">
-                <input type="hidden" name="hat"       id="inputHat"      value="<?= htmlspecialchars($mascot['hat'] ?? '') ?>">
-                <input type="hidden" name="shirt"     id="inputShirt"    value="<?= htmlspecialchars($mascot['shirt'] ?? '') ?>">
-                <input type="hidden" name="hand_item" id="inputHandItem" value="<?= htmlspecialchars($mascot['hand_item'] ?? '') ?>">
+
+                <input type="hidden" name="emotion"    id="inputEmotion"   value="<?= htmlspecialchars($mascot['emotion'] ?? 'roo') ?>">
+                <input type="hidden" name="hat"        id="inputHat"        value="<?= htmlspecialchars($mascot['hat'] ?? '') ?>">
+                <input type="hidden" name="shirt"      id="inputShirt"      value="<?= htmlspecialchars($mascot['shirt'] ?? '') ?>">
+                <input type="hidden" name="hand_item"  id="inputHandItem"   value="<?= htmlspecialchars($mascot['hand_item'] ?? '') ?>">
 
                 <button type="submit" name="save_mascot" class="mascot-save-btn">
                     💾 Spremi
