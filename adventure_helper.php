@@ -274,3 +274,29 @@ function checkCityAchievements(PDO $pdo, int $userId): void
         }
     }
 }
+
+function checkJoinAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*)
+        FROM adventure_participants
+        WHERE user_id = ?
+    ");
+
+    $stmt->execute([$userId]);
+
+    $count = (int)$stmt->fetchColumn();
+
+    $map = [
+        1  => 'JOIN_1',
+        5  => 'JOIN_5',
+        20 => 'JOIN_20',
+        50 => 'JOIN_50'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($count >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
