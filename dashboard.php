@@ -98,6 +98,10 @@ $stmt = $pdo->prepare("
 $stmt->execute();
 
 $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+require_once 'mascot_helper.php';
+$mascot  = get_user_mascot($pdo, $user_id);
+$catalog = get_items_catalog();
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +134,7 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div class="hero-mascot-placeholder">
-            <img src="media/svg/roo-happy.svg" alt="">
+            <?= render_mascot_svg($mascot, $catalog, '110%') ?>
         </div>
 
         <div class="hero-side-text"><a>OSMISLI</a><br>PUTOVANJE</div>
@@ -264,12 +268,10 @@ $topTravelers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <section class="bottom-banner-home reveal-righ">
         <div class="bottom-banner-bg"></div>
         <h2>NE BOJ SE, SVIJET TE ČEKA</h2>
-        <img src="media/svg/roo-wink.svg" alt="" class="bottom-banner-mascot">
-        <div class="social-media">
-            <a href="#"><img src="media/svg/instagram.svg" alt="Instagram"></a>
-            <a href="#"><img src="media/svg/facebook.svg" alt="Facebook"></a>
-            <a href="#"><img src="media/svg/twitter.svg" alt="Twitter"></a>
+        <div class="bottom-banner-mascot">
+            <?= render_mascot_svg($mascot, $catalog, '100%') ?>
         </div>
+        
     </section>
     <?php include 'chatbot.php'; ?>
     <script src="js/main.js"></script>

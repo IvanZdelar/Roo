@@ -167,7 +167,7 @@ function get_svg_inner(string $path): string
         </div>
     </div>
 </main>
-
+<?php include 'chatbot.php'; ?>
 <script src="js/mascot.js"></script>
 <script src="js/main.js"></script>
 <script src="js/hamburger.js"></script>

@@ -1054,6 +1054,7 @@ form {
     cursor: pointer;
     text-decoration: none;
     transition: transform 0.2s ease, background 0.25s ease;
+    width: fit-content;
 }
 
 .hero-btn-home:hover {
@@ -1356,11 +1357,8 @@ form {
 .bottom-banner-mascot {
     position: absolute;
     left: 60px;
+    width: 100%;
     bottom: 20px;
-    width: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 2;
 }
 
@@ -2821,274 +2819,412 @@ body.homepage-body {
     }
 }
 
-@media (max-width: 1100px) {
-    .home-main-grid {
-        grid-template-columns: 1fr;
-        width: 90%;
-        margin: auto;
-        margin-top: 2rem;
-    }
+/* ─── MOBILE FIRST FIXES ─────────────────────────────────────────────────── */
 
-    .home-right {
-        order: 2;
-    }
-
-    .bottom-banner-mascot {
-        position: absolute;
-        left: 60px;
-        bottom: 20px;
-        width: 30%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-    }
-    .travel-cards-grid-putovanja {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.2rem;
-    }
-
-    .profile-page-wrap{
-        width: 90%;
-    }
-
-    .profile-top-grid,
-    .profile-bottom-grid,
-    .profile-trips-box {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-middle-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 900px) {
-    .adventure-details-hero {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
-
-    .details-main-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
+/* Nav na mobileu */
 @media (max-width: 768px) {
-    .roo-intro-wrap {
-        min-height: 90vh;
-        padding: 1.5rem 1rem 1.25rem;
+    .home-topbar {
+        padding: 1rem;
     }
 
-    .roo-intro-img {
-        width: min(300px, 78vw);
-        max-height: 34vh;
+    .logo {
+        width: 52px;
+        height: 52px;
     }
 
-    .roo-bubble-area {
-        min-height: 270px;
-    }
-
-    .roo-bubble {
-        padding: 1.15rem 1rem 1rem;
-        border-radius: 22px;
-    }
-
-    .roo-intro-controls {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .travel-card-img {
-        width: 100%;
-        height: 200px;
-        font-weight: 700;
-        border-bottom: 2px solid var(--tplava);
-    }
+    /* Hero */
     .hero-home {
-        min-height: 540px;
-        border-radius: 24px;
+        height: 70vh;
+        min-height: 480px;
+        border-radius: 20px;
+    }
+
+    .hero-title-home {
+        font-size: clamp(2.2rem, 12vw, 4rem);
+    }
+
+    .hero-hello {
+        font-size: clamp(1.2rem, 5vw, 2rem);
+        margin-top: 1rem;
+    }
+
+    .hero-btn-home {
+        font-size: 1.1rem;
+        padding: 0.6rem 2.2rem;
     }
 
     .hero-mascot-placeholder {
-        width: 350px;
-        height: 350px;
-        bottom: 20px;
-        left: 10px;
+        width: 160px;
+        height: 160px;
+        left: 12px;
+        bottom: 12px;
     }
 
-    .hero-mascot-placeholder img{
-        width: 90%;
+    .hero-side-text {
+        display: none;
     }
 
-    .hero-side-text, .hero-side-text a {
-        right: 18px;
-        bottom: 22px;
-        font-size: 1.5rem;
+    /* Home grid */
+    .home-main-grid {
+        grid-template-columns: 1fr;
+        width: 95%;
+        gap: 1.5rem;
     }
 
-    .hero-side-text a{
-        line-height: 1;
+    .travel-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
     }
 
-    .bottom-banner-home {
-        min-height: 420px;
-        border-radius: 24px;
+    .travel-card-img {
+        height: 180px;
     }
 
-    .bottom-banner-mascot {
-        left: 20px;
-        bottom: 20px;
-    }
-
-    .profile-page-wrap{
-        width: 98%;
-    }
-
-    .profile-main-avatar {
-        margin: 0 auto;
-    }
-
-    .profile-gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .profile-stat-text strong {
-        font-size: 3rem;
-    }
-
-    .profile-trip-content h3 {
-        font-size: 1.8rem;
-    }
-
-    .profile-page-wrap {
-        width: 100%;
-        max-width: 100%;
-        padding: 1rem 0.75rem 3rem;
-        overflow-x: hidden;
-    }
-
+    /* Profile top grid */
     .profile-top-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
         gap: 1rem;
-        width: 100%;
-    }
-
-    .profile-left-column {
-        width: 100%;
-        min-width: 0;
     }
 
     .profile-stats-box {
-        grid-template-columns: 1fr 1fr;
-        width: 100%;
-        min-width: 0;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .profile-stat-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        min-height: auto;
+        gap: 0.5rem;
+    }
+
+    .profile-stat-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .profile-stat-text span {
+        font-size: 0.9rem;
+    }
+
+    .profile-stat-text strong {
+        font-size: 2.2rem;
     }
 
     .profile-middle-grid {
-        grid-template-columns: 1fr !important;
-        width: 100%;
-        min-width: 0;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .profile-mascot-card {
+        height: 280px;
     }
 
     .profile-main-box {
-        width: 100%;
-        min-width: 0;
         padding: 1rem;
     }
 
     .profile-main-top {
-        grid-template-columns: 1fr !important;
-        width: 100%;
-        gap: 1rem;
+        grid-template-columns: 1fr;
     }
 
     .profile-main-avatar {
-        width: 160px;
-        height: 160px;
+        width: 140px;
+        height: 140px;
         margin: 0 auto;
-        max-width: 100%;
     }
 
-    .profile-badges-box {
+    .profile-main-name {
+        font-size: 2.2rem;
+        text-align: center;
+    }
+
+    .profile-main-status {
+        margin: 0.6rem auto;
+        font-size: 0.95rem;
+    }
+
+    .profile-info-label {
+        min-width: auto;
         width: 100%;
-        min-width: 0;
     }
 
-    .profile-badges-placeholder {
-        width: 100%;
-    }
-
-    .profile-info-list,
-    .profile-info-row {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-info-label,
     .profile-info-value {
-        min-width: 0;
-        word-break: break-word;
+        width: 100%;
     }
 
     .profile-actions {
         flex-direction: column;
+    }
+
+    /* Trips */
+    .profile-trips-box {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+
+    .profile-trip-card {
+        grid-template-columns: 1fr;
+        max-height: none !important;
+    }
+
+    .profile-trip-img {
+        height: 180px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .profile-trip-content h3 {
+        font-size: 1.6rem;
+    }
+
+    .profile-trip-content {
+        grid-template-rows: auto;
+    }
+
+    /* Bottom grid */
+    .profile-bottom-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .profile-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .gallery-post-image {
+        height: 150px;
+    }
+
+    /* Minigames */
+    .profile-minigames {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .profile-fridge-box {
+        display: none;
+    }
+
+    .quick-stats-box {
+        position: static;
+        margin-top: 1.5rem;
+    }
+
+    .profile-my-status .profile-main-avatar {
+        width: 160px;
+        height: 160px;
+    }
+
+    /* Place to stay */
+    .profile-place-to-stay {
+        margin-top: 3rem;
+        min-height: 300px;
+    }
+
+    .profile-place-to-stay p,
+    .profile-place-to-stay strong {
         width: 100%;
     }
 
-    .profile-btn {
-        width: 100%;
+    .stay-btn {
+        position: static;
+        margin-top: 1.5rem;
     }
 
-    .profile-stat-card {
-        min-width: 0;
-        padding: 0.85rem;
+    /* Adventure details */
+    .adventure-details-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.2rem;
     }
 
-    .profile-stat-text span {
-        font-size: 1rem;
+    .adventure-details-hero h1 {
+        line-height: 1.1;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    .details-hero-roo {
+        width: 100px;
+    }
+
+    .details-main-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .details-pill-row {
+        flex-wrap: wrap;
+    }
+
+    /* Putovanja */
+    .travel-cards-grid-putovanja {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem;
+    }
+
+    /* Bottom banner */
+    .bottom-banner-home {
+        height: 50vh;
+        min-height: 320px;
+    }
+
+    .bottom-banner-home h2 {
+        font-size: clamp(1.6rem, 6vw, 2.8rem);
+        padding: 1.2rem;
+    }
+
+    .bottom-banner-mascot {
+        width: 45%;
+        left: 10px;
+        bottom: 10px;
+    }
+
+    /* Section titles */
+    .profile-section-title {
+        font-size: 2.5rem;
+    }
+
+    /* Mascot customization */
+    .mascot-editor {
+        grid-template-columns: 1fr;
+        max-width: 95%;
+    }
+
+    .mascot-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Notifications */
+    .notif-page {
+        padding: 80px 12px 40px;
+    }
+
+    .notif-page-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .notif-card {
+        padding: 14px 14px 60px;
+    }
+
+    .notif-card-actions {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .notif-btn-arrow,
+    .notif-btn-reject,
+    .notif-btn-accept {
+        width: 44px;
+        height: 44px;
+        font-size: 14px;
+    }
+}
+
+/* ─── EXTRA SMALL ────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .profile-stats-box {
+        grid-template-columns: 1fr 1fr;
     }
 
     .profile-stat-text strong {
-        font-size: 2.6rem;
-    }
-
-    .profile-stat-icon {
-        width: 56px;
-        height: 56px;
-        flex-shrink: 0;
-    }
-
-    .profile-side-badges,
-    .profile-mascot-card {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .profile-mascot-placeholder {
-        min-height: 150px;
-        width: 100%;
-        object-fit: contain;
-    }
-
-}
-
-
-@media (max-width: 576px) {
-    .auth-utility-card {
-        padding: 1.6rem 1.1rem;
-        border-radius: 22px;
-    }
-
-    .auth-utility-header h1,
-    .auth-utility-header h2 {
         font-size: 1.8rem;
     }
 
-    .profile-trip-card{
+    .profile-section-title {
+        font-size: 2rem;
+    }
+
+    .hero-mascot-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+
+    .mascot-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mascot-tabs {
+        gap: 6px;
+    }
+
+    .mascot-tab {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .profile-friends-box h2 {
+        font-size: 2rem;
+    }
+
+    .gallery-post-image {
+        height: 120px;
+    }
+
+    .profile-gallery-grid {
         grid-template-columns: 1fr;
+    }
+
+    .notif-header-icons {
+        gap: 6px;
+    }
+
+    .notif-header-icon {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* ─── TABLET ─────────────────────────────────────────────────────────────── */
+@media (min-width: 769px) and (max-width: 1100px) {
+    .profile-top-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .profile-stats-box {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profile-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-trips-box {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .travel-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .travel-cards-grid-putovanja {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .profile-minigames {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .profile-fridge-box {
+        display: none;
+    }
+
+    .adventure-details-hero {
+        flex-direction: row;
+    }
+
+    .details-main-grid {
+        grid-template-columns: 1fr 280px;
+    }
+
+    .home-main-grid {
+        grid-template-columns: 1.5fr 1fr;
+        width: 95%;
     }
 }
 

@@ -67,7 +67,7 @@ Aplikacija omogućuje napredno planiranje putovanja kroz interaktivni multi-step
 
 ## Aktivnosti po gradovima
 
-Projekt koristi veliku bazu stvarnih aktivnosti i lokacija.
+Projekt koristi veliku bazu stvarnih aktivnosti i 19 lokacija u Hrvatskoj(19 najvećih gradova u HR).
 
 Svaki grad sadrži:
 

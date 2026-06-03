@@ -840,7 +840,7 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </section>
             <?php if ($is_own_profile): ?>
                 <section class="profile-place-to-stay reveal-up">
-                    <h1 class="stay-title section-title-blue">PONUDI SMJEŠTAJ</h1><br>
+                    <h1 class="stay-title section-title-blue profile-section-title">PONUDI SMJEŠTAJ</h1><br>
                     <strong>
                         Imaš sobu viška ili apartman koji želiš posuditi?
                     </strong>

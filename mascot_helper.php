@@ -56,3 +56,30 @@ function get_items_catalog(): array
         ],
     ];
 }
+
+function render_mascot_svg(array $mascot, array $catalog, string $size = '100%'): string
+{
+    $all_items = array_merge(
+        $catalog['hats'],
+        $catalog['shirts'],
+        $catalog['hand_items']
+    );
+
+    $emotion = htmlspecialchars($mascot['emotion'] ?? 'roo');
+    
+    $layers = '';
+    foreach (['shirt' => null, 'hat' => null, 'hand_item' => null] as $slot => $_) {
+        $equipped = $mascot[$slot] ?? null;
+        if (!$equipped) continue;
+        $item = array_values(array_filter($all_items, fn($i) => $i['id'] === $equipped))[0] ?? null;
+        if (!$item) continue;
+        $layers .= '<image href="media/svg/mascot/' . htmlspecialchars($item['file']) . '" x="0" y="0" width="127" height="161"/>';
+    }
+
+    return '
+        <svg viewBox="0 0 127 161" xmlns="http://www.w3.org/2000/svg" style="width:' . $size . ';height:' . $size . ';">
+            <image href="media/svg/' . $emotion . '.svg" x="0" y="0" width="127" height="161"/>
+            ' . $layers . '
+        </svg>
+    ';
+}
