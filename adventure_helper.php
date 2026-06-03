@@ -167,3 +167,28 @@ function checkCompletedAchievements(PDO $pdo, int $userId): void
         }
     }
 }
+
+function checkSavedAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*)
+        FROM saved_adventures
+        WHERE user_id = ?
+    ");
+
+    $stmt->execute([$userId]);
+
+    $count = (int)$stmt->fetchColumn();
+
+    $map = [
+        1  => 'SAVE_1',
+        10 => 'SAVE_10',
+        50 => 'SAVE_50'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($count >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
