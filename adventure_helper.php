@@ -140,3 +140,30 @@ function checkAdventureAchievements(PDO $pdo, int $userId): void
         }
     }
 }
+
+function checkCompletedAchievements(PDO $pdo, int $userId): void
+{
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*)
+        FROM adventures
+        WHERE user_id = ?
+        AND status='completed'
+    ");
+
+    $stmt->execute([$userId]);
+
+    $count = (int)$stmt->fetchColumn();
+
+    $map = [
+        1  => 'COMPLETE_1',
+        5  => 'COMPLETE_5',
+        10 => 'COMPLETE_10',
+        25 => 'COMPLETE_25'
+    ];
+
+    foreach ($map as $needed => $code) {
+        if ($count >= $needed) {
+            awardAchievement($pdo, $userId, $code);
+        }
+    }
+}
