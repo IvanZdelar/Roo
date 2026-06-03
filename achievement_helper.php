@@ -5,37 +5,41 @@ require_once 'notifications_helper.php';
 
 function award_achievement(PDO $pdo, int $user_id, string $achievement_code): bool
 {
+    error_log("=== award_achievement called: user=$user_id code=$achievement_code");
+
     $stmt = $pdo->prepare("SELECT * FROM achievements WHERE code = ? LIMIT 1");
     $stmt->execute([$achievement_code]);
     $achievement = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$achievement) return false;
+    if (!$achievement) {
+        error_log("Achievement NOT FOUND: $achievement_code");
+        return false;
+    }
 
-    // Provjeri je li već osvojeno
+    error_log("Achievement found: " . $achievement['name']);
+
     $stmt = $pdo->prepare("SELECT id FROM user_achievements WHERE user_id = ? AND achievement_id = ?");
     $stmt->execute([$user_id, $achievement['id']]);
-    if ($stmt->fetch()) return false;
+    if ($stmt->fetch()) {
+        error_log("Already earned: $achievement_code");
+        return false;
+    }
 
-    // Spremi achievement
     $stmt = $pdo->prepare("INSERT INTO user_achievements (user_id, achievement_id) VALUES (?, ?)");
     $stmt->execute([$user_id, $achievement['id']]);
+    error_log("Achievement saved to DB");
 
-    // Dodaj XP
     $stmt = $pdo->prepare("UPDATE users SET total_xp = total_xp + ? WHERE id = ?");
     $stmt->execute([$achievement['xp_reward'], $user_id]);
+    error_log("XP added: " . $achievement['xp_reward']);
 
-    // Ažuriraj title
     update_user_title($pdo, $user_id);
+    error_log("Title updated");
 
-    // Pošalji notifikaciju
-    create_notification(
-        $pdo,
-        $user_id,
-        'achievement',
-        null,
-        $achievement['id'],
+    create_notification($pdo, $user_id, 'achievement', null, $achievement['id'],
         '🏆 ' . $achievement['name'] . ' — ' . $achievement['description'] . ' (+' . $achievement['xp_reward'] . ' XP)'
     );
+    error_log("Notification created");
 
     return true;
 }

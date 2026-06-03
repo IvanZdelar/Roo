@@ -2,6 +2,8 @@
 
 require_once 'achievement_helper.php';
 
+
+
 function check_user_achievements(PDO $pdo, int $user_id): void
 {
     /*
