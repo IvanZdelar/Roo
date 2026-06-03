@@ -641,16 +641,13 @@ $friends = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     >
                                     <div class="gallery-post-content">
                                         <h3><?= htmlspecialchars($adv['title']) ?></h3>
-                                        <span class="gallery-location">
-                                            📍 <?= htmlspecialchars($adv['destination'] ?? '—') ?>
-                                        </span>
                                         <?php if (!empty($advTags)): ?>
-                                            <div class="profile-trip-tags" style="margin-top:6px;font-size:12px;">
+                                            <div class="profile-trip-tags" style="margin-top:6px;font-size:1rem;">
                                                 <?= htmlspecialchars(implode(' · ', $advTags)) ?>
                                             </div>
                                         <?php endif; ?>
                                         <span class="gallery-saved-by">
-                                            👤 <?= htmlspecialchars($advCreator) ?>
+                                            <?= htmlspecialchars($advCreator) ?>
                                         </span>
                                     </div>
                                     <?php if ($is_own_profile): ?>

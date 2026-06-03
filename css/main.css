@@ -2087,6 +2087,7 @@ body.homepage-body {
     border-radius:24px;
     overflow:hidden;
     backdrop-filter:blur(12px);
+    border: 3px solid var(--naran);
     transition:0.3s;
 }
 
@@ -2101,26 +2102,13 @@ body.homepage-body {
 }
 
 .gallery-post-content{
-    padding:18px;
+    padding:1rem;
 }
 
 .gallery-post-content h3{
-    color:white;
+    color:var(--naran);
     font-size:20px;
     margin-bottom:10px;
-}
-
-.gallery-post-content p{
-    color:rgba(255,255,255,0.75);
-    font-size:14px;
-    line-height:1.5;
-}
-
-.gallery-location{
-    display:block;
-    margin-top:14px;
-    color:#ffd369;
-    font-weight:600;
 }
 
 .profile-friends-box {
@@ -2855,27 +2843,32 @@ body.homepage-body {
 }
 .gallery-saved-by {
     display: block;
-    font-size: 11px;
-    color: #7a6f8a;
+    font-size: 1rem;
+    color: var(--crna);
     margin-top: 6px;
 }
 .unsave-btn {
     position: absolute;
-    top: 8px;
+    bottom: 8px;
     right: 8px;
-    width: 26px;
-    height: 26px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: none;
-    background: rgba(30,26,46,.55);
-    color: #fff;
-    font-size: 12px;
+    background: var(--naran);
+    color: var(--bez);
+    font-size: 1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background .15s;
-    z-index: 2;
+    transition: all .15s;
+    z-index: 10;
+}
+
+.unsave-btn:hover {
+    background: var(--smeda);
+    scale: 1.05;
 }
 
 @media (prefers-reduced-motion: reduce) {
