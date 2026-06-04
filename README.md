@@ -311,11 +311,13 @@ PHP ekstenzije - Provjeriti da su aktivirane u php.ini:
 
 ## 2. Kloniranje repozitorija
 
+Ako koristite XAMPP, sve naredbe i raspakiravanje radite unutar vašeg htdocs direktorija(npr. C:\xampp\htdocs)
+
 ```bash
 git clone https://github.com/IvanZdelar/Roo.git
 ```
 
-Ako ste preuzeli projekt kao .zip datoteku s GitHub-a, raspakirajte je.
+Ako ste preuzeli projekt kao .zip datoteku s GitHub-a, raspakirajte njezin sadržaj izravno u xampp/htdocs direktorij.
 
 ## 3. Ulazak u projekt
 
