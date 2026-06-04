@@ -312,7 +312,7 @@ PHP ekstenzije - Provjeriti da su aktivirane u php.ini:
 ## 2. Kloniranje repozitorija
 
 ```bash
-git clone https://github.com/USERNAME/roo_app.git
+git clone https://github.com/IvanZdelar/Roo.git
 ```
 
 ## 3. Ulazak u projekt
