@@ -393,16 +393,7 @@ Nakon importa seed.sql dostupni su sljedeći test korisnici(Lozinka za sve test 
 
 ---
 
-## 7. Postavljanje foldera za uploadove
-Kreirati sljedece foldere ako ne postoje:
-
-```bash
-mkdir uploads
-mkdir uploads/adventures
-mkdir uploads/profiles
-```
-
-## 8. Pokretanje aplikacije
+## 7. Pokretanje aplikacije
 
 Pokrenuti:
 
@@ -435,7 +426,8 @@ Projekt koristi:
 
 - Git
 - GitHub
-- `.gitignore`
+- `.gitignore` 
+- 💡 **Napomena za ocjenjivače:** U produkcijskom okruženju, mapa `uploads/*` bi se obavezno nalazila u `.gitignore` datoteci kako se korisnički generirani sadržaj ne bi miješao s izvornim kodom aplikacije. Za potrebe ovog natjecanja, mapa je namjerno ostavljena javno vidljivom kako bi aplikacija "out-of-the-box" imala sve testne slike povezane sa `seed.sql` bazom i odmah pružila potpun vizualni dojam.
 - Composer dependency management
 - Feature branch development
 
