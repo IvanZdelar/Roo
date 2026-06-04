@@ -350,6 +350,8 @@ copy .env.example .env    (Windows)
 cp .env.example .env       (Mac/Linux)
 ```
 
+Važna napomena za email sustav: Budući da aplikacija koristi sustav verifikacije i reseta lozinke, potrebno je otvoriti besplatni korisnički račun na platformi Mailtrap(https://mailtrap.io/). Nakon registracije, odete na Sandboxes -> My Sandbox -> Credentials kako biste dobili svoje pristupne podatke (username i password) koje je potrebno unijeti ispod.
+
 Primjer:
 
 ```env
