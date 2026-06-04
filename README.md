@@ -36,7 +36,7 @@ Korisnici mogu prilagoditi svoj profil:
 - Odabir preferencija putovanja
 - Odabir načina putovanja
 - Roo avatar sustav
-- Osobne značke i postignuća
+- Osobna postignuća
 - Statistike korisnika
 
 Dinamičke statistike uključuju:
@@ -108,34 +108,19 @@ Projekt implementira:
 
 ---
 
-## Završene avanture i galerija
-
-Nakon završetka avanture korisnici mogu:
-
-- Označiti avanturu kao završenu
-- Objaviti post o putovanju
-- Uploadati slike putovanja
-- Dodati opis iskustva
-- Prikazati avanturu u galeriji profila
-
-Galerija funkcionira kao mini travel social feed.
-
----
-
 ## Rang liste i motivacija
 
 Aplikacija uključuje:
 
 - Rang listu najaktivnijih korisnika
-- Sustav znački
 - Travel title sustav
 - Motivaciju za aktivno korištenje aplikacije
 
 ---
 
-## Osobni ai chatbot
+## Osobni AI chatbot
 
-Osobni ai chatbot integriran u sklop aplikacije:
+Osobni AI chatbot integriran u sklop aplikacije:
 
 - Služi kao pomoć snalaženja u aplikaciji
 - Pomoć kod kreiranja avantura
@@ -162,6 +147,7 @@ Osobni ai chatbot integriran u sklop aplikacije:
 - JavaScript
 - Bootstrap 5
 - Flatpickr
+- SVG
 
 ---
 
@@ -169,16 +155,16 @@ Osobni ai chatbot integriran u sklop aplikacije:
 
 Projekt implementira više sigurnosnih mehanizama:
 
-- `password_hash()` i `password_verify()`
-- Prepared statements putem PDO-a
-- Zaštita od SQL injection napada
-- Hashiranje remember me tokena
-- `hash_equals()` usporedba tokena
-- Rate limiting prijava
-- Escape outputa pomoću `htmlspecialchars()`
-- SMTP i DB podaci spremljeni u `.env`
-- `.gitignore` zaštita osjetljivih podataka
-- Sigurno spremanje tokena u bazu
+• password_hash() i password_verify() za lozinke
+• Prepared statements putem PDO za zaštitu od SQL injection
+• htmlspecialchars() za escape outputa (XSS zaštita)
+• Rate limiting za prijave (login_attempts tablica)
+• hash_equals() za sigurnu usporedbu tokena
+• Remember Me tokeni s hashiranjem
+• Email verifikacija novih korisnika
+• .env datoteka za osjetljive podatke (nije u Gitu)
+• .gitignore zaštita — .env, vendor/, uploads/
+
 
 ---
 
@@ -286,7 +272,6 @@ Ključne komponente:
 - `mail_helpers.php` — email funkcionalnosti
 - `db.php` — PDO database layer
 - `bootstrap.php` — inicijalizacija aplikacije
-- `config.php` — environment konfiguracija
 
 Database konekcija koristi PDO dependency pristup:
 
@@ -305,19 +290,38 @@ $pdo = require 'db.php';
 
 # Instalacija
 
-## 1. Kloniranje repozitorija
+## 1. Preduvjeti
+
+Prije instalacije potrebno je imati instalirane sljedeće alate:
+
+- PHP - 8.0 ili noviji
+- MySQL / MariaDB - 10.4 ili noviji
+- Apache - 2.4 ili noviji - XAMPP preporučen
+- Composer - 2.x - dependancy manager za PHP
+- Git - Za kloniranje repozitorija
+
+PHP ekstenzije - Provjeriti da su aktivirane u php.ini:
+
+- pdo_mysql
+- mbstring
+- openssl
+- fileinfo
+- gd
+
+
+## 2. Kloniranje repozitorija
 
 ```bash
 git clone https://github.com/USERNAME/roo_app.git
 ```
 
-## 2. Ulazak u projekt
+## 3. Ulazak u projekt
 
 ```bash
 cd roo_app
 ```
 
-## 3. Instalacija dependencyja
+## 4. Instalacija dependencyja
 
 ```bash
 composer install
@@ -325,9 +329,14 @@ composer install
 
 ---
 
-## 4. Kreiranje `.env` datoteke
+## 5. Kreiranje `.env` datoteke
 
 Kopirati `.env.example` u `.env`
+
+```bash
+copy .env.example .env    (Windows)
+cp .env.example .env       (Mac/Linux)
+```
 
 Primjer:
 
@@ -341,8 +350,8 @@ DB_PASS=
 
 MAIL_HOST=sandbox.smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=
-MAIL_PASSWORD=
+MAIL_USERNAME=vaš Mailtrap username
+MAIL_PASSWORD=vaš Mailtrap password
 MAIL_FROM=noreply@rooapp.com
 MAIL_FROM_NAME=Roo
 
@@ -351,20 +360,37 @@ APP_URL=http://localhost/roo_app
 
 ---
 
-## 5. Pokretanje baze podataka
+## 6. Postavljanje baze podataka
 
-Importati:
+Otvoriti phpMyAdmin na http://localhost/phpmyadmin i importati:
 
 ```txt
 database/database.sql
 database/seed.sql
 ```
 
-u phpMyAdmin ili MySQL.
+### Test korisnici
+
+Nakon importa seed.sql dostupni su sljedeći test korisnici(Lozinka za sve test korisnike: test1234):
+
+ - test1@test.com
+ - test2@test.com
+ - test3@test.com
+ - test4@test.com
+ - test5@test.com 
 
 ---
 
-## 6. Pokretanje aplikacije
+## 7. Postavljanje foldera za uploadove
+Kreirati sljedece foldere ako ne postoje:
+
+```bash
+mkdir uploads
+mkdir uploads/adventures
+mkdir uploads/profiles
+```
+
+## 8. Pokretanje aplikacije
 
 Pokrenuti:
 
@@ -406,13 +432,14 @@ Projekt koristi:
 # Buduća poboljšanja
 
 - Migracija na MVC arhitekturu
-- Real-time chat
+- Real-time chat s WebSocket tehnologijom
 - Push notifikacije
-- Mobile responsive improvements
-- Smještaj kod lokalaca
-- Raspodjela na free i premium verzije aplikacije
-- Objavljivanje avantura
-- Više gradova i mjesta
+- Sustav smještaja kod lokalaca
+- Free i premium verzija aplikacije
+- Objavljivanje avantura na javnom feedu
+- Proširenje baze gradova izvan Hrvatske
+- Mobile aplikacija
+
 
 
 ---
