@@ -222,41 +222,48 @@ roo_app/
 ├── vendor/
 │
 ├── database/
-│   ├── schema.sql
+│   ├── database.sql
 │   └── seed.sql
 │
 ├── tests/
 │   ├── Unit/
 │   └── Integration/
 │
-├── adventure-details.php
-├── auth_helpers.php
 ├── bootstrap.php
-├── complete-adventure.php
-├── create-adventure.php
-├── dashboard.php
 ├── db.php
-├── footer.php
+├── nav.php
+├── chatbot.php
+├── auth_helpers.php
+├── index.php
+├── verify-notice.php
+├── verify.php
+├── upoznavanje.php
+├── kviz.php
+├── mail_helpers.php
+├── resend-verification.php
 ├── forgot-password.php
+├── reset-password.php
+├── logout.php
+├── create-adventure.php
 ├── get-accommodations.php
 ├── get-city-activities.php
-├── handle-notification.php
-├── index.php
-├── kviz.php
-├── logout.php
-├── mail_helpers.php
-├── nav.php
-├── notification_helper.php
-├── notifications.php
+├── adventure-details.php
+├── complete-adventure.php
+├── save-adventure.php
+├── dashboard.php
 ├── profil.php
 ├── putovanja.php
 ├── razgovori.php
+├── handle-notification.php
+├── notification_helper.php
+├── notifications.php
+├── mark-notification-read.php
 ├── reject-notification.php
-├── resend-verification.php
-├── reset-password.php
-├── upoznavanje.php
-├── verify-notice.php
-├── verify.php
+├── achievement_helper.php
+├── achievements.php
+├── check-achievements.php
+├── mascot_helpers.php
+├── customize-mascot.php
 │
 ├── phpunit.xml
 ├── .env
