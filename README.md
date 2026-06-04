@@ -315,10 +315,20 @@ PHP ekstenzije - Provjeriti da su aktivirane u php.ini:
 git clone https://github.com/IvanZdelar/Roo.git
 ```
 
+Ako ste preuzeli projekt kao .zip datoteku s GitHub-a, raspakirajte je.
+
 ## 3. Ulazak u projekt
 
+Ako ste klonirali putem Git-a:
+
 ```bash
-cd roo_app
+cd Roo
+```
+
+Ako ste preuzeli i raspakirali .zip datoteku:
+
+```bash
+cd Roo-main
 ```
 
 ## 4. Instalacija dependencyja
@@ -355,7 +365,7 @@ MAIL_PASSWORD=vaš Mailtrap password
 MAIL_FROM=noreply@rooapp.com
 MAIL_FROM_NAME=Roo
 
-APP_URL=http://localhost/roo_app
+APP_URL=http://localhost/Roo (ili http://localhost/Roo-main ako je projekt pokrenut iz raspakirane zip datoteke)
 ```
 
 ---
