@@ -2595,13 +2595,6 @@ INSERT INTO `notifications` (`id`, `user_id`, `type`, `from_user_id`, `reference
 (179, 50, 'achievement', NULL, 26, '🏆 Ne putujem sam — Putovao s drugim korisnikom (+100 XP)', 0, '2026-06-03 21:54:38', 'pending');
 
 --
--- Dumping data for table `remember_tokens`
---
-
-INSERT INTO `remember_tokens` (`id`, `user_id`, `selector`, `token_hash`, `expires_at`, `created_at`) VALUES
-(36, 50, 'bff2d3164f32', 'ee13e6c170bf1d2f86fce77f2e3d2524bf39c2651da0fc9366bd01bd978addc5', '2026-07-03 23:50:10', '2026-06-03 21:50:10');
-
---
 -- Dumping data for table `saved_adventures`
 --
 
